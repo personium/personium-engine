@@ -1,0 +1,4 @@
+# engine
+io.personium.engine.testkey=unitTest
+io.personium.core.testKey2=keyWithCorePrefix
+io.personium.engine.testKey3=keyWithEnginePrefix
