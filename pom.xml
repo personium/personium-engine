@@ -47,7 +47,7 @@
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
-            <artifactId>personium-es-adaptor</artifactId>
+            <artifactId>personium-lib-es-adaptor</artifactId>
             <version>1.4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
