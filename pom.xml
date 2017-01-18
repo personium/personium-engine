@@ -16,6 +16,7 @@
     <properties>
         <com.fujitsu.dc.engine.defaultBaseUrl>http://localhost</com.fujitsu.dc.engine.defaultBaseUrl>
         <com.fujitsu.dc.engine.debug>true</com.fujitsu.dc.engine.debug>
+        <final.name>personium-engine</final.name>
         <!--<io.personium.engine.defaultBaseUrl>http://localhost</io.personium.engine.defaultBaseUrl>-->
         <!--<io.personium.engine.debug>true</io.personium.engine.debug>-->
         <logpath>personium-engine.log</logpath>
