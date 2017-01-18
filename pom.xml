@@ -4,7 +4,7 @@
     <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
     <version>1.4.2-SNAPSHOT</version>
-    <name>dc1-engine Maven Webapp</name>
+    <name>personium-engine Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <licenses>
         <license>
@@ -16,7 +16,6 @@
     <properties>
         <com.fujitsu.dc.engine.defaultBaseUrl>http://localhost</com.fujitsu.dc.engine.defaultBaseUrl>
         <com.fujitsu.dc.engine.debug>true</com.fujitsu.dc.engine.debug>
-        <final.name>personium-engine</final.name>
         <!--<io.personium.engine.defaultBaseUrl>http://localhost</io.personium.engine.defaultBaseUrl>-->
         <!--<io.personium.engine.debug>true</io.personium.engine.debug>-->
         <logpath>personium-engine.log</logpath>
@@ -173,7 +172,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>dc1-engine</finalName>
+        <finalName>personium-engine</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
