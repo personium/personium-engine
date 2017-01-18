@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.fujitsu.dc</groupId>
-    <artifactId>dc1-engine</artifactId>
+    <groupId>io.personium</groupId>
+    <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
     <version>1.4.2-SNAPSHOT</version>
     <name>dc1-engine Maven Webapp</name>
@@ -16,11 +16,15 @@
     <properties>
         <com.fujitsu.dc.engine.defaultBaseUrl>http://localhost</com.fujitsu.dc.engine.defaultBaseUrl>
         <com.fujitsu.dc.engine.debug>true</com.fujitsu.dc.engine.debug>
-        <logpath>dc1-engine.log</logpath>
+        <!--<io.personium.engine.defaultBaseUrl>http://localhost</io.personium.engine.defaultBaseUrl>-->
+        <!--<io.personium.engine.debug>true</io.personium.engine.debug>-->
+        <logpath>personium-engine.log</logpath>
         <loglevel>debug</loglevel>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <com.fujitsu.dc.engine.jerseyTest.baseUrl>http://localhost:9998/test/</com.fujitsu.dc.engine.jerseyTest.baseUrl>
         <com.fujitsu.dc.engine.jerseyTest.useCouchdb>false</com.fujitsu.dc.engine.jerseyTest.useCouchdb>
+        <!--<io.personium.engine.jerseyTest.baseUrl>http://localhost:9998/test/</io.personium.engine.jerseyTest.baseUrl>-->
+        <!--<io.personium.engine.jerseyTest.useCouchdb>false</io.personium.engine.jerseyTest.useCouchdb>-->
                 <java.source.version>1.8</java.source.version>
                 <java.target.version>1.8</java.target.version>
                 <logback.version>1.0.13</logback.version>
@@ -28,6 +32,7 @@
                 <esapi.version>2_4</esapi.version>
                 <logback.version>1.0.13</logback.version>
                 <jacoco.include.package>com.fujitsu.*</jacoco.include.package>
+                <!--<jacoco.include.package>io.personium.*</jacoco.include.package>-->
     </properties>
     <dependencies>
         <dependency>
@@ -36,23 +41,23 @@
             <version>2.5</version>
         </dependency>
         <dependency>
-            <groupId>com.fujitsu.dc</groupId>
-            <artifactId>dc1-client</artifactId>
+            <groupId>io.personium</groupId>
+            <artifactId>personium-client-java</artifactId>
             <version>1.4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.fujitsu.dc</groupId>
-            <artifactId>dc1-es-api-${esapi.version}</artifactId>
+            <groupId>io.personium</groupId>
+            <artifactId>personium-es-adaptor</artifactId>
             <version>1.4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.fujitsu.dc</groupId>
-            <artifactId>dc1-common</artifactId>
+            <groupId>io.personium</groupId>
+            <artifactId>personium-lib-common</artifactId>
             <version>1.4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.fujitsu.dc</groupId>
-            <artifactId>dc1-engine-extension-common</artifactId>
+            <groupId>io.personium</groupId>
+            <artifactId>personium-ex-base</artifactId>
             <version>1.4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
