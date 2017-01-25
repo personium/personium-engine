@@ -14,38 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-dc.pjvm = pjvm;
+_p.pjvm = pjvm;
+_p.dcjvm = pjvm;
 
-dc.util = {};
+_p.util = {};
 
-dc.util.obj2javaJson = function(obj) {
-    return dc.pjvm.newPersoniumJSONObject(JSON.stringify(obj));
+_p.util.obj2javaJson = function(obj) {
+    return _p.pjvm.newPersoniumJSONObject(JSON.stringify(obj));
 };
 
 
-dc.util.escape4xss = function(obj) {
+_p.util.escape4xss = function(obj) {
     if (typeof obj === 'string') {
         return obj.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;"); 
-    }else if (typeof obj === 'Object') {
+    } else if (typeof obj === 'Object') {
         var ret = {};
         for (var k in obj) {
-            ret[k] = dc.util.escape4xss(obj[k]);
+            ret[k] = _p.util.escape4xss(obj[k]);
         }
-    }else if (typeof obj === 'Array') {
+    } else if (typeof obj === 'Array') {
         var ret = {};
         for (var k in obj) {
-            ret[k] = dc.util.escape4xss(obj[k]);
+            ret[k] = _p.util.escape4xss(obj[k]);
         }
-    }else{
+    } else{
         return obj;
     }
 };
     
-dc.util.require =  function(path) {
-    pRequire.load(path);
+_p.util.require =  function(path) {
+    _require.load(path);
 };
 
-dc.util.queryParse = function(queryString, charset){
+_p.util.queryParse = function(queryString, charset){
     
     charset = (charset == undefined)?"utf-8":charset;
     
@@ -57,14 +58,14 @@ dc.util.queryParse = function(queryString, charset){
             continue;
         }
 
-        var key = dc.util.decodeURI(kv[0],charset);
-        var value = dc.util.decodeURI(kv[1],charset);
+        var key = _p.util.decodeURI(kv[0],charset);
+        var value = _p.util.decodeURI(kv[1],charset);
         if (query[key]){
             if ( typeof(query[key]) !== "object"){
                 query[key] = [query[key]];
             }
             query[key].push(value);
-        }else{
+        } else {
             query[key] = value;
         }
 
@@ -72,7 +73,7 @@ dc.util.queryParse = function(queryString, charset){
     return query;
 };
     
-dc.util.decodeURI = function(str, charset) {
+_p.util.decodeURI = function(str, charset) {
      // 以下の処理で、.toString() + "" をしている理由
      // 　そのままハッシュデータを作成し、JSON.stringify を行うと、
      // 　「Java class "[B" has no public instance field or method named "toJSON"」
@@ -89,5 +90,5 @@ dc.util.decodeURI = function(str, charset) {
  * @returns 読み込まれた拡張オブジェクト
  */
 function require(path) {
-	return pRequire.doRequire(path);
+	return _require.doRequire(path);
 }

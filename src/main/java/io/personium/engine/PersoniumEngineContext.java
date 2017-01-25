@@ -218,10 +218,10 @@ public class PersoniumEngineContext implements Closeable {
         PersoniumEngineDao ed = createDao(req, serviceSubject);
 
         // DAOオブジェクトをJavaScriptプロパティへ設定
-        javaToJs(ed, "pjvm");
+        javaToJs(ed, "_jvm");
 
         // RequireオブジェクトをJavaScriptプロパティへ設定
-        javaToJs(createRequireObject(), "pRequire");
+        javaToJs(createRequireObject(), "_require");
 
         // personium-dao.js を読み込み
         try {

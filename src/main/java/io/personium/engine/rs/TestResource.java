@@ -42,7 +42,7 @@ public class TestResource extends AbstractService {
     /**
      * デフォルトコンストラクタ.
      * @param useDebug JavaScript リモートデバッグ機能を有効にするかどうかを指定する
-     * @throws PersoniumEngineException DcEngine例外
+     * @throws PersoniumEngineException PersoniumEngine例外
      */
     public TestResource(@QueryParam("useScriptDebug") final String useDebug) throws PersoniumEngineException {
         // http://xxx/yy?useScriptDebug=true と指定した場合、useScriptDebugの値が、本パラメタのuseDebugに入る。

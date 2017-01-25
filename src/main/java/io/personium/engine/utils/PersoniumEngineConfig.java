@@ -153,7 +153,7 @@ public class PersoniumEngineConfig {
         /**
          * トークンを暗号化する際に利用している秘密鍵.
          */
-        public static final String TOKEN_SECRET_KEY = KEY_ROOT + "security.sercret16";
+        public static final String TOKEN_SECRET_KEY = KEY_ROOT + "security.secret16";
 
     }
 

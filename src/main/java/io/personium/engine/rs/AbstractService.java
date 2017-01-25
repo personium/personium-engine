@@ -311,10 +311,10 @@ public abstract class AbstractService {
         }
 
         Response response = null;
-        PersoniumEngineContext dcContext = null;
+        PersoniumEngineContext pecx = null;
         try {
             try {
-                dcContext = new PersoniumEngineContext();
+                pecx = new PersoniumEngineContext();
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
             }
@@ -322,13 +322,13 @@ public abstract class AbstractService {
             // ソースに関する情報を取得
             try {
                 this.sourceManager = this.getServiceCollectionManager();
-                dcContext.setSourceManager(this.sourceManager);
+                pecx.setSourceManager(this.sourceManager);
                 this.serviceSubject = this.sourceManager.getServiceSubject();
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
             }
             // グローバルオブジェクトのロード
-            dcContext.loadGlobalObject(baseUrl, targetCell, targetScheme, targetScheme, targetServiceName);
+            pecx.loadGlobalObject(baseUrl, targetCell, targetScheme, targetScheme, targetServiceName);
             // ユーザスクリプトを取得（設定及びソース）
             String source = "";
             try {
@@ -345,7 +345,7 @@ public abstract class AbstractService {
             }
             // JSGI実行
             try {
-                response = dcContext.runJsgi(source, req, res, is, this.serviceSubject);
+                response = pecx.runJsgi(source, req, res, is, this.serviceSubject);
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
             } catch (Exception e) {
@@ -354,7 +354,7 @@ public abstract class AbstractService {
                         PersoniumEngineException.STATUSCODE_NOTFOUND));
             }
         } finally {
-            IOUtils.closeQuietly(dcContext);
+            IOUtils.closeQuietly(pecx);
         }
         return response;
     }

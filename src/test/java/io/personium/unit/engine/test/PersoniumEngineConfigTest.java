@@ -39,11 +39,11 @@ public class PersoniumEngineConfigTest {
     /**
      * ユニットテスト用クラス.
      */
-    public class UnitDcEngineConfig extends PersoniumEngineConfig {
+    public class UnitPersoniumEngineConfig extends PersoniumEngineConfig {
         /**
          * コンストラクタ.
          */
-        public UnitDcEngineConfig() {
+        public UnitPersoniumEngineConfig() {
             super();
         }
 
@@ -62,7 +62,7 @@ public class PersoniumEngineConfigTest {
      */
     @Test
     public void 存在するプロパティファイルのパスを指定した場合_指定したパスのプロパティファイルを読み込むこと() {
-        UnitDcEngineConfig dcEngineConfig = new UnitDcEngineConfig();
+        UnitPersoniumEngineConfig dcEngineConfig = new UnitPersoniumEngineConfig();
         Properties properties = new Properties();
         String configFilePath = ClassLoader.getSystemResource("personium-unit-config.properties.unit").getPath();
         try {
@@ -79,7 +79,7 @@ public class PersoniumEngineConfigTest {
     @Test
     @Ignore
     public void 存在しないプロパティファイルのパスを指定した場合_クラスパス上のプロパティを読み込むこと() {
-        UnitDcEngineConfig dcEngineConfig = new UnitDcEngineConfig();
+        UnitPersoniumEngineConfig dcEngineConfig = new UnitPersoniumEngineConfig();
         Properties properties = new Properties();
         try {
             properties.load(dcEngineConfig.unitGetConfigFileInputStream("personium-unit-config.properties.unit"));
@@ -93,7 +93,7 @@ public class PersoniumEngineConfigTest {
      * io.personium.engnie系プロパティで定義された内容が、io.personium.coreプロパティとして取得できること.
      */
     @Test
-    public void com_fujitsu_dc_engnie系プロパティで定義された内容が_com_fujitsu_dc_coreプロパティとして取得できること() {
+    public void io_personium_engnie系プロパティで定義された内容が_io_personium_coreプロパティとして取得できること() {
         System.setProperty("io.personium.configurationFile", "src/test/resources/personium-unit-config.properties.unit");
         PersoniumEngineConfig.reload();
         assertEquals("unitTest", PersoniumEngineConfig.get("io.personium.engine.testkey"));
