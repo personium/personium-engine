@@ -22,7 +22,7 @@
 
 /**
  * Personiumを操作するためのDAOライブラリ.
- * @class coreAPI
+ * @class dc
  */
 var dc = {};
 dc.extension = {};
