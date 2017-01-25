@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,19 +70,19 @@ public abstract class AbstractService {
     private static final int PORT_HTTPS = 443;
 
     /** リクエストヘッダから取得する インデックス. */
-    @HeaderParam("X-Dc-Es-Index")
+    @HeaderParam("X-Personium-Es-Index")
     private String index;
     /** リクエストヘッダから取得するタイプ. */
-    @HeaderParam("X-Dc-Es-Type")
+    @HeaderParam("X-Personium-Es-Type")
     private String type;
     /** リクエストヘッダから取得するID. */
-    @HeaderParam("X-Dc-Es-Id")
+    @HeaderParam("X-Personium-Es-Id")
     private String id;
     /** リクエストヘッダから取得するRoutingID. */
-    @HeaderParam("X-Dc-Es-Routing-Id")
+    @HeaderParam("X-Personium-Es-Routing-Id")
     private String routingId;
     /** リクエストヘッダから取得するRoutingID. */
-    @HeaderParam("X-Dc-Fs-Path")
+    @HeaderParam("X-Personium-Fs-Path")
     protected String fsPath;
 
     /** サービスサブジェクト. */
@@ -405,9 +405,9 @@ public abstract class AbstractService {
         String baseUrl = "";
 
         // リクエストURIを取得する。リクエストURI＝＞ホスト名よりあとのクエリ含んだ文字列。
-        // 例） /dc-engine/engine-test/ds-engine-test/service/hello?a=b&c=d
+        // 例） /personium-engine/engine-test/ds-engine-test/service/hello?a=b&c=d
         // （通常動作）DCから送られてきたURIがヘッダに指定されていたらそれを利用する。
-        // （デバッグ動作）DC-Engine呼び出しのURIから生成する。
+        // （デバッグ動作）Personium-Engine呼び出しのURIから生成する。
         String requestUri = req.getHeader(KEY_HEADER_REQUEST_URI);
         if (requestUri == null || requestUri.length() == 0) {
             requestUri = req.getRequestURI();
@@ -418,7 +418,7 @@ public abstract class AbstractService {
         }
 
         // リクエストURIからクエリ部分を切り取って、スクリプト名を抜き出す。
-        // 例）/dc-engine/engine-test/ds-engine-test/service/hello
+        // 例）/personium-engine/engine-test/personium-engine-test/service/hello
         int indexQ = requestUri.indexOf("?");
         String scriptName = requestUri;
         if (indexQ > 0) {

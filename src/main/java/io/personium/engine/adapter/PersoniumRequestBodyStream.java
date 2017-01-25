@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import io.personium.engine.wrapper.DcInputStream;
+import io.personium.engine.wrapper.PersoniumInputStream;
 
 
 /**
@@ -44,8 +44,8 @@ public final class PersoniumRequestBodyStream {
      * @return InputStreamのラッパーオブジェクト
      * @throws Exception Exception
      */
-    public DcInputStream stream() throws Exception  {
-        return new DcInputStream(this.input);
+    public PersoniumInputStream stream() throws Exception  {
+        return new PersoniumInputStream(this.input);
     }
 
     /**

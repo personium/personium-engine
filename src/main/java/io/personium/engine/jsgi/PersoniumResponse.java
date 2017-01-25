@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.personium.engine.wrapper.DcInputStream;
+import io.personium.engine.wrapper.PersoniumInputStream;
 
 
 /**
@@ -298,10 +298,10 @@ public final class PersoniumResponse extends ScriptableObject {
      * @throws IOException IOException
      */
     public void bodyResponseFunction(Object element, double number, NativeArray object) throws IOException {
-        if (element instanceof DcInputStream) {
+        if (element instanceof PersoniumInputStream) {
             // 現状はEngine上のJavaScriptでバイナリを直接扱わず
             // JavaのストリームをそのままJavaScript内で扱うことで対応
-            DcInputStream io = (DcInputStream) element;
+            PersoniumInputStream io = (PersoniumInputStream) element;
             byte[] buf = new byte[BUFFER_SIZE];
             int bufLength;
             while ((bufLength = io.read(buf)) != -1) {
@@ -321,7 +321,7 @@ public final class PersoniumResponse extends ScriptableObject {
      * @throws Exception Exception
      */
     public void bodyCheckFunction(Object element, double number, NativeArray object) throws Exception {
-        if (!(element instanceof DcInputStream) && !(element instanceof String)) {
+        if (!(element instanceof PersoniumInputStream) && !(element instanceof String)) {
             String msg = "response body illegal type.";
             log.info(msg);
             throw new Exception(msg);

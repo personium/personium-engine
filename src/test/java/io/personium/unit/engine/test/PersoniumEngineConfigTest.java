@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ public class PersoniumEngineConfigTest {
     public void 存在するプロパティファイルのパスを指定した場合_指定したパスのプロパティファイルを読み込むこと() {
         UnitDcEngineConfig dcEngineConfig = new UnitDcEngineConfig();
         Properties properties = new Properties();
-        String configFilePath = ClassLoader.getSystemResource("dc-config.properties.unit").getPath();
+        String configFilePath = ClassLoader.getSystemResource("personium-unit-config.properties.unit").getPath();
         try {
             properties.load(dcEngineConfig.unitGetConfigFileInputStream(configFilePath));
         } catch (IOException e) {
@@ -82,7 +82,7 @@ public class PersoniumEngineConfigTest {
         UnitDcEngineConfig dcEngineConfig = new UnitDcEngineConfig();
         Properties properties = new Properties();
         try {
-            properties.load(dcEngineConfig.unitGetConfigFileInputStream("dc-config.properties.unitx"));
+            properties.load(dcEngineConfig.unitGetConfigFileInputStream("personium-unit-config.properties.unit"));
         } catch (IOException e) {
             fail("properties load failuer");
         }
@@ -94,7 +94,7 @@ public class PersoniumEngineConfigTest {
      */
     @Test
     public void com_fujitsu_dc_engnie系プロパティで定義された内容が_com_fujitsu_dc_coreプロパティとして取得できること() {
-        System.setProperty("io.personium.configurationFile", "src/test/resources/dc-config.properties.unit");
+        System.setProperty("io.personium.configurationFile", "src/test/resources/personium-unit-config.properties.unit");
         PersoniumEngineConfig.reload();
         assertEquals("unitTest", PersoniumEngineConfig.get("io.personium.engine.testkey"));
         assertEquals("unitTest", PersoniumEngineConfig.get("io.personium.core.testkey"));

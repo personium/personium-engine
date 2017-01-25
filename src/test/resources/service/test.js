@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ function(request){
     }else if(mode === "move"){
         return {
             status: 302,
-            headers: {"Location":"/dc-engine/r/jsgi_test"},
+            headers: {"Location":"/personium-engine/r/jsgi_test"},
             body: [""]
         };
     }else if(mode === "auth"){

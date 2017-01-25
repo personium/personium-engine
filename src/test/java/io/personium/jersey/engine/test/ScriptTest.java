@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -494,7 +494,7 @@ public class ScriptTest extends ScriptTestBase {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
 
             HttpResponse objResponse;
@@ -545,7 +545,7 @@ public class ScriptTest extends ScriptTestBase {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
 
             HttpResponse objResponse;
@@ -585,7 +585,7 @@ public class ScriptTest extends ScriptTestBase {
                 req.setHeader(KEY_HEADER_BASEURL, baseUrl);
                 String version = getVersion();
                 if (version != null && !(version.equals(""))) {
-                    req.setHeader("X-Dc-Version", version);
+                    req.setHeader("X-Personium-Version", version);
                 }
                 request(req);
                 fail();
@@ -615,7 +615,7 @@ public class ScriptTest extends ScriptTestBase {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
 
             HttpResponse objResponse;
@@ -668,7 +668,7 @@ public class ScriptTest extends ScriptTestBase {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
 
             HttpResponse objResponse;
@@ -719,7 +719,7 @@ public class ScriptTest extends ScriptTestBase {
                 req.setHeader(KEY_HEADER_BASEURL, baseUrl);
                 String version = getVersion();
                 if (version != null && !(version.equals(""))) {
-                    req.setHeader("X-Dc-Version", version);
+                    req.setHeader("X-Personium-Version", version);
                 }
                 // レスポンスのチェック
                 HttpResponse objResponse = httpClient.execute(req);
@@ -772,7 +772,7 @@ public class ScriptTest extends ScriptTestBase {
                 req.setHeader(KEY_HEADER_BASEURL, baseUrl);
                 String version = getVersion();
                 if (version != null && !(version.equals(""))) {
-                    req.setHeader("X-Dc-Version", version);
+                    req.setHeader("X-Personium-Version", version);
                 }
                 // レスポンスのチェック
                 HttpResponse objResponse = httpClient.execute(req);
@@ -823,7 +823,7 @@ public class ScriptTest extends ScriptTestBase {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
 
             HttpResponse objResponse;
@@ -874,7 +874,7 @@ public class ScriptTest extends ScriptTestBase {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
 
             HttpResponse objResponse;
@@ -925,7 +925,7 @@ public class ScriptTest extends ScriptTestBase {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
 
             HttpResponse objResponse;
@@ -1012,7 +1012,7 @@ public class ScriptTest extends ScriptTestBase {
                 req.setHeader(KEY_HEADER_BASEURL, baseUrl);
                 String version = getVersion();
                 if (version != null && !(version.equals(""))) {
-                    req.setHeader("X-Dc-Version", version);
+                    req.setHeader("X-Personium-Version", version);
                 }
 
                 HttpResponse objResponse;

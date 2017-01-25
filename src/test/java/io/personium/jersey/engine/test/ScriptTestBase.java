@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ public abstract class ScriptTestBase extends JerseyTest {
     /** ローカルテスト用EngineリクエストUrl. */
     public static final String LOCAL_TEST_SERVICE_URL = "http://localhost:9998";
     /** デフォルトのリクエスト送信先URL. */
-    public static final String DEFAULT_TARGET_URL = "http://localhost:8080/dc1-core";
+    public static final String DEFAULT_TARGET_URL = "http://localhost:8080/personium-core";
     /** リクエスト送信先URLを取得するプロパティのキー. */
     public static final String PROP_TARGET_URL = "io.personium.test.target";
     /** システムプロパティから接続先のURLを取得する。 指定がない場合はデフォルトのURLを使用する. */
@@ -161,7 +161,7 @@ public abstract class ScriptTestBase extends JerseyTest {
         if ("".equals(unitUserCell) || "".equals(unitUserAccount) || "".equals(unitUserPassword)) {
             // ユニットユーザーとして認証する情報がなければマスタートークンを利用する
             token = masterToken;
-            personiumCtx.setDefaultHeader("X-Dc-Unit-User", "https://example.com/test#UnitUser");
+            personiumCtx.setDefaultHeader("X-Personium-Unit-User", "https://example.com/test#UnitUser");
         } else {
             // ユニットユーザーが指定されていれば、ユニットユーザーで認証したトークンを利用する
             Accessor as = personiumCtx.asAccount(unitUserCell, unitUserAccount, unitUserPassword);
@@ -400,7 +400,7 @@ public abstract class ScriptTestBase extends JerseyTest {
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
-                req.setHeader("X-Dc-Version", version);
+                req.setHeader("X-Personium-Version", version);
             }
             PersoniumResponse res = request(req);
             assertEquals(HttpStatus.SC_OK, res.getStatusCode());

@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -248,8 +248,8 @@ public class PersoniumEngineConfig {
         compattibleToNormalKeyMap.clear();
 
         Logger log = LoggerFactory.getLogger(PersoniumEngineConfig.class);
-        Properties properties = getDcConfigDefaultProperties();
-        Properties propertiesOverride = getDcConfigProperties();
+        Properties properties = getUnitConfigDefaultProperties();
+        Properties propertiesOverride = getUnitConfigProperties();
         // 読み込みに成功した場合、メンバ変数へ置換する
         if (!properties.isEmpty()) {
             this.props.clear();
@@ -286,7 +286,7 @@ public class PersoniumEngineConfig {
      * personium-unit-config-default.propertiesファイルを読み込む.
      * @return personium-unit-config-default.properties
      */
-    protected Properties getDcConfigDefaultProperties() {
+    protected Properties getUnitConfigDefaultProperties() {
         Properties properties = new Properties();
         InputStream is = PersoniumEngineConfig.class.getClassLoader().getResourceAsStream("personium-unit-config-default.properties");
         try {
@@ -307,7 +307,7 @@ public class PersoniumEngineConfig {
      * personium-unit-config.propertiesファイルを読み込む.
      * @return personium-unit-config.properties
      */
-    protected Properties getDcConfigProperties() {
+    protected Properties getUnitConfigProperties() {
         Logger log = LoggerFactory.getLogger(PersoniumEngineConfig.class);
         Properties properties = new Properties();
         String configFilePath = System.getProperty(KEY_CONFIG_FILE);

@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class ExtensionJarLoader {
     private static ExtensionJarLoader singleton = null;
 
     /** Extension用 jarファイルの格納パスの基底部分を定義しているシステムプロパティキー.
-     * 実際のパスはこれに、"/dc-engine/extensions"が加えられる。 */
+     * 実際のパスはこれに、"/personium-engine/extensions"が加えられる。 */
     public static final String ENGINE_EXTENSION_DIR_KEY = "io.personium.environment";
     /** 上記システムプロパティが指定されていない場合の、既定の Extension用 jarファイルの格納パス. */
     public static final String DEFAULT_EXTENSION_DIR = "/personium";
@@ -82,7 +82,7 @@ public class ExtensionJarLoader {
             throws IOException, PersoniumEngineException {
         if (null == singleton) {
             String extensionDir = System.getProperty(ENGINE_EXTENSION_DIR_KEY, DEFAULT_EXTENSION_DIR)
-                + "/dc-engine/extensions";
+                + "/personium-engine/extensions";
             singleton = new ExtensionJarLoader(Paths.get(new File(extensionDir).toURI()), false, parentCl, filter);
         }
         return singleton;

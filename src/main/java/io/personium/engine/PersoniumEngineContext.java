@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,14 +58,14 @@ import io.personium.engine.utils.PersoniumEngineConfig;
 import io.personium.engine.utils.PersoniumEngineLoggerFactory;
 
 /**
- * DC-Engineのメインクラス.
+ * Personium-Engineのメインクラス.
  */
 public class PersoniumEngineContext implements Closeable {
     /** ログオブジェクト. */
     private static Logger log = LoggerFactory.getLogger(PersoniumEngineContext.class);
 
-    private static final String DC_SCOPE = "dc";
-    private static final String DC_EXTENSION_SCOPE = "extension";
+    private static final String PERSONIUM_SCOPE = "personium";
+    private static final String EXTENSION_SCOPE = "extension";
     private static Map<String, Script> engineLibCache = new ConcurrentHashMap<String, Script>();
 
 
@@ -129,8 +129,8 @@ public class PersoniumEngineContext implements Closeable {
 
         // Javascript内でプロトタイプとして使用可能な Javaクラスを定義する。
         // スコープの設定
-        NativeObject dcScope = (NativeObject) this.scope.get(DC_SCOPE, this.scope);
-        NativeObject declaringClass = (NativeObject) dcScope.get(DC_EXTENSION_SCOPE, dcScope);
+        NativeObject dcScope = (NativeObject) this.scope.get(PERSONIUM_SCOPE, this.scope);
+        NativeObject declaringClass = (NativeObject) dcScope.get(EXTENSION_SCOPE, dcScope);
 
         for (Class<? extends Scriptable> clazz : extLoader.getPrototypeClassSet()) {
             try {
@@ -215,27 +215,27 @@ public class PersoniumEngineContext implements Closeable {
             final String serviceSubject) throws PersoniumEngineException {
         // JSGI実行準備
         // DAOオブジェクトを生成
-        PersoniumEngineDao dc = createDao(req, serviceSubject);
+        PersoniumEngineDao ed = createDao(req, serviceSubject);
 
         // DAOオブジェクトをJavaScriptプロパティへ設定
-        javaToJs(dc, "dcjvm");
+        javaToJs(ed, "pjvm");
 
         // RequireオブジェクトをJavaScriptプロパティへ設定
-        javaToJs(createRequireObject(), "dcrequire");
+        javaToJs(createRequireObject(), "pRequire");
 
-        // dc-dao.js を読み込み
+        // personium-dao.js を読み込み
         try {
-            loadJs("dc-dao");
+            loadJs("personium-dao");
         } catch (IOException e1) {
             log.info("runJsgi error (DAO load io error) ", e1);
             throw new PersoniumEngineException("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR, e1);
         }
 
-        // dc-lib.js を読み込み
+        // personium-lib.js を読み込み
         try {
-            loadJs("dc-lib");
+            loadJs("personium-lib");
         } catch (IOException e1) {
-            log.info("runJsgi error (dc-lib load io error) ", e1);
+            log.info("runJsgi error (personium-lib load io error) ", e1);
             throw new PersoniumEngineException("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR, e1);
         }
 

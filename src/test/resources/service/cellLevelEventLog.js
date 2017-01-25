@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,21 +32,21 @@ function(request){
         // イベント受付
         dc.as("client").cell(cellName).event.post(event, "DaoTest");
 
-        // --- ログ取得(X-Dc-RequestKeyなし)_String ---
-        // ログ取得(X-Dc-RequestKeyなし)_String
+        // --- ログ取得(X-Personium-RequestKeyなし)_String ---
+        // ログ取得(X-Personium-RequestKeyなし)_String
         dc.as("client").cell(cellName).currentLog.getString("default.log");
-        // --- ログ取得(X-Dc-RequestKeyあり)_String ---
-        // ログ取得(X-Dc-RequestKeyあり)_String
+        // --- ログ取得(X-Personium-RequestKeyあり)_String ---
+        // ログ取得(X-Personium-RequestKeyあり)_String
         dc.as("client").cell(cellName).currentLog.getString("default.log","DaoTest");
-        // --- ログ取得(X-Dc-RequestKeyなし)_Stream ---
-        // ログ取得(X-Dc-RequestKeyなし)_Stream
+        // --- ログ取得(X-Personium-RequestKeyなし)_Stream ---
+        // ログ取得(X-Personium-RequestKeyなし)_Stream
         dc.as("client").cell(cellName).currentLog.getStream("default.log");
-        // --- ログ取得(X-Dc-RequestKeyあり)_Stream ---
-        // ログ取得(X-Dc-RequestKeyあり)_Stream
+        // --- ログ取得(X-Personium-RequestKeyあり)_Stream ---
+        // ログ取得(X-Personium-RequestKeyあり)_Stream
         dc.as("client").cell(cellName).currentLog.getStream("default.log","DaoTest");
 
-        // ローテートされたログ取得(X-Dc-RequestKeyなし)_String
-        // --- ローテートされたログ取得(X-Dc-RequestKeyなし)_String ---
+        // ローテートされたログ取得(X-Personium-RequestKeyなし)_String
+        // --- ローテートされたログ取得(X-Personium-RequestKeyなし)_String ---
         try{
             dc.as("client").cell(cellName).archiveLog.getString("default.log");
         } catch (e1) {
@@ -54,8 +54,8 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        // ローテートされたログ取得(X-Dc-RequestKeyあり)_String
-        // --- ローテートされたログ取得(X-Dc-RequestKeyあり)_String ---
+        // ローテートされたログ取得(X-Personium-RequestKeyあり)_String
+        // --- ローテートされたログ取得(X-Personium-RequestKeyあり)_String ---
         try{
             dc.as("client").cell(cellName).archiveLog.getString("default.log", "DaoTest");
         } catch (e2) {
@@ -63,8 +63,8 @@ function(request){
                 return util.response().statusCode(e2.code).responseBody(e2.message).build();
             }
         }
-        // ローテートされたログ取得(X-Dc-RequestKeyなし)_Stream
-        // --- ローテートされたログ取得(X-Dc-RequestKeyなし)_Stream ---
+        // ローテートされたログ取得(X-Personium-RequestKeyなし)_Stream
+        // --- ローテートされたログ取得(X-Personium-RequestKeyなし)_Stream ---
         try{
             dc.as("client").cell(cellName).archiveLog.getStream("default.log");
         } catch (e3) {
@@ -72,8 +72,8 @@ function(request){
                 return util.response().statusCode(e3.code).responseBody(e3.message).build();
             }
         }
-        // ローテートされたログ取得(X-Dc-RequestKeyあり)_Stream
-        // --- ローテートされたログ取得(X-Dc-RequestKeyあり)_Stream ---
+        // ローテートされたログ取得(X-Personium-RequestKeyあり)_Stream
+        // --- ローテートされたログ取得(X-Personium-RequestKeyあり)_Stream ---
         try{
             dc.as("client").cell(cellName).archiveLog.getStream("default.log", "DaoTest");
         } catch (e4) {

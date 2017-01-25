@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ public class EsServiceResourceSourceManager implements ISourceManager {
         }
 
         // スクリプトの情報を取得する
-        this.serviceCollectionInfo = (String) ((Map<?, ?>) getResp.getSource().get("d")).get("service@urn:x-dc1:xmlns");
+        this.serviceCollectionInfo = (String) ((Map<?, ?>) getResp.getSource().get("d")).get("service@urn:x-personium:xmlns");
         if (null == this.serviceCollectionInfo) {
             log.info("Service property Invalid ");
             throw new PersoniumEngineException("404 Not Found (Service property invalid) ",

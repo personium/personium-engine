@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.personium.engine.PersoniumEngineException;
-import io.personium.engine.utils.DcUtils;
+import io.personium.engine.utils.PersoniumUtils;
 
 /**
  * サービスコレクションの情報を管理する.
@@ -67,7 +67,7 @@ public class TestResourceSourceManager implements ISourceManager {
         try {
             URL path = getClass().getResource("/service/" + sourceName);
 
-            return DcUtils.readFile(path.getFile());
+            return PersoniumUtils.readFile(path.getFile());
         } catch (Exception e) {
             log.info("CouchClientException msg:" + e.getMessage() + ",svcName:" + sourceName);
             log.info("UserScript read error ", e);

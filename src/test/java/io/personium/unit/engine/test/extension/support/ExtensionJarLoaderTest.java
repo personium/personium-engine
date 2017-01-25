@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,13 +82,13 @@ public class ExtensionJarLoaderTest {
 
         // テスト前に本テスト対象のクラスがデフォルトクラスローダにロードされていないことを確認
         try {
-            this.getClass().getClassLoader().loadClass("com.fujitsu.test.dc.extension.NonRevealingClass");
+            this.getClass().getClassLoader().loadClass("io.personium.test.extension.NonRevealingClass");
             fail("Target class is already loaded.");
         } catch (ClassNotFoundException e) {
             e.getMessage();
         }
         try {
-            this.getClass().getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+            this.getClass().getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
             fail("Target class is already loaded.");
         } catch (ClassNotFoundException e) {
             e.getMessage();
@@ -97,12 +97,12 @@ public class ExtensionJarLoaderTest {
         ExtensionJarLoader loader = ExtensionJarLoader.getInstance(this.getClass().getClassLoader(),
                 new JavaClassRevealFilter());
 
-        Class<?> clazz1 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.NonRevealingClass");
+        Class<?> clazz1 = loader.getClassLoader().loadClass("io.personium.test.extension.NonRevealingClass");
         assertNotNull(clazz1);
         assertTrue(clazz1 instanceof Class);
         assertFalse(ScriptableObject.class.isAssignableFrom(clazz1));
 
-        Class<?> clazz2 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+        Class<?> clazz2 = loader.getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
         assertNotNull(clazz2);
         assertTrue(clazz2 instanceof Class);
         assertTrue(ScriptableObject.class.isAssignableFrom(clazz2));
@@ -130,13 +130,13 @@ public class ExtensionJarLoaderTest {
 
         // テスト前に本テスト対象のクラスがデフォルトクラスローダにロードされていないことを確認
         try {
-            this.getClass().getClassLoader().loadClass("com.fujitsu.test.dc.extension.NonRevealingClass");
+            this.getClass().getClassLoader().loadClass("io.personium.test.extension.NonRevealingClass");
             fail("Target class is already loaded.");
         } catch (ClassNotFoundException e) {
             e.getMessage();
         }
         try {
-            this.getClass().getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+            this.getClass().getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
             fail("Target class is already loaded.");
         } catch (ClassNotFoundException e) {
             e.getMessage();
@@ -158,12 +158,12 @@ public class ExtensionJarLoaderTest {
                 new JavaClassRevealFilter());
 
         // ./testextension直下の jarファイル内クラス
-        Class<?> clazz1 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.NonRevealingClass");
+        Class<?> clazz1 = loader.getClassLoader().loadClass("io.personium.test.extension.NonRevealingClass");
         assertNotNull(clazz1);
         assertTrue(clazz1 instanceof Class);
         assertFalse(ScriptableObject.class.isAssignableFrom(clazz1));
 
-        Class<?> clazz2 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+        Class<?> clazz2 = loader.getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
         assertNotNull(clazz2);
         assertTrue(clazz2 instanceof Class);
         assertTrue(ScriptableObject.class.isAssignableFrom(clazz2));
@@ -202,13 +202,13 @@ public class ExtensionJarLoaderTest {
 
         // テスト前に本テスト対象のクラスがデフォルトクラスローダにロードされていないことを確認
         try {
-            this.getClass().getClassLoader().loadClass("com.fujitsu.test.dc.extension.NonRevealingClass");
+            this.getClass().getClassLoader().loadClass("io.personium.test.extension.NonRevealingClass");
             fail("Target class is already loaded.");
         } catch (ClassNotFoundException e) {
             e.getMessage();
         }
         try {
-            this.getClass().getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+            this.getClass().getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
             fail("Target class is already loaded.");
         } catch (ClassNotFoundException e) {
             e.getMessage();
@@ -217,12 +217,12 @@ public class ExtensionJarLoaderTest {
         ExtensionJarLoader loader = ExtensionJarLoader.getInstance(this.getClass().getClassLoader(),
                 new JavaClassRevealFilter());
 
-        Class<?> clazz1 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.NonRevealingClass");
+        Class<?> clazz1 = loader.getClassLoader().loadClass("io.personium.test.extension.NonRevealingClass");
         assertNotNull(clazz1);
         assertTrue(clazz1 instanceof Class);
         assertFalse(ScriptableObject.class.isAssignableFrom(clazz1));
 
-        Class<?> clazz2 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+        Class<?> clazz2 = loader.getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
         assertNotNull(clazz2);
         assertTrue(clazz2 instanceof Class);
         assertTrue(ScriptableObject.class.isAssignableFrom(clazz2));
@@ -254,7 +254,7 @@ public class ExtensionJarLoaderTest {
                 new JavaClassRevealFilter());
 
         try {
-            Class<?> clazz2 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+            Class<?> clazz2 = loader.getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
             fail();
         } catch (ClassNotFoundException e) {
             assertTrue(true);
@@ -279,7 +279,7 @@ public class ExtensionJarLoaderTest {
                 new JavaClassRevealFilter());
 
         try {
-            Class<?> clazz2 = loader.getClassLoader().loadClass("com.fujitsu.test.dc.extension.Ext_RevealingClass");
+            Class<?> clazz2 = loader.getClassLoader().loadClass("io.personium.test.extension.Ext_RevealingClass");
             fail();
         } catch (ClassNotFoundException e) {
             assertTrue(true);

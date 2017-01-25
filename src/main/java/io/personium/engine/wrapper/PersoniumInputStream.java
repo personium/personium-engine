@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@ import org.mozilla.javascript.Scriptable;
  * InputStreamのラッパー.
  * EngineクライアントライブラリにInputStreamを直接渡すとClassShutterエラーになるため、継承した独自クラスに置き換える。
  */
-public final class DcInputStream extends BufferedInputStream implements Scriptable {
+public final class PersoniumInputStream extends BufferedInputStream implements Scriptable {
 
     /**
      * InputStreamをラップする.
      * @param in InputStream
      */
-    public DcInputStream(InputStream in) {
+    public PersoniumInputStream(InputStream in) {
         super(in);
     }
 

@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 
 import io.personium.engine.adapter.PersoniumRequestBodyStream;
-import io.personium.engine.wrapper.DcInputStream;
-import io.personium.engine.wrapper.DcJSONObject;
+import io.personium.engine.wrapper.PersoniumInputStream;
+import io.personium.engine.wrapper.PersoniumJSONObject;
 
 /**
  * JavaScriptからJavaメソッド呼び出し時の返却値ラップ動作制御.
@@ -54,10 +54,10 @@ public class PrimitiveWrapFactory extends WrapFactory {
         } else if (obj instanceof String) {
             return obj;
 
-        } else if (obj instanceof InputStream && !(obj instanceof DcInputStream)) {
-            return new DcInputStream((InputStream) obj);
+        } else if (obj instanceof InputStream && !(obj instanceof PersoniumInputStream)) {
+            return new PersoniumInputStream((InputStream) obj);
 
-        } else if (obj instanceof JSONObject && !(obj instanceof DcJSONObject)) {
+        } else if (obj instanceof JSONObject && !(obj instanceof PersoniumJSONObject)) {
             return ((JSONObject) obj).toJSONString();
 
         } else if (obj instanceof ArrayList) {
@@ -77,8 +77,8 @@ public class PrimitiveWrapFactory extends WrapFactory {
     @Override
     public Scriptable wrapNewObject(Context cx, Scriptable scope, Object obj) {
         // JavaScriptから呼び出しを許してるクラスもコンストラクタは呼び出し不可にする
-        if (obj.getClass() == DcInputStream.class
-                || obj.getClass() == DcJSONObject.class
+        if (obj.getClass() == PersoniumInputStream.class
+                || obj.getClass() == PersoniumJSONObject.class
                 || obj.getClass() == PersoniumRequestBodyStream.class) {
             throw new EvaluatorException("not found");
         }

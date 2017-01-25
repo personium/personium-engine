@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import io.personium.client.utils.PersoniumLogger;
 
 /**
- * DC-Engineログクラス.
+ * Personium-Engineログクラス.
  */
 public class PersoniumEngineLogger implements PersoniumLogger {
     // ログオブジェクト

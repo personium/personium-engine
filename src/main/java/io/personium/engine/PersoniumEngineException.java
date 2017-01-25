@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package io.personium.engine;
 
 /**
- * DcEngine内での例外クラス.
+ * PersoniumEngine内での例外クラス.
   */
 @SuppressWarnings("serial")
 public class PersoniumEngineException extends Exception {

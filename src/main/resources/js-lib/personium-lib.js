@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-dc.dcjvm = dcjvm;
+dc.pjvm = pjvm;
 
 dc.util = {};
 
 dc.util.obj2javaJson = function(obj) {
-    return dc.dcjvm.newDcJSONObject(JSON.stringify(obj));
+    return dc.pjvm.newPersoniumJSONObject(JSON.stringify(obj));
 };
 
 
@@ -42,7 +42,7 @@ dc.util.escape4xss = function(obj) {
 };
     
 dc.util.require =  function(path) {
-    dcrequire.load(path);
+    pRequire.load(path);
 };
 
 dc.util.queryParse = function(queryString, charset){
@@ -80,7 +80,7 @@ dc.util.decodeURI = function(str, charset) {
      // まったく同じ形式のＪＳＯＮを手作業で作成した場合は、JSON.stringifyが成功する。
      //  値の形式が文字列になっていないようなので、「.toString() + ""」をしてみた。
      // そしたら、うまく動いた。
-    return dcjvm.decodeURI(str, charset).toString() + "";
+    return pjvm.decodeURI(str, charset).toString() + "";
 };
 
 /**
@@ -89,5 +89,5 @@ dc.util.decodeURI = function(str, charset) {
  * @returns 読み込まれた拡張オブジェクト
  */
 function require(path) {
-	return dcrequire.doRequire(path);
+	return pRequire.doRequire(path);
 }

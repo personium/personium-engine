@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
- * DC-Engineステータス用サーブレットクラス.
+ * Personium-Engineステータス用サーブレットクラス.
  */
 @Path("__status")
 public class StatusResource {

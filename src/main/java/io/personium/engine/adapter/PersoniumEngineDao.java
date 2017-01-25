@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ import io.personium.client.Accessor;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
 import io.personium.common.auth.token.AccountAccessToken;
-import io.personium.engine.wrapper.DcJSONObject;
+import io.personium.engine.wrapper.PersoniumJSONObject;
 
 /**
- * DC-Engine用PCS-DAO.
+ * Personium-Engine用DAO.
  */
 public class PersoniumEngineDao extends PersoniumContext {
 
@@ -108,13 +108,13 @@ public class PersoniumEngineDao extends PersoniumContext {
      * @return JSONObjectのラッパー
      * @throws ParseException ParseException
      */
-    public final DcJSONObject newDcJSONObject(final String jsonStr) throws ParseException {
-        DcJSONObject json = (DcJSONObject) (new JSONParser().parse(jsonStr, new ContainerFactory() {
+    public final PersoniumJSONObject newJSONObject(final String jsonStr) throws ParseException {
+        PersoniumJSONObject json = (PersoniumJSONObject) (new JSONParser().parse(jsonStr, new ContainerFactory() {
 
             @SuppressWarnings("rawtypes")
             @Override
             public Map createObjectContainer() {
-                return new DcJSONObject();
+                return new PersoniumJSONObject();
             }
 
             @SuppressWarnings("rawtypes")

@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
  */
 /**
  * @fileOverview
- * @name dc-dao.js
+ * @name personium-dao.js
  * @version 1.0.0
  */
 
 /**
- * PCSを操作するためのDAOライブラリ.
- * @class dc
+ * Personiumを操作するためのDAOライブラリ.
+ * @class coreAPI
  */
 var dc = {};
 dc.extension = {};
@@ -31,69 +31,69 @@ dc.extension = {};
  * アクセス主体を指定.
  * @param {Object} param アクセス主体を指定するパラメタ
  * @returns {dc.Accessor} 生成したAccessorオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.as = function(param) {
     try {
         if (typeof param == 'string') {
             if ( param == 'serviceSubject' ) {
-            	var as = dcjvm.asServiceSubject();
+            	var as = pjvm.asServiceSubject();
                 return new dc.Accessor(as);
             } else if ( param == 'client' ) {
-                return new dc.Accessor(dcjvm.withClientToken());
+                return new dc.Accessor(pjvm.withClientToken());
             }
         } else {
         	if ((typeof param.cellUrl == "string") && (typeof param.userId == "string") &&
         			(typeof param.password == "string") && (typeof param.schemaUrl == "string") &&
         			(typeof param.schemaUserId == "string") && (typeof param.schemaPassword == "string")) {
                 // スキーマ付きパスワード認証
-                return new dc.Accessor(dcjvm.asAccountWithSchemaAuthn(param.cellUrl, param.userId, param.password,
+                return new dc.Accessor(pjvm.asAccountWithSchemaAuthn(param.cellUrl, param.userId, param.password,
                         param.schemaUrl, param.schemaUserId, param.schemaPassword));
             } else if ((typeof param.cellUrl == "string") && (typeof param.accessToken == "string") &&
                     	(typeof param.schemaUrl == "string") && (typeof param.schemaUserId == "string") &&
                     	(typeof param.schemaPassword == "string")) {
                 // スキーマ付きトークン認証
-                return new dc.Accessor(dcjvm.getAccessorWithTransCellTokenAndSchemaAuthn(param.cellUrl, param.accessToken,
+                return new dc.Accessor(pjvm.getAccessorWithTransCellTokenAndSchemaAuthn(param.cellUrl, param.accessToken,
                         param.schemaUrl, param.schemaUserId, param.schemaPassword));
             } else if ((typeof param.cellUrl == "string") && (typeof param.userId == "string") &&
             		(typeof param.password == "string")) {
                 // パスワード認証
-                return new dc.Accessor(dcjvm.asAccount(param.cellUrl, param.userId, param.password));
+                return new dc.Accessor(pjvm.asAccount(param.cellUrl, param.userId, param.password));
             } else if ((typeof param.cellUrl == "string") && (typeof param.accessToken == "string")) {
                 // トークン認証
-                return new dc.Accessor(dcjvm.getAccessorWithTransCellToken(param.cellUrl, param.accessToken));
+                return new dc.Accessor(pjvm.getAccessorWithTransCellToken(param.cellUrl, param.accessToken));
             } else if ((typeof param.cellUrl == "string") && (typeof param.refreshToken == "string")) {
             	// フレッシュトークン認証
-                return new dc.Accessor(dcjvm.getAccessorWithRefreshToken(param.cellUrl, param.refreshToken));
+                return new dc.Accessor(pjvm.getAccessorWithRefreshToken(param.cellUrl, param.refreshToken));
             } else if (typeof param.accessToken == "string") {
             	// トークン指定
-                return new dc.Accessor(dcjvm.withToken(param.accessToken));
+                return new dc.Accessor(pjvm.withToken(param.accessToken));
             }
         }
-        throw new dc.DcException("Parameter Invalid");
+        throw new dc.PersoniumException("Parameter Invalid");
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
- * personium.ioのバージョン指定.<br>
+ * dc.ioのバージョン指定.<br>
  * 例：<br>
- * 　dc.setDcVersion("1.0");
+ * 　dc.setPersoniumVersion("1.0");
  * @param {string} version バージョン番号. サーバーに対し、X-Tritium-Versionヘッダに指定するバージョン文字列.
  */
-dc.setDcVersion = function(version) {
-    dcjvm.setDcVersion(version);
+dc.setPersoniumVersion = function(version) {
+    pjvm.setPersoniumVersion(version);
 };
 
 /**
- * personium.ioのバージョン指定.<br>
+ * dc.ioのバージョン指定.<br>
  * 例：<br>
- * 　dc.setDcVersion("1.0");
+ * 　dc.setPersoniumVersion("1.0");
  * @param {string} version バージョン番号. サーバーに対し、X-Tritium-Versionヘッダに指定するバージョン文字列.
  */
 dc.getServerVersion = function() {
-    return dcjvm.getServerVersion();
+    return pjvm.getServerVersion();
 };
 
 /**
@@ -103,7 +103,7 @@ dc.getServerVersion = function() {
  * @param {Boolean} value true:非同期、false:同期
  */
 dc.setThreadable = function(value) {
-    dcjvm.setThreadable(value);
+    pjvm.setThreadable(value);
 };
 
 /**
@@ -125,7 +125,7 @@ dc.Accessor = function(obj) {
  * 　as("client").cell("http://xxx.com/cellName");
  * @param {string} url CellのID。省略した場合はデフォルトのCellを利用.<br>
  * @returns {dc.Cell} 新しく作成したCellオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Accessor.prototype.cell = function(url) {
     try {
@@ -135,20 +135,20 @@ dc.Accessor.prototype.cell = function(url) {
             return new dc.Cell(this.core.cell());
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * Unitユーザへの昇格.<br>
  * @returns {dc.Cell} 新しく作成したOwnerAccessorオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Accessor.prototype.asCellOwner = function() {
 	try {
 		return new dc.OwnerAccessor(this.core.asCellOwner());
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -160,13 +160,13 @@ dc.Accessor.prototype.asCellOwner = function() {
  * 更新するパスワード：<br>
  * 　as("client").changePassword(newPassword);
  * @param {string} newPassword 新しいパスワード.<br>
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Accessor.prototype.changePassword = function(newPassword) {
     try {
         this.core.changePassword(newPassword);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -193,7 +193,7 @@ dc.OData.prototype.internalCreate = function(json) {
 //    try {
         return this.core.create(dc.util.obj2javaJson(json));
 //    } catch (e) {
-//        throw new dc.DcException(e.message);
+//        throw new dc.PersoniumException(e.message);
 //    }
 };
 
@@ -205,7 +205,7 @@ dc.OData.prototype.internalUpdate = function(id, json, etag) {
 //    try {
         this.core.update(id, dc.util.obj2javaJson(json), etag);
 //    } catch (e) {
-//        throw new dc.DcException(e.message);
+//        throw new dc.PersoniumException(e.message);
 //    }
 };
 
@@ -214,7 +214,7 @@ dc.OData.prototype.internalRetrieve = function(id) {
 //    try {
         return this.core.retrieve(id);
 //    } catch (e) {
-//        throw new dc.DcException(e.message);
+//        throw new dc.PersoniumException(e.message);
 //    }
 };
 
@@ -222,7 +222,7 @@ dc.OData.prototype.internalRetrieve = function(id) {
  * ODataデータを削除する.
  * @param {string} id 削除するデータのID
  * @param {string} etag 削除するデータのEtag
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.OData.prototype.del = function(id, etag) {
     if (!etag) {
@@ -231,7 +231,7 @@ dc.OData.prototype.del = function(id, etag) {
     try {
         this.core.del(id, etag);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -281,7 +281,7 @@ dc.AclManager = function() {
  */
 dc.AclManager.prototype.set = function(param) {
     try {
-        var acl = new io.personium.client.Acl();
+        var acl = new io.dc.client.Acl();
         
         if (param["requireSchemaAuthz"] !== null
         && typeof param["requireSchemaAuthz"] !== "undefined"
@@ -294,7 +294,7 @@ dc.AclManager.prototype.set = function(param) {
             for (var i = 0; i < aces.length; i++) {
                 aceObj = aces[i];
                 if (aceObj != null) {
-                    var ace = new io.personium.client.Ace();
+                    var ace = new io.dc.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
                         ace.setRole(aceObj["role"].core);
                     }
@@ -309,14 +309,14 @@ dc.AclManager.prototype.set = function(param) {
         }
         this.core.set(acl);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * ACLを取得する.
  * @returns {string} 取得したACLのjsonオブジェクト. 
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.AclManager.prototype.get = function() {
 
@@ -341,7 +341,7 @@ dc.AclManager.prototype.get = function() {
         acl["ace"] = aces;
         return acl;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -359,13 +359,13 @@ dc.Webdav.prototype.acl = new dc.AclManager();
  * 例：<br>
  * 　box().mkCol("col");
  * @param {string} name 作成するコレクション名
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.mkCol = function(name) {
     try {
         this.core.mkCol(name);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -374,13 +374,13 @@ dc.Webdav.prototype.mkCol = function(name) {
  * 例：<br>
  * 　box().mkOData("col");
  * @param {string} name 作成するコレクション名
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.mkOData = function(name) {
     try {
         this.core.mkOData(name);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -389,39 +389,39 @@ dc.Webdav.prototype.mkOData = function(name) {
  * 例：<br>
  * 　box().mkService("col");
  * @param {string} name 作成するコレクション名
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.mkService = function(name) {
     try {
         this.core.mkService(name);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * コレクション内のリソースの一覧を取得する.
  * @returns {string[]} リソースへのWebDAVパス一覧
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.getFileList = function() {
     try {
         return this.core.getFileList();
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * コレクション内のサブコレクションの一覧を取得する.
  * @returns {string[]} サブコレクションへのWebDAVパス一覧
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.getColList = function(name) {
     try {
         return this.core.getColList(name);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -429,13 +429,13 @@ dc.Webdav.prototype.getColList = function(name) {
  * コレクションのプロパティを設定する.
  * @param {string} key 設定項目名
  * @param {string} value 設定項目値
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.setProp = function(key, value) {
     try {
         this.core.setProp(key, value);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -443,13 +443,13 @@ dc.Webdav.prototype.setProp = function(key, value) {
  * コレクションのプロパティを取得する.
  * @param {string} key 設定項目名
  * @returns {string} 指定したプロパティ値
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.getProp = function(key) {
     try {
         return this.core.getProp(key);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -461,7 +461,7 @@ dc.Webdav.prototype.getProp = function(key) {
  * <dd>box().col("col1/col2/col3");
  * @param {string} name コレクション名
  * @returns {dc.DavCollection} dc.DavCollectionオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.col = function(name) {
     try {
@@ -469,7 +469,7 @@ dc.Webdav.prototype.col = function(name) {
         dav.acl.core = dav.core.acl;
         return dav;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -479,26 +479,26 @@ dc.Webdav.prototype.col = function(name) {
  * 　box().odata("odata");
  * @param {string} name ODataコレクション名
  * @returns {dc.ODataCollection} dc.ODataCollectionオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.odata = function(name) {
     try {
         return new dc.ODataCollection(this.core.odata(name));
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * 現在のコレクションのパスを取得する.
  * @returns {string} 現在のコレクションのパス
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.getPath = function() {
     try {
         return this.core.getPath() + "";
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -509,7 +509,7 @@ dc.Webdav.prototype.getPath = function() {
  * @param {string} path 取得するパス
  * @param {string} charset 文字コード
  * @returns {string} DAVリソース
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.getString = function(path, charset) {
     if (!charset) {
@@ -518,7 +518,7 @@ dc.Webdav.prototype.getString = function(path, charset) {
     try {
         return this.core.getString(path, charset);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -526,13 +526,13 @@ dc.Webdav.prototype.getString = function(path, charset) {
  * DAVリソースをストリームで取得する.
  * @param {string} path 取得するパス
  * @returns {stream} DAVリソース
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.getStream = function(path) {
     try {
         return this.core.getStream(path);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -553,14 +553,14 @@ dc.Webdav.prototype.getStream = function(path) {
  * @param {string} contentType 登録するファイルのメディアタイプ
  * @param {string} data 登録するデータ(文字列形式)
  * @param {string} etag 対象のEtag
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.put = function(param, contentType, data, etag) {
     if (typeof param == 'string') {
         try {
             this.core.put(param, contentType, "UTF-8", data, etag?etag:"*");
         } catch (e) {
-            throw new dc.DcException(e.message);
+            throw new dc.PersoniumException(e.message);
         }
     } else {
         if ((param.path) && (param.contentType) && (param.data)) {
@@ -569,10 +569,10 @@ dc.Webdav.prototype.put = function(param, contentType, data, etag) {
             try {
                 this.core.put(param.path, param.contentType, param.charset, param.data, param.etag);
             } catch (e) {
-                throw new dc.DcException(e.message);
+                throw new dc.PersoniumException(e.message);
             }
         } else {
-            throw new dc.DcException("Parameter Invalid");
+            throw new dc.PersoniumException("Parameter Invalid");
         }
     }
 };
@@ -585,7 +585,7 @@ dc.Webdav.prototype.put = function(param, contentType, data, etag) {
  * ETag省略：<br>
  * 　box().col("col").del("index.html");
  * @param {string} path 削除するパス
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.del = function(path, etag) {
     if (!etag) {
@@ -594,20 +594,20 @@ dc.Webdav.prototype.del = function(path, etag) {
     try {
         this.core.del(path, etag);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * URL文字列を取得する.
  * @returns {string} path 自身のURL文字列
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Webdav.prototype.makeUrlString = function() {
     try {
         return this.core.makeUrlString();
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -622,26 +622,26 @@ dc.LinkManager = function(obj) {
 /**
  * linkを作成.
  * @param {Object} param Link先のオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.LinkManager.prototype.link = function(param) {
     try {
         this.core.link(param.core);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * linkを削除.
  * @param {Object} param Link先のオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.LinkManager.prototype.unLink = function(param) {
     try {
         this.core.unLink(param.core);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -656,26 +656,26 @@ dc.MetadataLinkManager = function(obj) {
 /**
  * linkを作成.
  * @param {Object} param Link先のオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.MetadataLinkManager.prototype.link = function(param) {
     try {
         this.core.link(param.core);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * linkを削除.
  * @param {Object} param Link先のオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.MetadataLinkManager.prototype.unLink = function(param) {
     try {
         this.core.unLink(param.core);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -890,13 +890,13 @@ dc.ODataCollection = function(obj) {
  * box().odata("odata").entitySet("entity");
  * @param {string} name EntitySet名(事前にEntityTypeとして作成されたEntity名を指定)
  * @returns {dc.EntitySet} EntitySetオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ODataCollection.prototype.entitySet = function(name) {
     try {
         return new dc.EntitySet(this.core.entitySet(name));
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -915,14 +915,14 @@ dc.EntitySet.prototype = new dc.OData();
  * 例：box().odata("odata").entitySet("entity").create({"name":"user","age":18});
  * @param {Object} json 登録するJSONデータ
  * @returns {Object} 登録されたJSONデータ
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntitySet.prototype.create = function(json) {
     try {
     	var ret = this.core.createAsJson(dc.util.obj2javaJson(json));
     	return JSON.parse(ret);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -930,14 +930,14 @@ dc.EntitySet.prototype.create = function(json) {
  * ユーザーデータを取得する.
  * @param {string} id 取得対象のID値
  * @returns {Object} 取得したJSONデータ
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntitySet.prototype.retrieve = function(id) {
     try {
     	var ret = this.core.retrieveAsJson(id);
     	return JSON.parse(ret);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -946,13 +946,13 @@ dc.EntitySet.prototype.retrieve = function(id) {
  * @param {string} id 更新対象のID
  * @param {Object} json 更新するJSONデータ
  * @param {string} etag Etag
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntitySet.prototype.update = function(id, json, etag) {
     try {
         this.core.update(id, dc.util.obj2javaJson(json), etag);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -961,13 +961,13 @@ dc.EntitySet.prototype.update = function(id, json, etag) {
  * @param {string} id 部分更新対象のID
  * @param {Object} json 部分更新するJSONデータ
  * @param {string} etag Etag
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntitySet.prototype.merge = function(id, json, etag) {
     try {
         this.core.merge(id, dc.util.obj2javaJson(json), etag);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -977,13 +977,13 @@ dc.EntitySet.prototype.merge = function(id, json, etag) {
  * 例：box().odata("odata").entitySet("entity").key("key").nav("linkEt").create({"name":"user"});
  * @param {string} id keyPredicate
  * @returns {dc.EntitySet} EntitySetオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntitySet.prototype.key = function(id) {
     try {
         return new dc.EntitySet(this.core.key(id));
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -992,13 +992,13 @@ dc.EntitySet.prototype.key = function(id) {
  * 例：box().odata("odata").entitySet("entity").key("key").nav("linkEt").create({"name":"user"});
  * @param {string} id keyPredicate
  * @returns {dc.EntitySet} EntitySetオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntitySet.prototype.nav = function(navProp) {
     try {
         return new dc.EntitySet(this.core.nav(navProp));
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1112,7 +1112,7 @@ dc.BoxManager.prototype = new dc.OData();
  * @param {Object} param Box作成に必要なJSON型オブジェクト
  * 例：cell().ctl.box.create({"name":"boxname", "schema":"box-schema"});
  * @returns {dc.Box} 作成したBoxオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.BoxManager.prototype.create = function(param) {
     try {
@@ -1123,7 +1123,7 @@ dc.BoxManager.prototype.create = function(param) {
         box.acl.core = box.core.acl;
         return box;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1132,7 +1132,7 @@ dc.BoxManager.prototype.create = function(param) {
  * @param {string} name 取得するBoxの名前<br>
  * 例：cell().ctl.box.retrieve("boxname");
  * @returns {dc.Box} 取得したBoxオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.BoxManager.prototype.retrieve = function(name) {
     try {
@@ -1143,7 +1143,7 @@ dc.BoxManager.prototype.retrieve = function(name) {
         box.acl.core = box.core.acl;
         return box;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1163,7 +1163,7 @@ dc.AccountManager.prototype = new dc.OData();
  * @param {Object} user ユーザー名のJSONオブジェクト
  * @param {string} pass パスワード
  * @returns {dc.Account} 作成したAccountオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.AccountManager.prototype.create = function(user, pass) {
     var obj;
@@ -1173,7 +1173,7 @@ dc.AccountManager.prototype.create = function(user, pass) {
         account.name = obj.getName() + "";
         return account;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1182,7 +1182,7 @@ dc.AccountManager.prototype.create = function(user, pass) {
  * 例：account.retrieve("user01");
  * @param {string} user ユーザー名<br>
  * @returns {dc.Account} 作成したAccountオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.AccountManager.prototype.retrieve = function(user) {
     var obj;
@@ -1192,7 +1192,7 @@ dc.AccountManager.prototype.retrieve = function(user) {
         account.name = obj.getName() + "";
         return account;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1201,14 +1201,14 @@ dc.AccountManager.prototype.retrieve = function(user) {
  * 例：account.changePassword("user01", "newPassword");
  * @param {string} user ユーザー名
  * @param {string} pass パスワード
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.AccountManager.prototype.changePassword = function(user, pass) {
     var obj;
     try {
         this.core.changePassword(user, pass);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1223,14 +1223,14 @@ dc.EventManager = function(obj) {
 /**
  * Eventを登録する.
  * @param {Object} param イベントオブジェクト<br>
- * @param {String} requestKey X-Dc-RequestKeyヘッダの値
+ * @param {String} requestKey X-Personium-RequestKeyヘッダの値
  * 呼び出し例：<br>
  *   event.post({"level":"error", 
  *               "action":"actionData", 
  *               "object":"objectData", 
  *               "result":"resultData"},
  *               "RequestKey");
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EventManager.prototype.post = function(param, requestKey) {
     try {
@@ -1240,7 +1240,7 @@ dc.EventManager.prototype.post = function(param, requestKey) {
             this.core.post(dc.util.obj2javaJson(param), requestKey);
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1255,10 +1255,10 @@ dc.CurrentLogManager = function(obj){
 /**
  * ログをString形式で取得する.
  * @param {String} filename 取得するログファイル名
- * @param {String} requestKey X-Dc-RequestKeyヘッダの値
+ * @param {String} requestKey X-Personium-RequestKeyヘッダの値
  * 呼び出し例：<br>
  *   currentLog.getString("default.log", "RequestKey");
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.CurrentLogManager.prototype.getString = function(filename, requestKey) {
     try {
@@ -1268,17 +1268,17 @@ dc.CurrentLogManager.prototype.getString = function(filename, requestKey) {
             return this.core.getString(filename, requestKey);
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * ログをStream形式で取得する.
  * @param {String} filename 取得するログファイル名
- * @param {String} requestKey X-Dc-RequestKeyヘッダの値
+ * @param {String} requestKey X-Personium-RequestKeyヘッダの値
  * 呼び出し例：<br>
  *   currentLog.getStream("default.log", "RequestKey");
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.CurrentLogManager.prototype.getStream = function(filename, requestKey) {
     try {
@@ -1288,7 +1288,7 @@ dc.CurrentLogManager.prototype.getStream = function(filename, requestKey) {
         	return this.core.getStream(filename, requestKey);
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 /**
@@ -1302,10 +1302,10 @@ dc.ArchiveLogManager = function(obj){
 /**
  * ローテートされたログをString形式で取得する.
  * @param {String} filename 取得するログファイル名
- * @param {String} requestKey X-Dc-RequestKeyヘッダの値
+ * @param {String} requestKey X-Personium-RequestKeyヘッダの値
  * 呼び出し例：<br>
  *   archiveLog.getString("default.log", "RequestKey");
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ArchiveLogManager.prototype.getString = function(filename, requestKey) {
     try {
@@ -1315,17 +1315,17 @@ dc.ArchiveLogManager.prototype.getString = function(filename, requestKey) {
         	return this.core.getString(filename, requestKey);
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
 /**
  * ローテートされたログをStream形式で取得する.
  * @param {String} filename 取得するログファイル名
- * @param {String} requestKey X-Dc-RequestKeyヘッダの値
+ * @param {String} requestKey X-Personium-RequestKeyヘッダの値
  * 呼び出し例：<br>
  *   archiveLog.getStream("default.log", "RequestKey");
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ArchiveLogManager.prototype.getStream = function(filename, requestKey) {
     try {
@@ -1335,7 +1335,7 @@ dc.ArchiveLogManager.prototype.getStream = function(filename, requestKey) {
         	return this.core.getStream(filename, requestKey);
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1354,7 +1354,7 @@ dc.RelationManager.prototype = new dc.OData();
  * 例：cell().ctl.relation.create({"name":"relation","_box.name":"boxName"});
  * @param {Object} param Relation作成に必要なJSON型オブジェクト
  * @returns {dc.Relation} 作成したRelationオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.RelationManager.prototype.create = function(param) {
     try {
@@ -1364,7 +1364,7 @@ dc.RelationManager.prototype.create = function(param) {
         relation.boxName = obj.getBoxName() + "";
         return relation;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1374,7 +1374,7 @@ dc.RelationManager.prototype.create = function(param) {
  * 例：cell().ctl.relation.retrieve({"name":"relation","_box.name":"boxName"});
  * @param {string} param {"name":"xxx", "_box.name":"xx"} というJSONを指定
  * @returns {dc.Relation} 作成したRelationオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.RelationManager.prototype.retrieve = function(param) {
     var obj;
@@ -1392,7 +1392,7 @@ dc.RelationManager.prototype.retrieve = function(param) {
         relation.boxName = obj.getBoxName() + "";
         return relation;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1400,7 +1400,7 @@ dc.RelationManager.prototype.retrieve = function(param) {
  * Relationデータを削除<br>
  * 例：cell().ctl.relation.retrieve({"name":"relation","_box.name":"boxName"});
  * @param {string} param {"name":"xxx", "_box.name":"xx"} というJSONを指定
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.RelationManager.prototype.del = function(param) {
     var name = param["Name"];
@@ -1413,7 +1413,7 @@ dc.RelationManager.prototype.del = function(param) {
             this.core.del(name, boxName);
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1432,7 +1432,7 @@ dc.RoleManager.prototype = new dc.OData();
  * 例：cell().ctl.relation.create({"name":"role","_box.name":"boxName"});
  * @param {Object} param Role作成に必要なJSON型オブジェクト
  * @returns {dc.Role} 作成したRoleオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.RoleManager.prototype.create = function(param) {
     try {
@@ -1442,7 +1442,7 @@ dc.RoleManager.prototype.create = function(param) {
         role.boxName = obj.getBoxName() + "";
         return role;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1452,7 +1452,7 @@ dc.RoleManager.prototype.create = function(param) {
  * cell().ctl.relation.retrieve({"name":"role","_box.name":"boxName"});<br>
  * @param {string} param {"name":"xxx", "_box.name":"xx"} というJSONを指定
  * @returns {dc.Role} 作成したRoleオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.RoleManager.prototype.retrieve = function(param) {
     var obj;
@@ -1470,7 +1470,7 @@ dc.RoleManager.prototype.retrieve = function(param) {
         role.boxName = obj.getBoxName() + "";
         return role;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1479,7 +1479,7 @@ dc.RoleManager.prototype.retrieve = function(param) {
  * 例：<br>
  * cell().ctl.relation.del({"name":"role","_box.name":"boxName"});<br>
  * @param {string} param {"name":"xxx", "_box.name":"xx"} というJSONを指定
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.RoleManager.prototype.del = function(param) {
     var name = param["Name"];
@@ -1492,7 +1492,7 @@ dc.RoleManager.prototype.del = function(param) {
             this.core.del(name, boxName);
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1510,7 +1510,7 @@ dc.ExtRoleManager.prototype = new dc.OData();
  * ExtRoleを登録する.
  * @param {Object} param ExtRole作成に必要なJSON型オブジェクト
  * @returns {dc.ExtRole} 作成したExtRoleオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ExtRoleManager.prototype.create = function(param) {
     try {
@@ -1521,7 +1521,7 @@ dc.ExtRoleManager.prototype.create = function(param) {
         extRole.relationBoxName = obj.getRelationBoxName() + "";
         return extRole;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1531,7 +1531,7 @@ dc.ExtRoleManager.prototype.create = function(param) {
  * cell().ctl.extRole.retrieve({"ExtRole":"http://extrole/jp","_Relation.Name":"relation","_Relation._Box.Name":"boxName"});<br>
  * @param {string} param {"ExtRole":"http://extrole/jp","_Relation.Name":"relation","_Relation._Box.Name":"boxName"} というJSONを指定
  * @returns {dc.ExtRole} 作成したExtRoleオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ExtRoleManager.prototype.retrieve = function(param) {
     var obj;
@@ -1551,7 +1551,7 @@ dc.ExtRoleManager.prototype.retrieve = function(param) {
         extRole.relationBoxName = obj.getRelationBoxName() + "";
         return extRole;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1560,7 +1560,7 @@ dc.ExtRoleManager.prototype.retrieve = function(param) {
  * 例：<br>
  * cell().ctl.extRole.del({"ExtRole":"http://extrole/jp","_Relation.Name":"relation","_Relation._Box.Name":"boxName"});<br>
  * @param {string} param {"ExtRole":"http://extrole/jp","_Relation.Name":"relation","_Relation._Box.Name":"boxName"} というJSONを指定
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ExtRoleManager.prototype.del = function(param) {
     var name = param["ExtRole"];
@@ -1578,7 +1578,7 @@ dc.ExtRoleManager.prototype.del = function(param) {
             }
         }
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1596,7 +1596,7 @@ dc.ExtCellManager.prototype = new dc.OData();
  * ExtCellを登録する.
  * @param {Object} param ExtCell作成に必要なJSON型オブジェクト
  * @returns {dc.ExtCell} 作成したExtCellオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ExtCellManager.prototype.create = function(param) {
     try {
@@ -1605,7 +1605,7 @@ dc.ExtCellManager.prototype.create = function(param) {
         extcell.url = obj.getUrl() + "";
         return extcell;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1613,7 +1613,7 @@ dc.ExtCellManager.prototype.create = function(param) {
  * ExtCellを取得する.
  * @param {string} url ExtCell取得に必要なurl
  * @returns {dc.ExtCell} 取得したExtCellオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ExtCellManager.prototype.retrieve = function(url) {
     try {
@@ -1622,7 +1622,7 @@ dc.ExtCellManager.prototype.retrieve = function(url) {
         extCell.url = obj.getUrl() + "";
         return extCell;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1660,7 +1660,7 @@ dc.CellManager.prototype = new dc.OData();
  * Cellを登録する.
  * @param {Object} param Cell作成に必要なJSON型オブジェクト
  * @returns {dc.Cell} 作成したCellオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.CellManager.prototype.create = function(param) {
     try {
@@ -1669,7 +1669,7 @@ dc.CellManager.prototype.create = function(param) {
         cell.name = obj.getName() + "";
         return cell;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1678,13 +1678,13 @@ dc.CellManager.prototype.create = function(param) {
  * @param {String} id 更新対象のCell ID
  * @param {Object} json Cell更新に必要なJSON型オブジェクト
  * @param {String} etag Etag情報
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.CellManager.prototype.update = function(id, json, etag) {
     try {
         this.internalUpdate(id, json, etag);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1692,7 +1692,7 @@ dc.CellManager.prototype.update = function(id, json, etag) {
  * Cellを取得する.
  * @param {string} id Cell取得に必要なid
  * @returns {dc.Cell} 取得したCellオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.CellManager.prototype.retrieve = function(id) {
     try {
@@ -1701,7 +1701,7 @@ dc.CellManager.prototype.retrieve = function(id) {
         cell.name = obj.getName() + "";
         return cell;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1719,7 +1719,7 @@ dc.EntityTypeManager.prototype = new dc.OData();
  * EntityTypeManagerを登録する.
  * @param {Object} param EntityType作成に必要なJSON型オブジェクト
  * @returns {dc.EntityType} 作成したEntityTypeオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntityTypeManager.prototype.create = function(param) {
     try {
@@ -1728,7 +1728,7 @@ dc.EntityTypeManager.prototype.create = function(param) {
         entityType.name = obj.getName() + "";
         return entityType;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1736,7 +1736,7 @@ dc.EntityTypeManager.prototype.create = function(param) {
  * EntityTypeManagerを取得する.
  * @param {string} name 取得するEntityTypeの名前
  * @returns {dc.EntityType} 取得したEntityTypeオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.EntityTypeManager.prototype.retrieve = function(param) {
     try {
@@ -1745,7 +1745,7 @@ dc.EntityTypeManager.prototype.retrieve = function(param) {
         entityType.name = obj.getName() + "";
         return entityType;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1766,7 +1766,7 @@ dc.AssociationEndManager.prototype = new dc.OData();
  * 　odata("odata").entitySet("entity").schema.associationEnd.create({"Name":"name", "_EntityType.Name":"entity"});
  * @param {Object} param AssociationEnd作成に必要なJSON型オブジェクト
  * @returns {dc.AssociationEnd} 作成したAssociationEndオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.AssociationEndManager.prototype.create = function(param) {
     try {
@@ -1777,7 +1777,7 @@ dc.AssociationEndManager.prototype.create = function(param) {
         AssociationEnd.multiplicity = obj.getMultiplicity() + "";
         return AssociationEnd;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1788,7 +1788,7 @@ dc.AssociationEndManager.prototype.create = function(param) {
  * @param {Object} 取得対象のキー
  * @param {string} entity 取得対象のEntityType.Name値
  * @returns {dc.AssociationEnd} 取得したAssociationEndオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.AssociationEndManager.prototype.retrieve = function(key) {
     var name = key["Name"];
@@ -1801,7 +1801,7 @@ dc.AssociationEndManager.prototype.retrieve = function(key) {
         AssociationEnd.multiplicity = obj.getMultiplicity() + "";
         return AssociationEnd;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1812,7 +1812,7 @@ dc.AssociationEndManager.prototype.retrieve = function(key) {
  * @param {Object} key 削除対象のキー
  * @param {string} entity 削除対象のEntityType.Name値
  * @returns {dc.AssociationEnd} 取得したAssociationEndオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.AssociationEndManager.prototype.del = function(key) {
     var name = key["Name"];
@@ -1820,7 +1820,7 @@ dc.AssociationEndManager.prototype.del = function(key) {
     try {
         this.core.del(name, entityTypeName);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1840,7 +1840,7 @@ dc.ComplexTypeManager.prototype = new dc.OData();
  * 　odata("odata").entitySet("entity").schema.complexType.create({"Name":"name"});
  * @param {Object} param ComplexType作成に必要なJSON型オブジェクト
  * @returns {dc.ComplexType} 作成したComplexTypeオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ComplexTypeManager.prototype.create = function(param) {
     try {
@@ -1849,7 +1849,7 @@ dc.ComplexTypeManager.prototype.create = function(param) {
         ComplexType.name = obj.getName() + "";
         return ComplexType;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1860,7 +1860,7 @@ dc.ComplexTypeManager.prototype.create = function(param) {
  * @param {Object} 取得対象のキー
  * @param {string} entity 取得対象のEntityType.Name値
  * @returns {dc.ComplexType} 取得したComplexTypeオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ComplexTypeManager.prototype.retrieve = function(key) {
     var name = key["Name"];
@@ -1870,7 +1870,7 @@ dc.ComplexTypeManager.prototype.retrieve = function(key) {
         ComplexType.name = obj.getName() + "";
         return ComplexType;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1881,14 +1881,14 @@ dc.ComplexTypeManager.prototype.retrieve = function(key) {
  * @param {Object} key 削除対象のキー
  * @param {string} entity 削除対象のComplexType.Name値
  * @returns {dc.ComplexType} 取得したComplexTypeオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ComplexTypeManager.prototype.del = function(key) {
     var name = key["Name"];
     try {
         this.core.del(name);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1909,7 +1909,7 @@ dc.PropertyManager.prototype = new dc.OData();
  * "_EntityType.Name": "Profile","Type": "Edm.String"});
  * @param {Object} param Property作成に必要なJSON型オブジェクト
  * @returns {dc.Property} 作成したPropertyオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.PropertyManager.prototype.create = function(param) {
     try {
@@ -1929,7 +1929,7 @@ dc.PropertyManager.prototype.create = function(param) {
         Property.uniqueKey = obj.getUniqueKey() + "";
         return Property;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1939,7 +1939,7 @@ dc.PropertyManager.prototype.create = function(param) {
  * 　odata("odata").entitySet("entity").schema.property.retrieve({"Name":"name","_EntityType.Name": "Profile"});
  * @param {Object} 取得対象のキー
  * @returns {dc.Property} 取得したPropertyオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.PropertyManager.prototype.retrieve = function(key) {
     var name = key["Name"];
@@ -1961,7 +1961,7 @@ dc.PropertyManager.prototype.retrieve = function(key) {
         Property.uniqueKey = obj.getUniqueKey() + "";
         return Property;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1970,7 +1970,7 @@ dc.PropertyManager.prototype.retrieve = function(key) {
  * 例：<br>
  * 　odata("odata").entitySet("entity").schema.property.del({"Name":"name","_EntityType.Name": "Profile"});
  * @param {Object} key 削除対象のキー
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.PropertyManager.prototype.del = function(key) {
     var name = key["Name"];
@@ -1978,7 +1978,7 @@ dc.PropertyManager.prototype.del = function(key) {
     try {
         this.core.del(name, entityTypeName);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -1999,7 +1999,7 @@ dc.ComplexTypePropertyManager.prototype = new dc.OData();
  * "_ComplexType.Name": "Profile","Type": "Edm.String"});
  * @param {Object} param ComplexTypeProperty作成に必要なJSON型オブジェクト
  * @returns {dc.ComplexTypeProperty} 作成したComplexTypePropertyオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ComplexTypePropertyManager.prototype.create = function(param) {
     try {
@@ -2017,7 +2017,7 @@ dc.ComplexTypePropertyManager.prototype.create = function(param) {
         Property.collectionKind = obj.getCollectionKind() + "";
         return Property;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -2027,7 +2027,7 @@ dc.ComplexTypePropertyManager.prototype.create = function(param) {
  * 　odata("odata").entitySet("entity").schema.complexTypeProperty.retrieve({"Name":"name","_ComplexType.Name": "Profile"});
  * @param {Object} 取得対象のキー
  * @returns {dc.ComplexTypeProperty} 取得したComplexTypePropertyオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ComplexTypePropertyManager.prototype.retrieve = function(key) {
     var name = key["Name"];
@@ -2047,7 +2047,7 @@ dc.ComplexTypePropertyManager.prototype.retrieve = function(key) {
         Property.collectionKind = obj.getCollectionKind() + "";
         return Property;
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -2056,7 +2056,7 @@ dc.ComplexTypePropertyManager.prototype.retrieve = function(key) {
  * 例：<br>
  * 　odata("odata").entitySet("entity").schema.complexTypeProperty.del({"Name":"name","_ComplexType.Name": "Profile"});
  * @param {Object} key 削除対象のキー
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.ComplexTypePropertyManager.prototype.del = function(key) {
     var name = key["Name"];
@@ -2064,7 +2064,7 @@ dc.ComplexTypePropertyManager.prototype.del = function(key) {
     try {
         this.core.del(name, complexTypeName);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -2219,14 +2219,14 @@ dc.Query.prototype.q = function(value) {
  * 例：<br>
  * 　odata("odata").entitySet("entity").query().run();
  * @returns {Object} 検索結果JSONオブジェクト
- * @exception {dc.DcException} DAO例外
+ * @exception {dc.PersoniumException} DAO例外
  */
 dc.Query.prototype.run = function() {
     try {
     	var ret = this.core.run();
     	return JSON.parse(ret);
     } catch (e) {
-        throw new dc.DcException(e.message);
+        throw new dc.PersoniumException(e.message);
     }
 };
 
@@ -2237,17 +2237,17 @@ dc.Query.prototype.run = function() {
  * @property {string} message メッセージ
  * @property {string} code コード
  * @property {string} name 名前
- * @returns {dc.DcException} 例外オブジェクト
+ * @returns {dc.PersoniumException} 例外オブジェクト
  */
-dc.DcException = function(msg) {
+dc.PersoniumException = function(msg) {
     // JavaDAOからは、ステータスコードとレスポンスボディがカンマ区切りで通知される
     // よって、最初のカンマまでをステータスコードと判断し、それ以降をExceptionメッセージとする
     // また、以下のように、かならず、Javaのパッケージ名が先頭に含まれる
-    // io.personium.client.DaoException: 409,{"code":"PR409-OD-0003","message":{"lang":"en","value":"The entity already exists."}}
+    // io.dc.client.DaoException: 409,{"code":"PR409-OD-0003","message":{"lang":"en","value":"The entity already exists."}}
     msg = msg.substring(msg.indexOf(" ")+1);
     this.message = msg;
     this.code = 0;
-    this.name = "dc.DcException";
+    this.name = "dc.PersoniumException";
     var ar = msg.split(",");
     if (ar.length > 1) {
         this.code = parseInt(ar[0]);
@@ -2257,4 +2257,4 @@ dc.DcException = function(msg) {
         this.message = ar.slice(1).join();
     }
 };
-dc.DcException.prototype = new Error();
+dc.PersoniumException.prototype = new Error();
