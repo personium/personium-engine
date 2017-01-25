@@ -24,7 +24,7 @@
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>com.fujitsu.dc.engine.DcEngineApplication</param-value>
+			<param-value>io.personium.engine.DcEngineApplication</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

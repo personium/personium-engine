@@ -34,7 +34,7 @@
         </encoder>
     </appender>
 
-    <logger  name="com.fujitsu.dc">
+    <logger  name="io.personium">
         <level value="DEBUG" />
         <appender-ref ref="file" />
         <appender-ref ref="stdout" />

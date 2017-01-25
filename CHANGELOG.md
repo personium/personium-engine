@@ -241,7 +241,7 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
-  - core *[DcEngineSvcCollectionResource.java]*, engine *[DcResponse.java]*: 
+  - core *[DcEngineSvcCollectionResource.java]*, engine *[PersoniumResponse.java]*: 
     Status code 500 was returned when "Transfer-Encoding: chuncked" header was given on engine response. Fixed.
 
   - core *[AccessContext.java, DcCoreAuthzException.java, etc.]*:

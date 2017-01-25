@@ -43,22 +43,22 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-client-java</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
-            <artifactId>personium-lib-es-adaptor</artifactId>
-            <version>1.4.1</version>
+            <artifactId>personium-lib-es-adapter</artifactId>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-ex-base</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
