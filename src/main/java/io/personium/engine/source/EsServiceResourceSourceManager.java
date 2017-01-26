@@ -36,7 +36,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import io.personium.common.es.EsType;
-import io.personium.common.es.response.DcGetResponse;
+import io.personium.common.es.response.PersoniumGetResponse;
 import io.personium.core.model.file.BinaryDataAccessException;
 import io.personium.core.model.file.BinaryDataAccessor;
 import io.personium.engine.PersoniumEngineException;
@@ -105,7 +105,7 @@ public class EsServiceResourceSourceManager implements ISourceManager {
         }
 
         // サービスコレクションを取得
-        DcGetResponse getResp = this.typ.get(this.id);
+        PersoniumGetResponse getResp = this.typ.get(this.id);
         if (!getResp.isExists()) {
             log.info("Service Collection id not found to ElasticSearch (" + this.id + ")");
             throw new PersoniumEngineException("404 Not Found (Service Collection invalid) ",
@@ -169,7 +169,7 @@ public class EsServiceResourceSourceManager implements ISourceManager {
             log.info("Service Source not found (" + sourceName + ")");
             throw new PersoniumEngineException("404 Not Found", PersoniumEngineException.STATUSCODE_NOTFOUND);
         }
-        DcGetResponse getResp = this.typ.get(sourceNodeId);
+        PersoniumGetResponse getResp = this.typ.get(sourceNodeId);
         if (!getResp.isExists()) {
             log.info("Service Source not found (" + sourceName + ")");
             throw new PersoniumEngineException("404 Not Found", PersoniumEngineException.STATUSCODE_NOTFOUND);
