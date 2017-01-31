@@ -21,12 +21,12 @@ function(request){
 	var res = "";
 	try{
 	    var stream = request['input'].stream();
-	    dc.as("client").cell().box().put({path:"test.txt",contentType:"text/plain",data:stream,etag:"*"});
-	    res = dc.as("client").cell().box().getStream("test.txt");
+	    _p.as("client").cell().box().put({path:"test.txt",contentType:"text/plain",data:stream,etag:"*"});
+	    res = _p.as("client").cell().box().getStream("test.txt");
 	} catch (e){
 		res = "NG";
 	} finally {
-	    dc.as("client").cell().box().del("test.txt")
+	    _p.as("client").cell().box().del("test.txt")
 	}
 	return {
 	    status: 200,

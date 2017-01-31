@@ -22,7 +22,7 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var collectionName1 = "col1";
@@ -33,14 +33,14 @@ function(request){
     try {
         // まずはテストの準備
         // コレクション作成
-        dc.as("client").cell(cellName).box("boxname").mkCol(collectionName1);
-        var col = dc.as("client").cell(cellName).box("boxname").col(collectionName1);
+        _p.as("client").cell(cellName).box("boxname").mkCol(collectionName1);
+        var col = _p.as("client").cell(cellName).box("boxname").col(collectionName1);
 
         // ロール作成
-        role = dc.as("client").cell(cellName).ctl.role.create(roleData);
+        role = _p.as("client").cell(cellName).ctl.role.create(roleData);
     	
     	// engineアカウントにロール結びつけ設定
-        account = dc.as("client").cell(cellName).ctl.account.retrieve("engine");
+        account = _p.as("client").cell(cellName).ctl.account.retrieve("engine");
     	role.account.link(account);
 
     	// boxにACL設定
@@ -49,7 +49,7 @@ function(request){
         // テスト準備完了
 
         // コレクション作成(サービスサブジェクトが使えることの確認)
-        dc.as("serviceSubject").cell(cellName).box("boxname").col(collectionName1).mkCol(collectionName2);
+        _p.as("serviceSubject").cell(cellName).box("boxname").col(collectionName1).mkCol(collectionName2);
  
         // レスポンスを返却
         return util.response().responseBody("OK").build();
@@ -60,11 +60,11 @@ function(request){
         // 後処理
     	// 作成したコレクションを削除する
         try{
-        	dc.as("client").cell(cellName).box("boxname").col(collectionName1).del(collectionName2);
+        	_p.as("client").cell(cellName).box("boxname").col(collectionName1).del(collectionName2);
         } catch (e) {
         }
         try{
-        	dc.as("client").cell(cellName).box("boxname").del(collectionName1);
+        	_p.as("client").cell(cellName).box("boxname").del(collectionName1);
         } catch (e) {
         }
         try{
@@ -74,7 +74,7 @@ function(request){
         }
         try{
             // ロール削除
-            dc.as("client").cell(cellName).ctl.role.del(roleData);
+            _p.as("client").cell(cellName).ctl.role.del(roleData);
         } catch (e) {
         }
     }

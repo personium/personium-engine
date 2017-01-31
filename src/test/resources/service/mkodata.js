@@ -22,17 +22,17 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var collectionName = "odatacol";
     try {
         // コレクション作成
-        var account = dc.as("client").cell(cellName).box("boxname").mkOData(collectionName);
+        var account = _p.as("client").cell(cellName).box("boxname").mkOData(collectionName);
         
         // 同じ名前のコレクションを登録し、409になることを確認
         try {
-            dc.as("client").cell(cellName).box("boxname").mkOData(collectionName);
+            _p.as("client").cell(cellName).box("boxname").mkOData(collectionName);
         } catch (e1) {
             if (e1.code != 405) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -40,7 +40,7 @@ function(request){
         }
         
         // 作成したコレクションを削除する
-        dc.as("client").cell(cellName).box("boxname").del(collectionName);
+        _p.as("client").cell(cellName).box("boxname").del(collectionName);
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();

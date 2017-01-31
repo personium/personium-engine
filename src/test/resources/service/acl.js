@@ -22,16 +22,16 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
     
     try {
         // ボックス作成
-        var box = dc.as("client").cell(cellName).ctl.box.create({Name:"acltest", Schema:null});
+        var box = _p.as("client").cell(cellName).ctl.box.create({Name:"acltest", Schema:null});
         
      // Role作成
-        var role1 = dc.as("client").cell(cellName).ctl.role.create({Name:"role1"});
-        var role2 = dc.as("client").cell(cellName).ctl.role.create({Name:"role2"});
+        var role1 = _p.as("client").cell(cellName).ctl.role.create({Name:"role1"});
+        var role2 = _p.as("client").cell(cellName).ctl.role.create({Name:"role2"});
 
         var aclData = {"requireSchemaAuthz":"public","ace":[{"role":role1,"privilege":["read","write"]},{"role":role2,"privilege":["read","read-acl"]}]};
         var cellAclData = {"ace":[{"role":role1,"privilege":["auth-read","auth"]},{"role":role2,"privilege":["acl","acl-read"]}]};
@@ -40,13 +40,13 @@ function(request){
         box.acl.set(aclData);
 
         // セルにACL設定
-        dc.as("client").cell(cellName).acl.set(cellAclData);
+        _p.as("client").cell(cellName).acl.set(cellAclData);
         
         // ボックスのACL取得
         var resBoxAcl = box.acl.get();
 
         // セルのACL取得
-        var resCellAcl = dc.as("client").cell(cellName).acl.get();
+        var resCellAcl = _p.as("client").cell(cellName).acl.get();
 
         var requireSchemaAuthz1 = resBoxAcl["requireSchemaAuthz"];
         var requireSchemaAuthz2 = resCellAcl["requireSchemaAuthz"];
@@ -64,11 +64,11 @@ function(request){
 //        box.del("col");
 
         // Role削除
-        dc.as("client").cell(cellName).ctl.role.del({Name:"role1"});
-        dc.as("client").cell(cellName).ctl.role.del({Name:"role2"});
+        _p.as("client").cell(cellName).ctl.role.del({Name:"role1"});
+        _p.as("client").cell(cellName).ctl.role.del({Name:"role2"});
         
         // ボックス削除
-        dc.as("client").cell(cellName).ctl.box.del("acltest");
+        _p.as("client").cell(cellName).ctl.box.del("acltest");
         
         // assertionエラー（後処理を流したいのでこのタイミングでチェック）
         if (requireSchemaAuthz1 != "public"){

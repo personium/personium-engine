@@ -22,17 +22,17 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var data = {Name:"relation"};
     try {
         // Relation作成
-        var relation = dc.as("client").cell(cellName).ctl.relation.create(data);
+        var relation = _p.as("client").cell(cellName).ctl.relation.create(data);
 
         // 同じ名前のRelationを登録し、409になることを確認
         try {
-        	dc.as("client").cell(cellName).ctl.relation.create(data);
+        	_p.as("client").cell(cellName).ctl.relation.create(data);
         } catch (e1) {
             if (e1.code != 409) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -40,10 +40,10 @@ function(request){
         }
 
         // 作成したRelationを取得
-        relation = dc.as("client").cell(cellName).ctl.relation.retrieve({Name:"relation"});
+        relation = _p.as("client").cell(cellName).ctl.relation.retrieve({Name:"relation"});
 
         // 作成したRelationを削除する
-        dc.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();

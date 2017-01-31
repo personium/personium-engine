@@ -22,22 +22,22 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     try {
         // Relation作成
         var relationData = {Name:"relation"};
-        var relation = dc.as("client").cell(cellName).ctl.relation.create(relationData);
+        var relation = _p.as("client").cell(cellName).ctl.relation.create(relationData);
 
         // Role作成
         var roleData = {Name:"role"};
-        var role = dc.as("client").cell(cellName).ctl.role.create(roleData);
+        var role = _p.as("client").cell(cellName).ctl.role.create(roleData);
 
         // ExtRole作成
-        var strUrl = dc.as("client").cell(cellName + "1").getUrl();
+        var strUrl = _p.as("client").cell(cellName + "1").getUrl();
         var extRoleData = {ExtRole:strUrl,"_Relation.Name":"relation"};
-        var extrole = dc.as("client").cell(cellName).ctl.extRole.create(extRoleData);
+        var extrole = _p.as("client").cell(cellName).ctl.extRole.create(extRoleData);
         // ExtRole リンク
         extrole.role.link(role);
         // ExtRole リンク (409)
@@ -60,12 +60,12 @@ function(request){
         }
         
         // 作成したExtRoleを削除する
-        dc.as("client").cell(cellName).ctl.extRole.del(extRoleData);
+        _p.as("client").cell(cellName).ctl.extRole.del(extRoleData);
 
         // 作成したRoleを削除する
-        dc.as("client").cell(cellName).ctl.role.del({Name:"role"});
+        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
         // 作成したRelationを削除する
-        dc.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();

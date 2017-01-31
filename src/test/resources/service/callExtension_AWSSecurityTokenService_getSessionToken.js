@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 function (request) {
-  var extension = new dc.extension.AWSSecurityTokenService();
+  var extension = new _p.extension.AWSSecurityTokenService();
 
   var input = JSON.parse(request["input"].readAll());
   

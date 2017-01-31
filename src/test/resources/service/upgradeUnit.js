@@ -21,7 +21,7 @@ function(request){
     // 共通モジュール読み込み
     var util = require("testCommon");
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
@@ -29,10 +29,10 @@ function(request){
     try {
         
         // ownerRepresentativeAccountsのセット
-        dc.as("client").cell(cellName).setOwnerRepresentativeAccounts("user001");
+        _p.as("client").cell(cellName).setOwnerRepresentativeAccounts("user001");
 
-        dc.as(json).asCellOwner().unit.ctl.cell.create({Name:cellName + "unitTest"});
-        dc.as(json).asCellOwner().cell().ctl.box.create({Name:"boxtest", Schema:null});
+        _p.as(json).asCellOwner().unit.ctl.cell.create({Name:cellName + "unitTest"});
+        _p.as(json).asCellOwner().cell().ctl.box.create({Name:"boxtest", Schema:null});
 
         // レスポンスを返却
         return util.response().responseBody("OK").build();
@@ -40,7 +40,7 @@ function(request){
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        dc.as(json).asCellOwner().cell().ctl.box.del("boxtest");
-        dc.as(json).asCellOwner().unit.ctl.cell.del(cellName + "unitTest");
+        _p.as(json).asCellOwner().cell().ctl.box.del("boxtest");
+        _p.as(json).asCellOwner().unit.ctl.cell.del(cellName + "unitTest");
     }
 }

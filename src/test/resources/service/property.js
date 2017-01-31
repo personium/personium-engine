@@ -22,7 +22,7 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
     
     var propertyName = "propertyName";
@@ -39,7 +39,7 @@ function(request){
 
     try {
         // ODataコレクション作成
-        var box = dc.as("client").cell(cellName).box("boxname");
+        var box = _p.as("client").cell(cellName).box("boxname");
         box.mkOData("col");
 
         //EntityTypの作成

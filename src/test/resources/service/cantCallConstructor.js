@@ -24,7 +24,7 @@ function(request){
     var code = 500;
     var message = "NG";
     try {
-        new io.personium.engine.wrapper.DcInputStream(request['input'].stream());
+        new io.personium.engine.wrapper._pInputStream(request['input'].stream());
     } catch (e) {
     	if (e.message !== "not found") {
         	code = e.code;
@@ -33,7 +33,7 @@ function(request){
     	}
     }
     try {
-    	new io.personium.engine.wrapper.DcJSONObject();
+    	new io.personium.engine.wrapper._pJSONObject();
     } catch (e) {
     	if (e.message !== "not found") {
         	code = e.code;
@@ -42,7 +42,7 @@ function(request){
     	}
     }
     try {
-    	new io.personium.engine.adapter.DcRequestBodyStream(request['input'].stream());
+    	new io.personium.engine.adapter._pRequestBodyStream(request['input'].stream());
     } catch (e) {
     	if (e.message !== "not found") {
         	code = e.code;

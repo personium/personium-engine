@@ -22,22 +22,22 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var data = {};
     
     try {
         // 対象Cellのオブジェクト取得
-        var cell2 = dc.as("client").cell(cellName + "1");
+        var cell2 = _p.as("client").cell(cellName + "1");
         data["Url"] = cell2.getUrl();
         
         // ExtCell作成
-        var extcell = dc.as("client").cell(cellName).ctl.extCell.create(data);
+        var extcell = _p.as("client").cell(cellName).ctl.extCell.create(data);
 
         // 同じ名前のExtCellを登録し、409になることを確認
         try {
-        	dc.as("client").cell(cellName).ctl.extCell.create(data);
+        	_p.as("client").cell(cellName).ctl.extCell.create(data);
         } catch (e1) {
             if (e1.code != 409) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -46,10 +46,10 @@ function(request){
         // ExtCellManager.prototype.retrieve 01
 
         // 作成したExtCellを取得
-        role = dc.as("client").cell(cellName).ctl.extCell.retrieve(extcell.url);
+        role = _p.as("client").cell(cellName).ctl.extCell.retrieve(extcell.url);
 
         // 作成したExtCellを削除する
-        dc.as("client").cell(cellName).ctl.extCell.del(extcell.url);
+        _p.as("client").cell(cellName).ctl.extCell.del(extcell.url);
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();

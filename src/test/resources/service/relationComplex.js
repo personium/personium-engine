@@ -22,19 +22,19 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var data = {Name:"relation","_Box.Name":"boxName"};
     try {
         // Box作成
-        dc.as("client").cell(cellName).ctl.box.create({Name:"boxName", Schema:null});
+        _p.as("client").cell(cellName).ctl.box.create({Name:"boxName", Schema:null});
         // Relation作成
-        var relation = dc.as("client").cell(cellName).ctl.relation.create(data);
+        var relation = _p.as("client").cell(cellName).ctl.relation.create(data);
 
         // 同じ名前のRelationを登録し、409になることを確認
         try {
-        	dc.as("client").cell(cellName).ctl.relation.create(data);
+        	_p.as("client").cell(cellName).ctl.relation.create(data);
         } catch (e1) {
             if (e1.code != 409) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -42,13 +42,13 @@ function(request){
         }
 
         // 作成したRelationを取得
-        relation = dc.as("client").cell(cellName).ctl.relation.retrieve(data);
+        relation = _p.as("client").cell(cellName).ctl.relation.retrieve(data);
 
         // 作成したRelationを削除する
-        dc.as("client").cell(cellName).ctl.relation.del(data);
+        _p.as("client").cell(cellName).ctl.relation.del(data);
         
         // Box削除
-        dc.as("client").cell(cellName).ctl.box.del("boxName");
+        _p.as("client").cell(cellName).ctl.box.del("boxName");
         // レスポンスを返却
         return util.response().responseBody("OK").build();
         

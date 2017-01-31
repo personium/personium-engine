@@ -19,7 +19,7 @@
 */
 function (request) {
 
-    var extension = new dc.extension.TestExtension();
+    var extension = new _p.extension.TestExtension();
     try {
         var result = extension.abort("I'm a teapot.");
         return {

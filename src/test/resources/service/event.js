@@ -22,7 +22,7 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     // テスト用データ作成
@@ -30,7 +30,7 @@ function(request){
 
     try {
         // イベント登録
-        dc.as("client").cell(cellName).box().ctl.event.post(event);
+        _p.as("client").cell(cellName).box().ctl.event.post(event);
 
         // レスポンスを返却
         return util.response().responseBody("OK").build();

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 function(request){
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
 
     var out = [];
     for (key in query) {

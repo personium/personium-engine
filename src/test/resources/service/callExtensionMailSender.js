@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 function (request) {
-  var extension = new dc.extension.MailSender();
+  var extension = new _p.extension.MailSender();
   try {
     var requestBody = request["input"].readAll();
     extension.send(JSON.parse(requestBody));

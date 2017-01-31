@@ -22,7 +22,7 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     // テスト用データ作成
@@ -30,25 +30,25 @@ function(request){
 
     try {
         // イベント受付
-        dc.as("client").cell(cellName).event.post(event, "DaoTest");
+        _p.as("client").cell(cellName).event.post(event, "DaoTest");
 
         // --- ログ取得(X-Personium-RequestKeyなし)_String ---
         // ログ取得(X-Personium-RequestKeyなし)_String
-        dc.as("client").cell(cellName).currentLog.getString("default.log");
+        _p.as("client").cell(cellName).currentLog.getString("default.log");
         // --- ログ取得(X-Personium-RequestKeyあり)_String ---
         // ログ取得(X-Personium-RequestKeyあり)_String
-        dc.as("client").cell(cellName).currentLog.getString("default.log","DaoTest");
+        _p.as("client").cell(cellName).currentLog.getString("default.log","DaoTest");
         // --- ログ取得(X-Personium-RequestKeyなし)_Stream ---
         // ログ取得(X-Personium-RequestKeyなし)_Stream
-        dc.as("client").cell(cellName).currentLog.getStream("default.log");
+        _p.as("client").cell(cellName).currentLog.getStream("default.log");
         // --- ログ取得(X-Personium-RequestKeyあり)_Stream ---
         // ログ取得(X-Personium-RequestKeyあり)_Stream
-        dc.as("client").cell(cellName).currentLog.getStream("default.log","DaoTest");
+        _p.as("client").cell(cellName).currentLog.getStream("default.log","DaoTest");
 
         // ローテートされたログ取得(X-Personium-RequestKeyなし)_String
         // --- ローテートされたログ取得(X-Personium-RequestKeyなし)_String ---
         try{
-            dc.as("client").cell(cellName).archiveLog.getString("default.log");
+            _p.as("client").cell(cellName).archiveLog.getString("default.log");
         } catch (e1) {
             if (e1.code != 404) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -57,7 +57,7 @@ function(request){
         // ローテートされたログ取得(X-Personium-RequestKeyあり)_String
         // --- ローテートされたログ取得(X-Personium-RequestKeyあり)_String ---
         try{
-            dc.as("client").cell(cellName).archiveLog.getString("default.log", "DaoTest");
+            _p.as("client").cell(cellName).archiveLog.getString("default.log", "DaoTest");
         } catch (e2) {
             if(e2.code != 404){
                 return util.response().statusCode(e2.code).responseBody(e2.message).build();
@@ -66,7 +66,7 @@ function(request){
         // ローテートされたログ取得(X-Personium-RequestKeyなし)_Stream
         // --- ローテートされたログ取得(X-Personium-RequestKeyなし)_Stream ---
         try{
-            dc.as("client").cell(cellName).archiveLog.getStream("default.log");
+            _p.as("client").cell(cellName).archiveLog.getStream("default.log");
         } catch (e3) {
             if(e3.code != 404){
                 return util.response().statusCode(e3.code).responseBody(e3.message).build();
@@ -75,7 +75,7 @@ function(request){
         // ローテートされたログ取得(X-Personium-RequestKeyあり)_Stream
         // --- ローテートされたログ取得(X-Personium-RequestKeyあり)_Stream ---
         try{
-            dc.as("client").cell(cellName).archiveLog.getStream("default.log", "DaoTest");
+            _p.as("client").cell(cellName).archiveLog.getStream("default.log", "DaoTest");
         } catch (e4) {
             if(e4.code != 404){
                 return util.response().statusCode(e4.code).responseBody(e4.message).build();

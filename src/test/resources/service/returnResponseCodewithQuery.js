@@ -16,7 +16,7 @@
  */
 // クエリで受け取ったレスポンスコードを返却さするテスト用スクリプト.
 function(request){
-  var query = dc.util.queryParse(request.queryString)
+  var query = _p.util.queryParse(request.queryString)
   // テストです。
   return {
     status: Number(query.status),

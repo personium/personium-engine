@@ -22,27 +22,27 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
     var entityTypeName = {Name:"entityType"};
     var colNameParent = "colParent";
     var colNameChild = "colChild";
     try {
         // DavDataコレクション作成
-        dc.as("client").cell(cellName).box("boxname").mkCol(colNameParent);
+        _p.as("client").cell(cellName).box("boxname").mkCol(colNameParent);
         // DavDataコレクション２階層目の作成
-        dc.as("client").cell(cellName).box("boxname").col(colNameParent).mkCol(colNameChild);
+        _p.as("client").cell(cellName).box("boxname").col(colNameParent).mkCol(colNameChild);
         
         // davのput (utf-8)
-        dc.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).put("test.txt", "text/plain", "あいうえお");
+        _p.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).put("test.txt", "text/plain", "あいうえお");
         // davのget (utf-8)
-        var davString = dc.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).getString("test.txt", "UTF-8");
+        var davString = _p.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).getString("test.txt", "UTF-8");
         if (davString != "あいうえお") {
             return util.response().statusCode("404").responseBody("Invalid WebDAV").build();
         }
 
         // davのput (shift-jis)
-        dc.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).put({
+        _p.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).put({
             path: "test.txt",
             contentType: "text/plain",
             data: "かきくけこ",
@@ -50,18 +50,18 @@ function(request){
             etag: "*"
          });
         // davのget (shift-jis)
-        davString = dc.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).getString("test.txt", "MS932");
+        davString = _p.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).getString("test.txt", "MS932");
         if (davString != "かきくけこ") {
             return util.response().statusCode("404").responseBody("Invalid WebDAV").build();
         }
 
         // putしたDavを削除する
-        dc.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).del("test.txt");
+        _p.as("client").cell(cellName).box("boxname").col(colNameParent).col(colNameChild).del("test.txt");
 
         // 作成したDavコレクションを削除する
-        dc.as("client").cell(cellName).box("boxname").col(colNameParent).del(colNameChild);
+        _p.as("client").cell(cellName).box("boxname").col(colNameParent).del(colNameChild);
         // 作成したDavコレクションを削除する
-        dc.as("client").cell(cellName).box("boxname").del(colNameParent);
+        _p.as("client").cell(cellName).box("boxname").del(colNameParent);
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();

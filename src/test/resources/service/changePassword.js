@@ -21,7 +21,7 @@ function(request){
     // 共通モジュール読み込み
     var util = require("testCommon");
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var user = {Name:"user"};
@@ -33,14 +33,14 @@ function(request){
 
     try {
         // アカウント作成
-        var account = dc.as("client").cell(cellName).ctl.account.create(user, password);
+        var account = _p.as("client").cell(cellName).ctl.account.create(user, password);
         // 認証 asExtCell
-        dc.as(auth).cell();
+        _p.as(auth).cell();
         // Password変更
-        dc.as("client").cell(cellName).ctl.account.changePassword("user", newPassword);
+        _p.as("client").cell(cellName).ctl.account.changePassword("user", newPassword);
         // 認証 asExtCell 400チェック
         try {
-            dc.as(auth).cell();
+            _p.as(auth).cell();
         } catch (e1) {
             if (e1.code != 400) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -50,7 +50,7 @@ function(request){
         sleep(1);
 
         // 認証 asExtCell
-        dc.as(newAuth).cell();
+        _p.as(newAuth).cell();
 
         // レスポンスを返却
         return util.response().responseBody("OK").build();
@@ -59,7 +59,7 @@ function(request){
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
         // 作成したアカウントを削除する
-        dc.as("client").cell(cellName).ctl.account.del(account.name);
+        _p.as("client").cell(cellName).ctl.account.del(account.name);
         
     }
 }

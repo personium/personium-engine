@@ -22,13 +22,13 @@ function(request){
     var util = require("testCommon");
     var responseBody = "";
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
     try {
 
-    	dc.as(json).cell();
+    	_p.as(json).cell();
         // レスポンスを返却
         return util.response().responseBody("OK").build();
 

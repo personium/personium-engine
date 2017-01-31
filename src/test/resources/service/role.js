@@ -22,17 +22,17 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var data = {Name:"role"};
     try {
         // Role作成
-        var role = dc.as("client").cell(cellName).ctl.role.create(data);
+        var role = _p.as("client").cell(cellName).ctl.role.create(data);
 
         // 同じ名前のRoleを登録し、409になることを確認
         try {
-        	dc.as("client").cell(cellName).ctl.role.create(data);
+        	_p.as("client").cell(cellName).ctl.role.create(data);
         } catch (e1) {
             if (e1.code != 409) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -40,10 +40,10 @@ function(request){
         }
 
         // 作成したRoleを取得
-        role = dc.as("client").cell(cellName).ctl.role.retrieve({Name:"role"});
+        role = _p.as("client").cell(cellName).ctl.role.retrieve({Name:"role"});
 
         // 作成したRoleを削除する
-        dc.as("client").cell(cellName).ctl.role.del({Name:"role"});
+        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();

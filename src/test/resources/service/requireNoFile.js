@@ -27,7 +27,7 @@ function(request){
         // require失敗するスクリプトのrequire
         var ngrequire = require("hoge");
     } catch (e) {
-    	if (e.message !== "io.personium.engine.DcEngineException: 404 Not Found") {
+    	if (e.message !== "io.personium.engine._pEngineException: 404 Not Found") {
         	code = e.code;
         	message = e.message;
     	    return util.response().statusCode(code).responseBody(message).build();

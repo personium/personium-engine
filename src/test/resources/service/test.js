@@ -16,7 +16,7 @@
  */
 function(request){
     
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var mode = query["mode"];
     if (mode === "test") {
         return {
@@ -95,7 +95,7 @@ function print(obj){
             out = out + i + ":" + buff + "<br>";
         } else if (i == "queryString") {
             out = out + i + ":" + obj[i] + " " + typeof(obj[i]) +"<br>";
-            var query = dc.util.queryParse(obj.queryString);
+            var query = _p.util.queryParse(obj.queryString);
             for (i in query) {
                 out = out + "query[" + i + "]:" + query[i] + " " + typeof(query[i]) +"<br>";
             };

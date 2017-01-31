@@ -22,17 +22,17 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
     var box = null;
     var role1 = null;
 
     try {
         // ボックス作成
-        box = dc.as("client").cell(cellName).ctl.box.create({Name:"acltest", Schema:null});
+        box = _p.as("client").cell(cellName).ctl.box.create({Name:"acltest", Schema:null});
 
         // Role作成
-        role1 = dc.as("client").cell(cellName).ctl.role.create({Name:"role1"});
+        role1 = _p.as("client").cell(cellName).ctl.role.create({Name:"role1"});
 
         // ACL設定_aceがnullの場合
         var aclData = {"requireSchemaAuthz":"public"};
@@ -63,11 +63,11 @@ function(request){
     } finally {
         if (role1 !== null) {
             // Role削除
-            dc.as("client").cell(cellName).ctl.role.del({Name:"role1"});
+            _p.as("client").cell(cellName).ctl.role.del({Name:"role1"});
         }
         if (box !== null) {
             // ボックス削除
-            dc.as("client").cell(cellName).ctl.box.del("acltest");
+            _p.as("client").cell(cellName).ctl.box.del("acltest");
         }
     }
 }

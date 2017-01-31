@@ -19,7 +19,7 @@
 */
 function (request) {
 
-    var extension = new dc.extension.TestExtension();
+    var extension = new _p.extension.TestExtension();
     try {
         var body = request["input"].readAll();
         var result = extension.requestWithJSON("Ms.", JSON.parse(body));
