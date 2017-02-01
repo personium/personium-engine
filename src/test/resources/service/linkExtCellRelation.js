@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +22,18 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var data = {Name:"relation"};
     try {
         // Relation作成
-        var relation = dc.as("client").cell(cellName).ctl.relation.create(data);
+        var relation = _p.as("client").cell(cellName).ctl.relation.create(data);
 
         // ExtCell作成
-        var strUrl = dc.as("client").cell(cellName + "1").getUrl();
+        var strUrl = _p.as("client").cell(cellName + "1").getUrl();
         data = {Url:strUrl};
-        var extcell = dc.as("client").cell(cellName).ctl.extCell.create(data);
+        var extcell = _p.as("client").cell(cellName).ctl.extCell.create(data);
         // ExtCell リンク
         extcell.relation.link(relation);
         // ExtCell リンク (409)
@@ -56,9 +56,9 @@ function(request){
         }
 
         // 作成したRelationを削除する
-        dc.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
         // 作成したExtCellを削除する
-        dc.as("client").cell(cellName).ctl.extCell.del(extcell.url);
+        _p.as("client").cell(cellName).ctl.extCell.del(extcell.url);
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();

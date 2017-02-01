@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@ function(request){
     // 共通モジュール読み込み
     var util = require("testCommon");
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     try {
         // Boxの作成
-        var box = dc.as("client").cell(cellName).ctl.box.create({Name:"boxtest", Schema:null});
+        var box = _p.as("client").cell(cellName).ctl.box.create({Name:"boxtest", Schema:null});
 
         // 同じ名前のBoxを登録し、409になることを確認
         try {
-            dc.as("client").cell(cellName).ctl.box.create({Name:"boxtest", Schema:null});
+            _p.as("client").cell(cellName).ctl.box.create({Name:"boxtest", Schema:null});
         } catch (e1) {
             if (e1.code != 409) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -38,10 +38,10 @@ function(request){
         }
 
         // 作成したBoxを取得
-        box = dc.as("client").cell(cellName).ctl.box.retrieve(box.name);
+        box = _p.as("client").cell(cellName).ctl.box.retrieve(box.name);
 
         // 作成したBoxを削除する
-        dc.as("client").cell(cellName).ctl.box.del(box.name);
+        _p.as("client").cell(cellName).ctl.box.del(box.name);
 
         // レスポンスを返却
         return util.response().responseBody("OK").build();

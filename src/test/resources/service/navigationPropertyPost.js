@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var etKeeper = null;
@@ -35,7 +35,7 @@ function(request){
 
     try {
         // ◆ ODataコレクション作成
-        var box = dc.as("client").cell(cellName).box("boxname");
+        var box = _p.as("client").cell(cellName).box("boxname");
         box.mkOData("odata");
         
         // ◆ EntityType (keeper)

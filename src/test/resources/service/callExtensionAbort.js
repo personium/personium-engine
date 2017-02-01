@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 */
 function (request) {
 
-    var extension = new dc.extension.TestExtension();
+    var extension = new _p.extension.TestExtension();
     try {
         var result = extension.abort("I'm a teapot.");
         return {

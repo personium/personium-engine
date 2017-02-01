@@ -14,25 +14,20 @@
         </license>
     </licenses>
     <properties>
-        <com.fujitsu.dc.engine.defaultBaseUrl>http://localhost</com.fujitsu.dc.engine.defaultBaseUrl>
-        <com.fujitsu.dc.engine.debug>true</com.fujitsu.dc.engine.debug>
-        <!--<io.personium.engine.defaultBaseUrl>http://localhost</io.personium.engine.defaultBaseUrl>-->
-        <!--<io.personium.engine.debug>true</io.personium.engine.debug>-->
+        <io.personium.engine.defaultBaseUrl>http://localhost</io.personium.engine.defaultBaseUrl>
+        <io.personium.engine.debug>true</io.personium.engine.debug>
         <logpath>personium-engine.log</logpath>
         <loglevel>debug</loglevel>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <com.fujitsu.dc.engine.jerseyTest.baseUrl>http://localhost:9998/test/</com.fujitsu.dc.engine.jerseyTest.baseUrl>
-        <com.fujitsu.dc.engine.jerseyTest.useCouchdb>false</com.fujitsu.dc.engine.jerseyTest.useCouchdb>
-        <!--<io.personium.engine.jerseyTest.baseUrl>http://localhost:9998/test/</io.personium.engine.jerseyTest.baseUrl>-->
-        <!--<io.personium.engine.jerseyTest.useCouchdb>false</io.personium.engine.jerseyTest.useCouchdb>-->
+        <io.personium.engine.jerseyTest.baseUrl>http://localhost:9998/test/</io.personium.engine.jerseyTest.baseUrl>
+        <io.personium.engine.jerseyTest.useCouchdb>false</io.personium.engine.jerseyTest.useCouchdb>
                 <java.source.version>1.8</java.source.version>
                 <java.target.version>1.8</java.target.version>
                 <logback.version>1.0.13</logback.version>
                 <slf4j.version>1.7.6</slf4j.version>
                 <esapi.version>2_4</esapi.version>
                 <logback.version>1.0.13</logback.version>
-                <jacoco.include.package>com.fujitsu.*</jacoco.include.package>
-                <!--<jacoco.include.package>io.personium.*</jacoco.include.package>-->
+                <jacoco.include.package>io.personium.*</jacoco.include.package>
     </properties>
     <dependencies>
         <dependency>
@@ -43,22 +38,22 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-client-java</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
-            <artifactId>personium-lib-es-adaptor</artifactId>
-            <version>1.4.1</version>
+            <artifactId>personium-lib-es-adapter</artifactId>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-ex-base</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -266,7 +261,7 @@
                         <exclude>checkstyle.header</exclude>
                         <exclude>checkstyle_maven.properties</exclude>
                         <exclude>checkstyle-suppressions.xml</exclude>
-                        <exclude>dc-checks.xml</exclude>
+                        <exclude>personium-checkstyle.xml</exclude>
                         <exclude>findbugs-exclude.xml</exclude>
                         <exclude>pom.xml</exclude>
                         <exclude>logback.xml</exclude>
@@ -330,7 +325,7 @@
                 <version>2.13</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <configLocation>dc-checks.xml</configLocation>
+                    <configLocation>personium-checkstyle.xml</configLocation>
                     <propertiesLocation>checkstyle_maven.properties</propertiesLocation>
                 </configuration>
                 <reportSets>
@@ -377,7 +372,7 @@
     <repositories>
         <repository>
           <id>personium.io</id>
-          <name>personium.io</name>
+          <name>Personium Repository</name>
           <url>http://personium.io/mvnrepo</url>
         </repository>
         <repository>

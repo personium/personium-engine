@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     // テスト用データ作成
@@ -33,11 +33,11 @@ function(request){
 
     try {
         // イベント登録
-        dc.as("client").cell(cellName).event.post(event);
-        dc.as("client").cell(cellName).event.post(eventLowerLevel);
+        _p.as("client").cell(cellName).event.post(event);
+        _p.as("client").cell(cellName).event.post(eventLowerLevel);
 
-        // ログ取得(X-Dc-RequestKeyなし)_String
-        var dav = dc.as("client").cell(cellName).currentLog.getString("default.log");
+        // ログ取得(X-Personium-RequestKeyなし)_String
+        var dav = _p.as("client").cell(cellName).currentLog.getString("default.log");
 
         return util.response().responseBody("OK").build();
     } catch (e) {

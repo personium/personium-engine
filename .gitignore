@@ -2,4 +2,4 @@
 .classpath
 .settings/
 target/
-src/main/resources/dc-config.properties
+src/main/resources/personium-unit-config.properties

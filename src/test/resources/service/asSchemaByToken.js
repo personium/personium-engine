@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,19 +22,19 @@ function(request){
     var util = require("testCommon");
     var responseBody = "";
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
     try {
-    	var cell = dc.as(json).cell(cellName + "1");
+    	var cell = _p.as(json).cell(cellName + "1");
     	
     	var token = cell.getToken();
 
         json = {cellUrl:cellName, accessToken:token.access_token,
         		schemaUrl:cellName + "2", schemaUserId:"user001", schemaPassword:"pass001"};
     	// トークン認証
-    	dc.as(json).cell();
+    	_p.as(json).cell();
 
     	// レスポンスを返却
         return util.response().responseBody("OK").build();

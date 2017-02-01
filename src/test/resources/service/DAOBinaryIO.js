@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,12 @@ function(request){
 	var res = "";
 	try{
 	    var stream = request['input'].stream();
-	    dc.as("client").cell().box().put({path:"test.txt",contentType:"text/plain",data:stream,etag:"*"});
-	    res = dc.as("client").cell().box().getStream("test.txt");
+	    _p.as("client").cell().box().put({path:"test.txt",contentType:"text/plain",data:stream,etag:"*"});
+	    res = _p.as("client").cell().box().getStream("test.txt");
 	} catch (e){
 		res = "NG";
 	} finally {
-	    dc.as("client").cell().box().del("test.txt")
+	    _p.as("client").cell().box().del("test.txt")
 	}
 	return {
 	    status: 200,

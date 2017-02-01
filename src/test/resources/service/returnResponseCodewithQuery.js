@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  */
 // クエリで受け取ったレスポンスコードを返却さするテスト用スクリプト.
 function(request){
-  var query = dc.util.queryParse(request.queryString)
+  var query = _p.util.queryParse(request.queryString)
   // テストです。
   return {
     status: Number(query.status),

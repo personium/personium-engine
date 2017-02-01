@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +19,29 @@
  */
 function(request){
     //var util = require2("testCommon");
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
     var responseBody = "";
     var json = {Name:cellName + "_1"}
     try {
 
         // Cellの作成
-        var cell = dc.as("client").asCellOwner().unit.ctl.cell.create(json);
+        var cell = _p.as("client").asCellOwner().unit.ctl.cell.create(json);
 
         // Cellの更新
-        dc.as("client").asCellOwner().unit.ctl.cell.update(cellName + "_1", {Name:cellName + "_2"});
+        _p.as("client").asCellOwner().unit.ctl.cell.update(cellName + "_1", {Name:cellName + "_2"});
 
         // Cellの取得
-        dc.as("client").asCellOwner().unit.ctl.cell.retrieve(cellName + "_2");
+        _p.as("client").asCellOwner().unit.ctl.cell.retrieve(cellName + "_2");
 
         // Cellの一覧取得
-        var celllist = dc.as("client").asCellOwner().unit.ctl.cell.query().filter("startswith(Name,'cell')").run();
+        var celllist = _p.as("client").asCellOwner().unit.ctl.cell.query().filter("startswith(Name,'cell')").run();
 
         // 作成したCellを削除する
-        dc.as("client").asCellOwner().unit.ctl.cell.del(cellName + "_2");
+        _p.as("client").asCellOwner().unit.ctl.cell.del(cellName + "_2");
 
         if (version >= "1.1.0") {
-            var version = dc.getServerVersion();
+            var version = _p.getServerVersion();
             if (version == null) {
                 return util.response().statusCode(400).responseBody("version is null.").build();
             }

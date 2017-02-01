@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,15 @@ function(request){
     var util = require("testCommon");
     var responseBody = "";
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
-    var expectedCode = new Array();
+    var expecte_pode = new Array();
     var code = new Array();
     var message = new Array();;
     try {
-    	var cell = dc.as(json).cell();
+    	var cell = _p.as(json).cell();
     	
     	var token = cell.getToken();
 
@@ -38,11 +38,11 @@ function(request){
     	json = {cellUrl:cellName, refreshToken:""};
     	// リフレッシュトークン認証
     	try {
-    		dc.as(json).cell();
+    		_p.as(json).cell();
     	} catch (e) {
     		// サーバから認証エラーエラーコード400が返る
     		if (e.code != 400) {
-    			expectedCode.push("400");
+    			expecte_pode.push("400");
     			code.push(e.code);
         		message.push(e.message);
     		}
@@ -52,11 +52,11 @@ function(request){
     	json = {cellUrl:cellName, refreshToken:null};
     	// リフレッシュトークン認証
     	try {
-    		dc.as(json).cell();
+    		_p.as(json).cell();
     	} catch (e) {
     		// エラーコード0と"Parameter Invalid"が返る。
     		if (e.code != 0) {
-    			expectedCode.push("0");
+    			expecte_pode.push("0");
     			code.push(e.code);
         		message.push(e.message);
     		}
@@ -66,11 +66,11 @@ function(request){
     	json = {cellUrl:cellName, refreshToken:88888};
     	// リフレッシュトークン認証
     	try {
-    		dc.as(json).cell();
+    		_p.as(json).cell();
     	} catch (e) {
     		// エラーコード0と"Parameter Invalid"が返る。
     		if (e.code != 0) {
-    			expectedCode.push("0");
+    			expecte_pode.push("0");
     			code.push(e.code);
         		message.push(e.message);
     		}
@@ -80,7 +80,7 @@ function(request){
     	if (code.length > 0){
     		var response = "";
     		for (var i = 0;i < code.length;i++) {
-    			response = response + ",expected:code=" + expectedCode[i] + " but:code=" + code[i] + " message=" + message[i] + ".";
+    			response = response + ",expected:code=" + expecte_pode[i] + " but:code=" + code[i] + " message=" + message[i] + ".";
     		}
     		return util.response().responseBody(response).build();
     	} else {

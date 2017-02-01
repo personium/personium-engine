@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
     var relationData = {Name:"relation","_Box.Name":"boxName"};
 
@@ -30,16 +30,16 @@ function(request){
     
     try {
         // Box作成
-        dc.as("client").cell(cellName).ctl.box.create({Name:"boxName", Schema:null});
+        _p.as("client").cell(cellName).ctl.box.create({Name:"boxName", Schema:null});
         // Relation作成
-        var relation = dc.as("client").cell(cellName).ctl.relation.create(relationData);
+        var relation = _p.as("client").cell(cellName).ctl.relation.create(relationData);
 
         // ExtRole作成
-        var extrole = dc.as("client").cell(cellName).ctl.extRole.create(data);
+        var extrole = _p.as("client").cell(cellName).ctl.extRole.create(data);
         
         // ExtRoleをRelation指定無しで取得しエラーとなること
         try {
-            dc.as("client").cell(cellName).ctl.extRole.retrieve({ExtRole:"http://extrole/jp"});
+            _p.as("client").cell(cellName).ctl.extRole.retrieve({ExtRole:"http://extrole/jp"});
         } catch (e1) {
             if (e1.code != 404) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -48,7 +48,7 @@ function(request){
 
         // ExtRoleをRelation指定無しで削除しエラーとなること
         try {
-            dc.as("client").cell(cellName).ctl.extRole.del({ExtRole:"http://extrole/jp"});
+            _p.as("client").cell(cellName).ctl.extRole.del({ExtRole:"http://extrole/jp"});
         } catch (e1) {
             if (e1.code != 404) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
@@ -56,13 +56,13 @@ function(request){
         }
 
         // 作成したExtRoleを削除する
-        dc.as("client").cell(cellName).ctl.extRole.del(data);
+        _p.as("client").cell(cellName).ctl.extRole.del(data);
         
         // 作成したRelationを削除する
-        dc.as("client").cell(cellName).ctl.relation.del(relationData);
+        _p.as("client").cell(cellName).ctl.relation.del(relationData);
         
         // Box削除
-        dc.as("client").cell(cellName).ctl.box.del("boxName");
+        _p.as("client").cell(cellName).ctl.box.del("boxName");
 
         // レスポンスを返却
         return util.response().responseBody("OK").build();

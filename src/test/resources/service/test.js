@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  */
 function(request){
     
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var mode = query["mode"];
     if (mode === "test") {
         return {
@@ -43,7 +43,7 @@ function(request){
     }else if(mode === "move"){
         return {
             status: 302,
-            headers: {"Location":"/dc-engine/r/jsgi_test"},
+            headers: {"Location":"/personium-engine/r/jsgi_test"},
             body: [""]
         };
     }else if(mode === "auth"){
@@ -95,7 +95,7 @@ function print(obj){
             out = out + i + ":" + buff + "<br>";
         } else if (i == "queryString") {
             out = out + i + ":" + obj[i] + " " + typeof(obj[i]) +"<br>";
-            var query = dc.util.queryParse(obj.queryString);
+            var query = _p.util.queryParse(obj.queryString);
             for (i in query) {
                 out = out + "query[" + i + "]:" + query[i] + " " + typeof(query[i]) +"<br>";
             };

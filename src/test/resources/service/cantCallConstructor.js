@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ function(request){
     var code = 500;
     var message = "NG";
     try {
-        new com.fujitsu.dc.engine.wrapper.DcInputStream(request['input'].stream());
+        new io.personium.engine.wrapper._pInputStream(request['input'].stream());
     } catch (e) {
     	if (e.message !== "not found") {
         	code = e.code;
@@ -33,7 +33,7 @@ function(request){
     	}
     }
     try {
-    	new com.fujitsu.dc.engine.wrapper.DcJSONObject();
+    	new io.personium.engine.wrapper._pJSONObject();
     } catch (e) {
     	if (e.message !== "not found") {
         	code = e.code;
@@ -42,7 +42,7 @@ function(request){
     	}
     }
     try {
-    	new com.fujitsu.dc.engine.adapter.DcRequestBodyStream(request['input'].stream());
+    	new io.personium.engine.adapter._pRequestBodyStream(request['input'].stream());
     } catch (e) {
     	if (e.message !== "not found") {
         	code = e.code;

@@ -1,6 +1,6 @@
 /*
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,17 +22,17 @@ function(request){
     var util = require("testCommon");
 
     // クエリを解析し、Cell名を取得する
-    var query = dc.util.queryParse(request.queryString);
+    var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
     var data = {Name:"relation"};
     try {
         // Relation作成
-        var relation = dc.as("client").cell(cellName).ctl.relation.create(data);
+        var relation = _p.as("client").cell(cellName).ctl.relation.create(data);
 
         // Role作成
         data = {Name:"role"};
-        var role = dc.as("client").cell(cellName).ctl.role.create(data);
+        var role = _p.as("client").cell(cellName).ctl.role.create(data);
         // Relation リンク
         role.relation.link(relation);
         // Relation リンク (409)
@@ -55,9 +55,9 @@ function(request){
         }
 
         // 作成したRelationを削除する
-        dc.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
         // 作成したRoleを削除する
-        dc.as("client").cell(cellName).ctl.role.del({Name:"role"});
+        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
         
         // レスポンスを返却
         return util.response().responseBody("OK").build();
