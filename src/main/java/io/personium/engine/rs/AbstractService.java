@@ -296,9 +296,9 @@ public abstract class AbstractService {
         if (cell == null) {
             targetCell = getCell();
         }
-        String targetschema = schema;
+        String targetSchema = schema;
         if (schema == null) {
-            targetschema = getSchemaURI();
+            targetSchema = getSchemaURI();
         }
         String targetServiceName = svcName;
 
@@ -328,7 +328,7 @@ public abstract class AbstractService {
                 return errorResponse(e);
             }
             // グローバルオブジェクトのロード
-            pecx.loadGlobalObject(baseUrl, targetCell, targetschema, targetschema, targetServiceName);
+            pecx.loadGlobalObject(baseUrl, targetCell, targetSchema, targetSchema, targetServiceName);
             // ユーザスクリプトを取得（設定及びソース）
             String source = "";
             try {
@@ -338,7 +338,7 @@ public abstract class AbstractService {
                 return errorResponse(e);
             } catch (Exception e) {
                 log.info("User Script not found to targetCell(" + targetCell
-                       + ", targetschema(" + targetschema + "), targetServiceName(" + targetServiceName + ")");
+                       + ", targetschema(" + targetSchema + "), targetServiceName(" + targetServiceName + ")");
                 log.info(e.getMessage(), e);
                 return errorResponse(new PersoniumEngineException("404 Not Found (User Script)",
                         PersoniumEngineException.STATUSCODE_NOTFOUND));
