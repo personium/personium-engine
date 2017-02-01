@@ -29,7 +29,7 @@ import io.personium.engine.source.TestResourceSourceManager;
 /**
  * Test用Serviceクラス.
  */
-@Path("/{cell}/{scheme}/test/{id : .+}")
+@Path("/{cell}/{schema}/test/{id : .+}")
 public class TestResource extends AbstractService {
     /** ログオブジェクト. */
     private static Log log = LogFactory.getLog(DebugResource.class);
@@ -58,7 +58,7 @@ public class TestResource extends AbstractService {
     }
 
     @Override
-    public final String getScheme() {
+    public final String getSchemaURI() {
         return "";
     }
 

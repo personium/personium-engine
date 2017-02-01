@@ -67,7 +67,7 @@ public class DebugResource extends AbstractService {
     }
 
     @Override
-    public final String getScheme() {
+    public final String getSchemaURI() {
         return SCHEME;
     }
 

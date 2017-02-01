@@ -64,7 +64,7 @@ public class PersoniumEngineContext implements Closeable {
     /** ログオブジェクト. */
     private static Logger log = LoggerFactory.getLogger(PersoniumEngineContext.class);
 
-    private static final String PERSONIUM_SCOPE = "personium";
+    private static final String PERSONIUM_SCOPE = "_p";
     private static final String EXTENSION_SCOPE = "extension";
     private static Map<String, Script> engineLibCache = new ConcurrentHashMap<String, Script>();
 
@@ -183,19 +183,19 @@ public class PersoniumEngineContext implements Closeable {
      * グローバルオブジェクトをロード. 過去はグローバルオブジェクトを作成する関数だったが、現状は単なるsetterになっている。
      * @param url 基底URL
      * @param cell Cell名
-     * @param scheme データスキーマURI
+     * @param schema データスキーマURI
      * @param box Box名
      * @param service サービス名
      */
     public final void loadGlobalObject(final String url,
             final String cell,
-            final String scheme,
+            final String schema,
             final String box,
             final String service) {
         this.baseUrl = url;
         this.currentCellName = cell;
         this.currentBoxName = box;
-        this.currentSchemeUri = scheme;
+        this.currentSchemeUri = schema;
     }
 
     /**
@@ -218,7 +218,7 @@ public class PersoniumEngineContext implements Closeable {
         PersoniumEngineDao ed = createDao(req, serviceSubject);
 
         // DAOオブジェクトをJavaScriptプロパティへ設定
-        javaToJs(ed, "_jvm");
+        javaToJs(ed, "pjvm");
 
         // RequireオブジェクトをJavaScriptプロパティへ設定
         javaToJs(createRequireObject(), "_require");
@@ -247,18 +247,18 @@ public class PersoniumEngineContext implements Closeable {
             throw new PersoniumEngineException("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR, e1);
         }
 
-        // dc名前空間に、Extensionのクラス群を定義する。
+        // p名前空間に、Extensionのクラス群を定義する。
         prepareExtensionClass();
 
         // RequestオブジェクトをJavaScriptプロパティへ設定
-        JSGIRequest dcReq = new JSGIRequest(req, new PersoniumRequestBodyStream(is));
+        JSGIRequest jsReq = new JSGIRequest(req, new PersoniumRequestBodyStream(is));
 
         // JSGI実行
         // ユーザースクリプトを実行(eval)する
         try {
             Object ret;
             log.info("eval user script : script size = " + source.length());
-            ret = evalUserScript(source, dcReq);
+            ret = evalUserScript(source, jsReq);
             log.info("[" + PersoniumEngineConfig.getVersion() + "] " + "<<< Request Ended ");
 
             PersoniumResponse dcRes = PersoniumResponse.parseJsgiResponse(ret);
@@ -286,7 +286,7 @@ public class PersoniumEngineContext implements Closeable {
      * @throws IOException IO例外
      * @throws PersoniumEngineException DcEngineException
      */
-    private Object evalUserScript(final String source, JSGIRequest dcReq) throws PersoniumEngineException {
+    private Object evalUserScript(final String source, JSGIRequest jsReq) throws PersoniumEngineException {
         cx.evaluateString(scope, "fn_jsgi = " + source, null, 1, null);
 
         Object fObj = scope.get("fn_jsgi", scope);
@@ -296,7 +296,7 @@ public class PersoniumEngineContext implements Closeable {
             throw new PersoniumEngineException("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR);
         }
 
-        Object[] functionArgs = {dcReq.getRequestObject() };
+        Object[] functionArgs = {jsReq.getRequestObject() };
         Function f = (Function) fObj;
         result = f.call(cx, scope, scope, functionArgs);
         return result;

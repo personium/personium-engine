@@ -29,7 +29,7 @@ import io.personium.engine.source.FsServiceResourceSourceManager;
 /**
  * Personium-Engineサーブレットクラス.
  */
-@Path("/{cell}/{scheme}/service/{id : .+}")
+@Path("/{cell}/{schema}/service/{id : .+}")
 public class ServiceResource extends AbstractService {
     /** ログオブジェクト. */
     private static Log log = LogFactory.getLog(AbstractService.class);
@@ -60,7 +60,7 @@ public class ServiceResource extends AbstractService {
      * @return データスキーマURI
      */
     @Override
-    public final String getScheme() {
+    public final String getSchemaURI() {
         return null;
     }
 

@@ -158,7 +158,7 @@ public abstract class AbstractService {
     /**
      * GETメソッド.
      * @param cell Cell名
-     * @param scheme データスキーマURI
+     * @param schema データスキーマURI
      * @param svcName サービス名
      * @param request リクエストオブジェクト
      * @param response レスポンスオブジェクト
@@ -167,18 +167,18 @@ public abstract class AbstractService {
      */
     @GET
     public final Response evalJsgiForGet(@PathParam("cell") final String cell,
-            @PathParam("scheme") final String scheme,
+            @PathParam("schema") final String schema,
             @PathParam("id") final String svcName,
             @Context final HttpServletRequest request,
             @Context final HttpServletResponse response,
             final InputStream is) {
-        return run(cell, scheme, svcName, request, response, is);
+        return run(cell, schema, svcName, request, response, is);
     }
 
     /**
      * POSTメソッド.
      * @param cell Cell名
-     * @param scheme データスキーマURI
+     * @param schema データスキーマURI
      * @param svcName サービス名
      * @param request リクエストオブジェクト
      * @param response レスポンスオブジェクト
@@ -187,18 +187,18 @@ public abstract class AbstractService {
      */
     @POST
     public final Response evalJsgiForPost(@PathParam("cell") final String cell,
-            @PathParam("scheme") final String scheme,
+            @PathParam("schema") final String schema,
             @PathParam("id") final String svcName,
             @Context final HttpServletRequest request,
             @Context final HttpServletResponse response,
             final InputStream is) {
-        return run(cell, scheme, svcName, request, response, is);
+        return run(cell, schema, svcName, request, response, is);
     }
 
     /**
      * PUTメソッド.
      * @param cell Cell名
-     * @param scheme データスキーマURI
+     * @param schema データスキーマURI
      * @param svcName サービス名
      * @param request リクエストオブジェクト
      * @param response レスポンスオブジェクト
@@ -207,18 +207,18 @@ public abstract class AbstractService {
      */
     @PUT
     public final Response evalJsgiForPutMethod(@PathParam("cell") final String cell,
-            @PathParam("scheme") final String scheme,
+            @PathParam("schema") final String schema,
             @PathParam("id") final String svcName,
             @Context final HttpServletRequest request,
             @Context final HttpServletResponse response,
             final InputStream is) {
-        return run(cell, scheme, svcName, request, response, is);
+        return run(cell, schema, svcName, request, response, is);
     }
 
     /**
      * DELETEメソッド.
      * @param cell Cell名
-     * @param scheme データスキーマURI
+     * @param schema データスキーマURI
      * @param svcName サービス名
      * @param request リクエストオブジェクト
      * @param response レスポンスオブジェクト
@@ -227,12 +227,12 @@ public abstract class AbstractService {
      */
     @DELETE
     public final Response evalJsgiForDeleteMethod(@PathParam("cell") final String cell,
-            @PathParam("scheme") final String scheme,
+            @PathParam("schema") final String schema,
             @PathParam("id") final String svcName,
             @Context final HttpServletRequest request,
             @Context final HttpServletResponse response,
             final InputStream is) {
-        return run(cell, scheme, svcName, request, response, is);
+        return run(cell, schema, svcName, request, response, is);
     }
 
     /**
@@ -254,7 +254,7 @@ public abstract class AbstractService {
     /**
      * Service実行.
      * @param cell Cell名
-     * @param scheme データスキーマURI
+     * @param schema データスキーマURI
      * @param svcName サーバー名
      * @param req Requestオブジェクト
      * @param res Responseオブジェクト
@@ -262,7 +262,7 @@ public abstract class AbstractService {
      * @return Response
      */
     public final Response run(final String cell,
-            final String scheme,
+            final String schema,
             final String svcName,
             final HttpServletRequest req,
             final HttpServletResponse res,
@@ -276,7 +276,7 @@ public abstract class AbstractService {
         msg.append(" url:");
         msg.append(cell);
         msg.append(" schema:");
-        msg.append(scheme);
+        msg.append(schema);
         msg.append(" svcName:");
         msg.append(svcName);
         log.info(msg);
@@ -296,9 +296,9 @@ public abstract class AbstractService {
         if (cell == null) {
             targetCell = getCell();
         }
-        String targetScheme = scheme;
-        if (scheme == null) {
-            targetScheme = getScheme();
+        String targetschema = schema;
+        if (schema == null) {
+            targetschema = getSchemaURI();
         }
         String targetServiceName = svcName;
 
@@ -328,7 +328,7 @@ public abstract class AbstractService {
                 return errorResponse(e);
             }
             // グローバルオブジェクトのロード
-            pecx.loadGlobalObject(baseUrl, targetCell, targetScheme, targetScheme, targetServiceName);
+            pecx.loadGlobalObject(baseUrl, targetCell, targetschema, targetschema, targetServiceName);
             // ユーザスクリプトを取得（設定及びソース）
             String source = "";
             try {
@@ -338,7 +338,7 @@ public abstract class AbstractService {
                 return errorResponse(e);
             } catch (Exception e) {
                 log.info("User Script not found to targetCell(" + targetCell
-                       + ", targetScheme(" + targetScheme + "), targetServiceName(" + targetServiceName + ")");
+                       + ", targetschema(" + targetschema + "), targetServiceName(" + targetServiceName + ")");
                 log.info(e.getMessage(), e);
                 return errorResponse(new PersoniumEngineException("404 Not Found (User Script)",
                         PersoniumEngineException.STATUSCODE_NOTFOUND));
@@ -350,7 +350,7 @@ public abstract class AbstractService {
                 return errorResponse(e);
             } catch (Exception e) {
                 log.warn(" unknown Exception(" + e.getMessage() + ")");
-                return errorResponse(new PersoniumEngineException("404 Not Found (Service Excute Error)",
+                return errorResponse(new PersoniumEngineException("404 Not Found (Service Execute Error)",
                         PersoniumEngineException.STATUSCODE_NOTFOUND));
             }
         } finally {
@@ -391,7 +391,7 @@ public abstract class AbstractService {
      * データスキーマURI取得.
      * @return データスキーマURI
      */
-    public abstract String getScheme();
+    public abstract String getSchemaURI();
 
     /**
      * リクエストＵＲＬの解析.
@@ -457,7 +457,7 @@ public abstract class AbstractService {
         req.setAttribute("HostHeader", hostHeader);
         req.setAttribute("host", baseUrlObj.getHost());
         req.setAttribute("port", port);
-        req.setAttribute("scheme", proto);
+        req.setAttribute("schema", proto);
         return baseUrl;
     }
     /**
