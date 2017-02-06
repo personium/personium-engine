@@ -22,9 +22,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import io.personium.engine.PersoniumEngineException;
-import io.personium.engine.source.ISourceManager;
 import io.personium.engine.source.EsServiceResourceSourceManager;
 import io.personium.engine.source.FsServiceResourceSourceManager;
+import io.personium.engine.source.ISourceManager;
 
 /**
  * Personium-Engineサーブレットクラス.
@@ -68,8 +68,8 @@ public class ServiceResource extends AbstractService {
     public ISourceManager getServiceCollectionManager() throws PersoniumEngineException {
         ISourceManager svcRsSourceManager = null;
         // ソースの管理情報を取得
-        if (this.fsPath != null) {
-          svcRsSourceManager = new FsServiceResourceSourceManager(this.fsPath);
+        if (this.getFsPath() != null) {
+          svcRsSourceManager = new FsServiceResourceSourceManager(this.getFsPath());
         } else {
           svcRsSourceManager = new EsServiceResourceSourceManager(
               getIndex(), getType(), getId(), getRoutingId());

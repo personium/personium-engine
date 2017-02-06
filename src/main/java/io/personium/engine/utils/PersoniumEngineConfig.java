@@ -288,7 +288,8 @@ public class PersoniumEngineConfig {
      */
     protected Properties getUnitConfigDefaultProperties() {
         Properties properties = new Properties();
-        InputStream is = PersoniumEngineConfig.class.getClassLoader().getResourceAsStream("personium-unit-config-default.properties");
+        InputStream is = PersoniumEngineConfig.class.getClassLoader().getResourceAsStream(
+                "personium-unit-config-default.properties");
         try {
             properties.load(is);
         } catch (IOException e) {
@@ -341,7 +342,8 @@ public class PersoniumEngineConfig {
         Logger log = LoggerFactory.getLogger(PersoniumEngineConfig.class);
         InputStream configFileInputStream = null;
         if (configFilePath == null) {
-            configFileInputStream = PersoniumEngineConfig.class.getClassLoader().getResourceAsStream("personium-unit-config.properties");
+            configFileInputStream = PersoniumEngineConfig.class.getClassLoader().getResourceAsStream(
+                    "personium-unit-config.properties");
             return configFileInputStream;
         }
 
@@ -352,7 +354,8 @@ public class PersoniumEngineConfig {
             log.info("personium-unit-config.properties from system properties.");
         } catch (FileNotFoundException e) {
             // 指定されたパスにファイルが存在しない場合は、クラスパス上のファイルを読み込む
-            configFileInputStream = PersoniumEngineConfig.class.getClassLoader().getResourceAsStream("personium-unit-config.properties");
+            configFileInputStream = PersoniumEngineConfig.class.getClassLoader().getResourceAsStream(
+                    "personium-unit-config.properties");
             log.info("personium-unit-config.properties from class path.");
         }
         return configFileInputStream;
