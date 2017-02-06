@@ -107,7 +107,8 @@ public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
                 url = requestUrl(testSrc);
             }
             // サービスの実行（durationSeconds省略）
-            req = new PersoniumRequestBuilder().url(url).method("POST").body(requestBody.toJSONString()).token(token).build();
+            req = new PersoniumRequestBuilder().url(url).method("POST").body(
+                    requestBody.toJSONString()).token(token).build();
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
@@ -125,7 +126,8 @@ public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
 
             // サービスの実行（durationSeconds指定）
             requestBody.put("durationSeconds", 900);
-            req = new PersoniumRequestBuilder().url(url).method("POST").body(requestBody.toJSONString()).token(token).build();
+            req = new PersoniumRequestBuilder().url(url).method("POST").body(
+                    requestBody.toJSONString()).token(token).build();
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             version = getVersion();
             if (version != null && !(version.equals(""))) {
@@ -195,7 +197,8 @@ public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
                 url = requestUrl(testSrc);
             }
             // サービスの実行（durationSeconds省略）
-            req = new PersoniumRequestBuilder().url(url).method("POST").body(requestBody.toJSONString()).token(token).build();
+            req = new PersoniumRequestBuilder().url(url).method("POST").body(
+                    requestBody.toJSONString()).token(token).build();
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
@@ -262,7 +265,8 @@ public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
                 url = requestUrl(testSrc);
             }
             // サービスの実行（durationSeconds省略）
-            req = new PersoniumRequestBuilder().url(url).method("POST").body(requestBody.toJSONString()).token(token).build();
+            req = new PersoniumRequestBuilder().url(url).method("POST").body(
+                    requestBody.toJSONString()).token(token).build();
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {
@@ -287,7 +291,8 @@ public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
 
             // サービスの実行（durationSeconds指定）
             requestBody.put("durationSeconds", 900);
-            req = new PersoniumRequestBuilder().url(url).method("POST").body(requestBody.toJSONString()).token(token).build();
+            req = new PersoniumRequestBuilder().url(url).method("POST").body(
+                    requestBody.toJSONString()).token(token).build();
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             version = getVersion();
             if (version != null && !(version.equals(""))) {
@@ -363,7 +368,8 @@ public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
                 url = requestUrl(testSrc);
             }
             // サービスの実行（durationSeconds省略）
-            req = new PersoniumRequestBuilder().url(url).method("POST").body(requestBody.toJSONString()).token(token).build();
+            req = new PersoniumRequestBuilder().url(url).method("POST").body(
+                    requestBody.toJSONString()).token(token).build();
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);
             String version = getVersion();
             if (version != null && !(version.equals(""))) {

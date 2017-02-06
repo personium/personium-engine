@@ -1008,7 +1008,8 @@ public class ScriptTest extends ScriptTestBase {
 
             for (int i = 0; i < datas.length; i++) {
                 // サービスの実行
-                req = new PersoniumRequestBuilder().url(url).method("POST").body(datas[i].requestJson).token(token).build();
+                req = new PersoniumRequestBuilder().url(url).method("POST").body(
+                        datas[i].requestJson).token(token).build();
                 req.setHeader(KEY_HEADER_BASEURL, baseUrl);
                 String version = getVersion();
                 if (version != null && !(version.equals(""))) {

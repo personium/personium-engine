@@ -56,8 +56,8 @@ public class PersoniumEngineRunner extends BlockJUnit4ClassRunner {
             InvalidKeySpecException, CertificateException, IOException, javax.security.cert.CertificateException {
         super(klass);
         // トークン処理ライブラリの初期設定.
-        TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(), PersoniumEngineConfig.getX509Certificate(),
-                PersoniumEngineConfig.getX509RootCertificate());
+        TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(),
+                PersoniumEngineConfig.getX509Certificate(), PersoniumEngineConfig.getX509RootCertificate());
         LocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
     }
 

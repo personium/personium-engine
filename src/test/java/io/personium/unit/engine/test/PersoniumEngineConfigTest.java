@@ -94,7 +94,8 @@ public class PersoniumEngineConfigTest {
      */
     @Test
     public void io_personium_engnie系プロパティで定義された内容が_io_personium_coreプロパティとして取得できること() {
-        System.setProperty("io.personium.configurationFile", "src/test/resources/personium-unit-config.properties.unit");
+        System.setProperty("io.personium.configurationFile",
+                "src/test/resources/personium-unit-config.properties.unit");
         PersoniumEngineConfig.reload();
         assertEquals("unitTest", PersoniumEngineConfig.get("io.personium.engine.testkey"));
         assertEquals("unitTest", PersoniumEngineConfig.get("io.personium.core.testkey"));
