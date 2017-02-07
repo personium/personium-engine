@@ -40,36 +40,36 @@ _p.as = function(param) {
     try {
         if (typeof param == 'string') {
             if ( param == 'serviceSubject' ) {
-            	var as = pjvm.asServiceSubject();
+                var as = pjvm.asServiceSubject();
                 return new _p.Accessor(as);
             } else if ( param == 'client' ) {
                 return new _p.Accessor(pjvm.withClientToken());
             }
         } else {
-        	if ((typeof param.cellUrl == "string") && (typeof param.userId == "string") &&
-        			(typeof param.password == "string") && (typeof param.schemaUrl == "string") &&
-        			(typeof param.schemaUserId == "string") && (typeof param.schemaPassword == "string")) {
+            if ((typeof param.cellUrl == "string") && (typeof param.userId == "string") &&
+                    (typeof param.password == "string") && (typeof param.schemaUrl == "string") &&
+                    (typeof param.schemaUserId == "string") && (typeof param.schemaPassword == "string")) {
                 // スキーマ付きパスワード認証
                 return new _p.Accessor(pjvm.asAccountWithSchemaAuthn(param.cellUrl, param.userId, param.password,
                         param.schemaUrl, param.schemaUserId, param.schemaPassword));
             } else if ((typeof param.cellUrl == "string") && (typeof param.accessToken == "string") &&
-                    	(typeof param.schemaUrl == "string") && (typeof param.schemaUserId == "string") &&
-                    	(typeof param.schemaPassword == "string")) {
+                        (typeof param.schemaUrl == "string") && (typeof param.schemaUserId == "string") &&
+                        (typeof param.schemaPassword == "string")) {
                 // スキーマ付きトークン認証
                 return new _p.Accessor(pjvm.getAccessorWithTransCellTokenAndSchemaAuthn(param.cellUrl, param.accessToken,
                         param.schemaUrl, param.schemaUserId, param.schemaPassword));
             } else if ((typeof param.cellUrl == "string") && (typeof param.userId == "string") &&
-            		(typeof param.password == "string")) {
+                    (typeof param.password == "string")) {
                 // パスワード認証
                 return new _p.Accessor(pjvm.asAccount(param.cellUrl, param.userId, param.password));
             } else if ((typeof param.cellUrl == "string") && (typeof param.accessToken == "string")) {
                 // トークン認証
                 return new _p.Accessor(pjvm.getAccessorWithTransCellToken(param.cellUrl, param.accessToken));
             } else if ((typeof param.cellUrl == "string") && (typeof param.refreshToken == "string")) {
-            	// フレッシュトークン認証
+                // フレッシュトークン認証
                 return new _p.Accessor(pjvm.getAccessorWithRefreshToken(param.cellUrl, param.refreshToken));
             } else if (typeof param.accessToken == "string") {
-            	// トークン指定
+                // トークン指定
                 return new _p.Accessor(pjvm.withToken(param.accessToken));
             }
         }
@@ -82,7 +82,7 @@ _p.as = function(param) {
 /**
  * Personiumのバージョン指定.<br>
  * 例：<br>
- * 　_p.setPersoniumVersion("1.0");
+ *   _p.setPersoniumVersion("1.0");
  * @param {string} version バージョン番号. サーバーに対し、X-Tritium-Versionヘッダに指定するバージョン文字列.
  */
 _p.setPersoniumVersion = function(version) {
@@ -92,7 +92,7 @@ _p.setPersoniumVersion = function(version) {
 /**
  * Personiumのバージョン指定.<br>
  * 例：<br>
- * 　_p.setPersoniumVersion("1.0");
+ *   _p.setPersoniumVersion("1.0");
  * @param {string} version バージョン番号. サーバーに対し、X-Personium-Versionヘッダに指定するバージョン文字列.
  */
 _p.getServerVersion = function() {
@@ -102,7 +102,7 @@ _p.getServerVersion = function() {
 /**
  * サーバー通信を非同期にするかどうか(V0のログ機能のみ対応)<br>
  * 例：<br>
- * 　_p.setThreadable(true);
+ *   _p.setThreadable(true);
  * @param {Boolean} value true:非同期、false:同期
  */
 _p.setThreadable = function(value) {
@@ -121,11 +121,11 @@ _p.Accessor = function(obj) {
  * Cell指定.<br>
  * 例：<br>
  * 省略：<br>
- * 　as("client").cell();</blockquote>
+ *   as("client").cell();</blockquote>
  * Cell名指定：<br>
- * 　as("client").cell("cellName");
+ *   as("client").cell("cellName");
  * URL指定：<br>
- * 　as("client").cell("http://xxx.com/cellName");
+ *   as("client").cell("http://xxx.com/cellName");
  * @param {string} url CellのID。省略した場合はデフォルトのCellを利用.<br>
  * @returns {_p.Cell} 新しく作成したCellオブジェクト
  * @exception {_p.PersoniumException} DAO例外
@@ -148,8 +148,8 @@ _p.Accessor.prototype.cell = function(url) {
  * @exception {_p.PersoniumException} DAO例外
  */
 _p.Accessor.prototype.asCellOwner = function() {
-	try {
-		return new _p.OwnerAccessor(this.core.asCellOwner());
+    try {
+        return new _p.OwnerAccessor(this.core.asCellOwner());
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
@@ -159,9 +159,9 @@ _p.Accessor.prototype.asCellOwner = function() {
  * パスワード変更.<br>
  * 例：<br>
  * 省略：<br>
- * 　as("client").changePassword(newPassword);</blockquote>
+ *   as("client").changePassword(newPassword);</blockquote>
  * 更新するパスワード：<br>
- * 　as("client").changePassword(newPassword);
+ *   as("client").changePassword(newPassword);
  * @param {string} newPassword 新しいパスワード.<br>
  * @exception {_p.PersoniumException} DAO例外
  */
@@ -241,7 +241,7 @@ _p.OData.prototype.del = function(id, etag) {
 /**
  * ODataデータの一覧取得のためのQueryオブジェクトを生成する.<br>
  * 例：<br>
- * 　odate("odata").entitiSet("ent").query().run();
+ *   odate("odata").entitiSet("ent").query().run();
  * @returns {_p.Query} Queryオブジェクト
  */
 _p.OData.prototype.query = function() {
@@ -253,7 +253,7 @@ _p.OData.prototype.query = function() {
  * @class ACL操作クラス
  */
 _p.AclManager = function() {
-	this.core = null;
+    this.core = null;
 };
 
 /**
@@ -279,13 +279,13 @@ _p.AclManager = function() {
  *     }
  *   ]
  * }
- * 
+ *
  * @memberOf Acl#
  */
 _p.AclManager.prototype.set = function(param) {
     try {
         var acl = new io._p.client.Acl();
-        
+
         if (param["requireSchemaAuthz"] !== null
         && typeof param["requireSchemaAuthz"] !== "undefined"
         && (param["requireSchemaAuthz"] !== "")) {
@@ -318,7 +318,7 @@ _p.AclManager.prototype.set = function(param) {
 
 /**
  * ACLを取得する.
- * @returns {string} 取得したACLのjsonオブジェクト. 
+ * @returns {string} 取得したACLのjsonオブジェクト.
  * @exception {_p.PersoniumException} DAO例外
  */
 _p.AclManager.prototype.get = function() {
@@ -360,7 +360,7 @@ _p.Webdav.prototype.acl = new _p.AclManager();
 /**
  * WebDAVコレクションを作成する.<br>
  * 例：<br>
- * 　box().mkCol("col");
+ *   box().mkCol("col");
  * @param {string} name 作成するコレクション名
  * @exception {_p.PersoniumException} DAO例外
  */
@@ -375,7 +375,7 @@ _p.Webdav.prototype.mkCol = function(name) {
 /**
  * ODataコレクションを作成する.<br>
  * 例：<br>
- * 　box().mkOData("col");
+ *   box().mkOData("col");
  * @param {string} name 作成するコレクション名
  * @exception {_p.PersoniumException} DAO例外
  */
@@ -390,7 +390,7 @@ _p.Webdav.prototype.mkOData = function(name) {
 /**
  * Serviceコレクションを作成する.<br>
  * 例：<br>
- * 　box().mkService("col");
+ *   box().mkService("col");
  * @param {string} name 作成するコレクション名
  * @exception {_p.PersoniumException} DAO例外
  */
@@ -479,7 +479,7 @@ _p.Webdav.prototype.col = function(name) {
 /**
  * ODataコレクションを取得する.<br>
  * 例：<br>
- * 　box().odata("odata");
+ *   box().odata("odata");
  * @param {string} name ODataコレクション名
  * @returns {_p.ODataCollection} _p.ODataCollectionオブジェクト
  * @exception {_p.PersoniumException} DAO例外
@@ -508,7 +508,7 @@ _p.Webdav.prototype.getPath = function() {
 /**
  * DAVリソースを文字列型で取得する.<br>
  * 例：<br>
- * 　box().col("col").getString("index.html", "utf-8");
+ *   box().col("col").getString("index.html", "utf-8");
  * @param {string} path 取得するパス
  * @param {string} charset 文字コード
  * @returns {string} DAVリソース
@@ -584,9 +584,9 @@ _p.Webdav.prototype.put = function(param, contentType, data, etag) {
  * 指定Pathのデータを削除.<br>
  * 例：<br>
  * ETag指定：<br>
- * 　box().col("col").del("index.html", "1234567890");<br>
+ *   box().col("col").del("index.html", "1234567890");<br>
  * ETag省略：<br>
- * 　box().col("col").del("index.html");
+ *   box().col("col").del("index.html");
  * @param {string} path 削除するパス
  * @exception {_p.PersoniumException} DAO例外
  */
@@ -708,7 +708,7 @@ _p.Cell.prototype.acl = new _p.AclManager();
  * @returns {_p.Box} Box操作クラス
  */
 _p.Cell.prototype.box = function(name) {
-	var dav;
+    var dav;
     if (name) {
         dav = new _p.Box(this.core.box(name));
     } else {
@@ -887,7 +887,7 @@ _p.ODataCollection = function(obj) {
 };
 
 /**
- * ユーザーデータ(OData)のEntitySetを指定. 
+ * ユーザーデータ(OData)のEntitySetを指定.
  * 例：<br>
  * box().odata("odata").schema.entityType.create("entity");<br>
  * box().odata("odata").entitySet("entity");
@@ -922,8 +922,8 @@ _p.EntitySet.prototype = new _p.OData();
  */
 _p.EntitySet.prototype.create = function(json) {
     try {
-    	var ret = this.core.createAsJson(_p.util.obj2javaJson(json));
-    	return JSON.parse(ret);
+        var ret = this.core.createAsJson(_p.util.obj2javaJson(json));
+        return JSON.parse(ret);
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
@@ -937,8 +937,8 @@ _p.EntitySet.prototype.create = function(json) {
  */
 _p.EntitySet.prototype.retrieve = function(id) {
     try {
-    	var ret = this.core.retrieveAsJson(id);
-    	return JSON.parse(ret);
+        var ret = this.core.retrieveAsJson(id);
+        return JSON.parse(ret);
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
@@ -1065,7 +1065,7 @@ _p.ComplexType = function(obj) {
  * @property {boolean} nullable Null値許可
  * @property {object} defaultValue デフォルト値
  * @property {string} CollectionKind 配列種別
- * @property {boolean} isKey 主キー設定 
+ * @property {boolean} isKey 主キー設定
  * @property {string} uniqueKey ユニークキー設定
  */
 _p.Property = function(obj) {
@@ -1228,9 +1228,9 @@ _p.EventManager = function(obj) {
  * @param {Object} param イベントオブジェクト<br>
  * @param {String} requestKey X-Personium-RequestKeyヘッダの値
  * 呼び出し例：<br>
- *   event.post({"level":"error", 
- *               "action":"actionData", 
- *               "object":"objectData", 
+ *   event.post({"level":"error",
+ *               "action":"actionData",
+ *               "object":"objectData",
  *               "result":"resultData"},
  *               "RequestKey");
  * @exception {_p.PersoniumException} DAO例外
@@ -1252,7 +1252,7 @@ _p.EventManager.prototype.post = function(param, requestKey) {
  * @class CurrentLog操作クラス
  */
 _p.CurrentLogManager = function(obj){
-	this.core = obj;
+    this.core = obj;
 };
 
 /**
@@ -1288,7 +1288,7 @@ _p.CurrentLogManager.prototype.getStream = function(filename, requestKey) {
         if (requestKey === null || typeof requestKey === "undefined") {
             return this.core.getStream(filename);
         }else{
-        	return this.core.getStream(filename, requestKey);
+            return this.core.getStream(filename, requestKey);
         }
     } catch (e) {
         throw new _p.PersoniumException(e.message);
@@ -1299,7 +1299,7 @@ _p.CurrentLogManager.prototype.getStream = function(filename, requestKey) {
  * @class ArchiveLog操作クラス
  */
 _p.ArchiveLogManager = function(obj){
-	this.core = obj;
+    this.core = obj;
 };
 
 /**
@@ -1313,9 +1313,9 @@ _p.ArchiveLogManager = function(obj){
 _p.ArchiveLogManager.prototype.getString = function(filename, requestKey) {
     try {
         if (requestKey === null || typeof requestKey === "undefined") {
-        	return this.core.getString(filename);
+            return this.core.getString(filename);
         }else{
-        	return this.core.getString(filename, requestKey);
+            return this.core.getString(filename, requestKey);
         }
     } catch (e) {
         throw new _p.PersoniumException(e.message);
@@ -1333,9 +1333,9 @@ _p.ArchiveLogManager.prototype.getString = function(filename, requestKey) {
 _p.ArchiveLogManager.prototype.getStream = function(filename, requestKey) {
     try {
         if (requestKey === null || typeof requestKey === "undefined") {
-        	return this.core.getStream(filename);
+            return this.core.getStream(filename);
         }else{
-        	return this.core.getStream(filename, requestKey);
+            return this.core.getStream(filename, requestKey);
         }
     } catch (e) {
         throw new _p.PersoniumException(e.message);
@@ -1766,7 +1766,7 @@ _p.AssociationEndManager.prototype = new _p.OData();
 /**
  * AssociationEndを登録する.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.associationEnd.create({"Name":"name", "_EntityType.Name":"entity"});
+ *   odata("odata").entitySet("entity").schema.associationEnd.create({"Name":"name", "_EntityType.Name":"entity"});
  * @param {Object} param AssociationEnd作成に必要なJSON型オブジェクト
  * @returns {_p.AssociationEnd} 作成したAssociationEndオブジェクト
  * @exception {_p.PersoniumException} DAO例外
@@ -1787,7 +1787,7 @@ _p.AssociationEndManager.prototype.create = function(param) {
 /**
  * AssociationEndを取得.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.associationEnd.retrieve({"Name":"name", "_EntityType.Name":"entity"});
+ *   odata("odata").entitySet("entity").schema.associationEnd.retrieve({"Name":"name", "_EntityType.Name":"entity"});
  * @param {Object} 取得対象のキー
  * @param {string} entity 取得対象のEntityType.Name値
  * @returns {_p.AssociationEnd} 取得したAssociationEndオブジェクト
@@ -1811,7 +1811,7 @@ _p.AssociationEndManager.prototype.retrieve = function(key) {
 /**
  * AssociationEndを削除.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.associationEnd.del({"Name":"name", "_EntityType.Name":"entity"});
+ *   odata("odata").entitySet("entity").schema.associationEnd.del({"Name":"name", "_EntityType.Name":"entity"});
  * @param {Object} key 削除対象のキー
  * @param {string} entity 削除対象のEntityType.Name値
  * @returns {_p.AssociationEnd} 取得したAssociationEndオブジェクト
@@ -1840,7 +1840,7 @@ _p.ComplexTypeManager.prototype = new _p.OData();
 /**
  * ComplexTypeを登録する.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.complexType.create({"Name":"name"});
+ *   odata("odata").entitySet("entity").schema.complexType.create({"Name":"name"});
  * @param {Object} param ComplexType作成に必要なJSON型オブジェクト
  * @returns {_p.ComplexType} 作成したComplexTypeオブジェクト
  * @exception {_p.PersoniumException} DAO例外
@@ -1859,7 +1859,7 @@ _p.ComplexTypeManager.prototype.create = function(param) {
 /**
  * ComplexTypeを取得.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.complexType.retrieve({"Name":"name"});
+ *   odata("odata").entitySet("entity").schema.complexType.retrieve({"Name":"name"});
  * @param {Object} 取得対象のキー
  * @param {string} entity 取得対象のEntityType.Name値
  * @returns {_p.ComplexType} 取得したComplexTypeオブジェクト
@@ -1880,7 +1880,7 @@ _p.ComplexTypeManager.prototype.retrieve = function(key) {
 /**
  * ComplexTypeを削除.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.complexType.del({"Name":"name"});
+ *   odata("odata").entitySet("entity").schema.complexType.del({"Name":"name"});
  * @param {Object} key 削除対象のキー
  * @param {string} entity 削除対象のComplexType.Name値
  * @returns {_p.ComplexType} 取得したComplexTypeオブジェクト
@@ -1908,7 +1908,7 @@ _p.PropertyManager.prototype = new _p.OData();
 /**
  * Propertyを登録する.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.property.create({"Name": "PetName",
+ *   odata("odata").entitySet("entity").schema.property.create({"Name": "PetName",
  * "_EntityType.Name": "Profile","Type": "Edm.String"});
  * @param {Object} param Property作成に必要なJSON型オブジェクト
  * @returns {_p.Property} 作成したPropertyオブジェクト
@@ -1939,7 +1939,7 @@ _p.PropertyManager.prototype.create = function(param) {
 /**
  * Propertyを取得.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.property.retrieve({"Name":"name","_EntityType.Name": "Profile"});
+ *   odata("odata").entitySet("entity").schema.property.retrieve({"Name":"name","_EntityType.Name": "Profile"});
  * @param {Object} 取得対象のキー
  * @returns {_p.Property} 取得したPropertyオブジェクト
  * @exception {_p.PersoniumException} DAO例外
@@ -1971,7 +1971,7 @@ _p.PropertyManager.prototype.retrieve = function(key) {
 /**
  * Propertyを削除.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.property.del({"Name":"name","_EntityType.Name": "Profile"});
+ *   odata("odata").entitySet("entity").schema.property.del({"Name":"name","_EntityType.Name": "Profile"});
  * @param {Object} key 削除対象のキー
  * @exception {_p.PersoniumException} DAO例外
  */
@@ -1998,7 +1998,7 @@ _p.ComplexTypePropertyManager.prototype = new _p.OData();
 /**
  * ComplexTypePropertyを登録する.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.complexTypeProperty.create({"Name": "PetName",
+ *   odata("odata").entitySet("entity").schema.complexTypeProperty.create({"Name": "PetName",
  * "_ComplexType.Name": "Profile","Type": "Edm.String"});
  * @param {Object} param ComplexTypeProperty作成に必要なJSON型オブジェクト
  * @returns {_p.ComplexTypeProperty} 作成したComplexTypePropertyオブジェクト
@@ -2027,7 +2027,7 @@ _p.ComplexTypePropertyManager.prototype.create = function(param) {
 /**
  * ComplexTypePropertyを取得.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.complexTypeProperty.retrieve({"Name":"name","_ComplexType.Name": "Profile"});
+ *   odata("odata").entitySet("entity").schema.complexTypeProperty.retrieve({"Name":"name","_ComplexType.Name": "Profile"});
  * @param {Object} 取得対象のキー
  * @returns {_p.ComplexTypeProperty} 取得したComplexTypePropertyオブジェクト
  * @exception {_p.PersoniumException} DAO例外
@@ -2057,7 +2057,7 @@ _p.ComplexTypePropertyManager.prototype.retrieve = function(key) {
 /**
  * ComplexTypePropertyを削除.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").schema.complexTypeProperty.del({"Name":"name","_ComplexType.Name": "Profile"});
+ *   odata("odata").entitySet("entity").schema.complexTypeProperty.del({"Name":"name","_ComplexType.Name": "Profile"});
  * @param {Object} key 削除対象のキー
  * @exception {_p.PersoniumException} DAO例外
  */
@@ -2134,7 +2134,7 @@ _p.Query.prototype.filter = function(filter) {
 /**
  * $selectクエリを指定.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().select("name,age,type").run();
+ *   odata("odata").entitySet("entity").query().select("name,age,type").run();
  * @param {string} select $selectクエリ
  * @returns {_p.Query} 自分自身(Query)
  */
@@ -2146,7 +2146,7 @@ _p.Query.prototype.select = function(select) {
 /**
  * $topクエリを指定.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().top(100).run();
+ *   odata("odata").entitySet("entity").query().top(100).run();
  * @param {number} top $topクエリ
  * @returns {_p.Query} 自分自身(Query)
  */
@@ -2158,7 +2158,7 @@ _p.Query.prototype.top = function(value) {
 /**
  * $skipクエリを指定.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().skip(100).top(100).run();
+ *   odata("odata").entitySet("entity").query().skip(100).top(100).run();
  * @param {number} skip $skipクエリ
  * @returns {_p.Query} 自分自身(Query)
  */
@@ -2170,7 +2170,7 @@ _p.Query.prototype.skip = function(value) {
 /**
  * $expandクエリを指定.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().expand("entityname").run();
+ *   odata("odata").entitySet("entity").query().expand("entityname").run();
  * @param {string} expand $expandクエリ
  * @returns {_p.Query} 自分自身(Query)
  */
@@ -2182,8 +2182,8 @@ _p.Query.prototype.expand = function(expand) {
 /**
  * $orderbyクエリを指定.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().orderby("fieldName asc").run();<br>
- * 　odata("odata").entitySet("entity").query().orderby("fieldName desc").run();<br>
+ *   odata("odata").entitySet("entity").query().orderby("fieldName asc").run();<br>
+ *   odata("odata").entitySet("entity").query().orderby("fieldName desc").run();<br>
  * @param {string} type $orderbyクエリ
  * @returns {_p.Query} 自分自身(Query)
  */
@@ -2195,8 +2195,8 @@ _p.Query.prototype.orderby = function(type) {
 /**
  * inlinecountクエリを指定.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().inlinecount("allpages").run();<br>
- * 　odata("odata").entitySet("entity").query().inlinecount("none ").run();<br>
+ *   odata("odata").entitySet("entity").query().inlinecount("allpages").run();<br>
+ *   odata("odata").entitySet("entity").query().inlinecount("none ").run();<br>
  * @param {string} type $inlinecountクエリ
  * @returns {_p.Query} 自分自身(Query)
  */
@@ -2208,7 +2208,7 @@ _p.Query.prototype.inlinecount = function(type) {
 /**
  * qクエリを指定.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().q("key").run();
+ *   odata("odata").entitySet("entity").query().q("key").run();
  * @param {string} value qクエリ
  * @returns {_p.Query} 自分自身(Query)
  */
@@ -2220,14 +2220,14 @@ _p.Query.prototype.q = function(value) {
 /**
  * ODataの検索を実行.<br>
  * 例：<br>
- * 　odata("odata").entitySet("entity").query().run();
+ *   odata("odata").entitySet("entity").query().run();
  * @returns {Object} 検索結果JSONオブジェクト
  * @exception {_p.PersoniumException} DAO例外
  */
 _p.Query.prototype.run = function() {
     try {
-    	var ret = this.core.run();
-    	return JSON.parse(ret);
+        var ret = this.core.run();
+        return JSON.parse(ret);
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }

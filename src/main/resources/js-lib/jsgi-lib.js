@@ -35,9 +35,9 @@ JSGIResponse.prototype = {
      * 返却データを設定する。
      */
     setResponseData: function(data) {
-    	if(data === null) {
-    		this.body = [];
-    	}else if (this.headers["Content-Type"].indexOf("application/json", 0) != -1) {
+        if(data === null) {
+            this.body = [];
+        }else if (this.headers["Content-Type"].indexOf("application/json", 0) != -1) {
             this.body = [JSON.stringify(data)];
         } else {
             this.body = [data];

@@ -26,7 +26,7 @@ _p.util.obj2javaJson = function(obj) {
 
 _p.util.escape4xss = function(obj) {
     if (typeof obj === 'string') {
-        return obj.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;"); 
+        return obj.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
     } else if (typeof obj === 'Object') {
         var ret = {};
         for (var k in obj) {
@@ -41,15 +41,15 @@ _p.util.escape4xss = function(obj) {
         return obj;
     }
 };
-    
+
 _p.util.require =  function(path) {
     _require.load(path);
 };
 
 _p.util.queryParse = function(queryString, charset){
-    
+
     charset = (charset == undefined)?"utf-8":charset;
-    
+
     var query = {};
     var params = queryString.split("&");
     for ( var param in params){
@@ -72,12 +72,12 @@ _p.util.queryParse = function(queryString, charset){
     }
     return query;
 };
-    
+
 _p.util.decodeURI = function(str, charset) {
      // 以下の処理で、.toString() + "" をしている理由
-     // 　そのままハッシュデータを作成し、JSON.stringify を行うと、
-     // 　「Java class "[B" has no public instance field or method named "toJSON"」
-     // 　というようなExceptionが発生する。
+     //   そのままハッシュデータを作成し、JSON.stringify を行うと、
+     //   「Java class "[B" has no public instance field or method named "toJSON"」
+     //   というようなExceptionが発生する。
      // まったく同じ形式のＪＳＯＮを手作業で作成した場合は、JSON.stringifyが成功する。
      //  値の形式が文字列になっていないようなので、「.toString() + ""」をしてみた。
      // そしたら、うまく動いた。
@@ -90,5 +90,5 @@ _p.util.decodeURI = function(str, charset) {
  * @returns 読み込まれた拡張オブジェクト
  */
 function require(path) {
-	return _require.doRequire(path);
+    return _require.doRequire(path);
 }
