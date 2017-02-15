@@ -1,3 +1,8 @@
+## 1.4.3
+
+ BUG FIXES: 
+ - Remove Checkstyle Errors and PMD warnings.
+
 ## 1.4.2
 
 BREAKING CHANGES:
