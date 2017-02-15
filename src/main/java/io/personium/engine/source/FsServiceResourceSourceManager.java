@@ -57,7 +57,7 @@ public class FsServiceResourceSourceManager implements ISourceManager {
 
     /** Mapping from path to source file. */
     private Map<String, String> pathMap = new HashMap<>();
-    
+
     private String serviceSubject;
 
     /**
@@ -138,7 +138,8 @@ public class FsServiceResourceSourceManager implements ISourceManager {
             return new String(Files.readAllBytes(sourceFile.toPath()), Charsets.UTF_8);
         } catch (IOException e) {
           log.info("UserScript Encoding error(UnsupportedEncodingException) ", e);
-          throw new PersoniumEngineException("404 UserScript Encoding error", PersoniumEngineException.STATUSCODE_NOTFOUND, e);
+          throw new PersoniumEngineException("404 UserScript Encoding error",
+                  PersoniumEngineException.STATUSCODE_NOTFOUND, e);
         }
     }
 
@@ -174,7 +175,7 @@ public class FsServiceResourceSourceManager implements ISourceManager {
             NodeList nl = doc.getElementsByTagNameNS("*", "path");
             for (int i = 0; i < nl.getLength(); i++) {
                 NamedNodeMap nnm = nl.item(i).getAttributes();
-                pathMap.put(nnm.getNamedItem("name").getNodeValue(),nnm.getNamedItem("src").getNodeValue());
+                pathMap.put(nnm.getNamedItem("name").getNodeValue(), nnm.getNamedItem("src").getNodeValue());
             }
         } catch (SAXException e) {
             throw new RuntimeException(e);

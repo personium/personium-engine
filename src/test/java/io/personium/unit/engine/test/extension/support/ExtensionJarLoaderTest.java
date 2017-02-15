@@ -180,7 +180,7 @@ public class ExtensionJarLoaderTest {
                 new JavaClassRevealFilter());
 
         try {
-            Class<?> clazz2 = loader.getClassLoader().loadClass("io.personium.engine.extension.test.Ext_RevealingClass");
+            loader.getClassLoader().loadClass("io.personium.engine.extension.test.Ext_RevealingClass");
             fail();
         } catch (ClassNotFoundException e) {
             assertTrue(true);
@@ -205,7 +205,7 @@ public class ExtensionJarLoaderTest {
                 new JavaClassRevealFilter());
 
         try {
-            Class<?> clazz2 = loader.getClassLoader().loadClass("io.personium.engine.extension.test.Ext_RevealingClass");
+            loader.getClassLoader().loadClass("io.personium.engine.extension.test.Ext_RevealingClass");
             fail();
         } catch (ClassNotFoundException e) {
             assertTrue(true);

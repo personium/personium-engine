@@ -51,8 +51,8 @@ import io.personium.engine.extension.support.ExtensionJarLoader;
 import io.personium.engine.extension.support.ExtensionLogger;
 import io.personium.engine.extension.support.IExtensionLogger;
 import io.personium.engine.extension.support.JavaClassRevealFilter;
-import io.personium.engine.jsgi.PersoniumResponse;
 import io.personium.engine.jsgi.JSGIRequest;
+import io.personium.engine.jsgi.PersoniumResponse;
 import io.personium.engine.source.ISourceManager;
 import io.personium.engine.utils.PersoniumEngineConfig;
 import io.personium.engine.utils.PersoniumEngineLoggerFactory;
@@ -275,7 +275,8 @@ public class PersoniumEngineContext implements Closeable {
 
             // ユーザースクリプト内でのエラーはINFOレベルでログ出力
             log.info("User Script Evalucation Error : " + e.getMessage(), e);
-            throw new PersoniumEngineException("Server Error : " + e.getMessage(), PersoniumEngineException.STATUSCODE_SERVER_ERROR,
+            throw new PersoniumEngineException("Server Error : " + e.getMessage(),
+                    PersoniumEngineException.STATUSCODE_SERVER_ERROR,
                     e);
         }
     }

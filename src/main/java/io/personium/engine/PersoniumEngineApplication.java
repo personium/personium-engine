@@ -41,7 +41,8 @@ public class PersoniumEngineApplication extends Application {
     // private static final String KEY_DCENGINE_DEBUG = "io.personium.engine.debug";
     static {
         try {
-        TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(), PersoniumEngineConfig.getX509Certificate(),
+        TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(),
+                PersoniumEngineConfig.getX509Certificate(),
                 PersoniumEngineConfig.getX509RootCertificate());
         LocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
         } catch (Exception e) {

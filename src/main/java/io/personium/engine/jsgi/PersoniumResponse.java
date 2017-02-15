@@ -161,7 +161,8 @@ public final class PersoniumResponse extends ScriptableObject {
                 personiumResponse.setOutput(resStream);
 
                 // forEachをJavaScriptの関数として登録
-                ScriptableObject callback = new FunctionObject("bodyResponseFunction", responseMethod, personiumResponse);
+                ScriptableObject callback = new FunctionObject("bodyResponseFunction",
+                        responseMethod, personiumResponse);
 
                 // forEach呼び出し
                 Object[] args = {callback};

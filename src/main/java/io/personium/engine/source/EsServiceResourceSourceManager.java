@@ -39,8 +39,8 @@ import io.personium.common.es.EsType;
 import io.personium.common.es.response.PersoniumGetResponse;
 import io.personium.core.model.file.BinaryDataAccessException;
 import io.personium.core.model.file.BinaryDataAccessor;
-import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.EsModel;
+import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
@@ -113,7 +113,8 @@ public class EsServiceResourceSourceManager implements ISourceManager {
         }
 
         // スクリプトの情報を取得する
-        this.serviceCollectionInfo = (String) ((Map<?, ?>) getResp.getSource().get("d")).get("service@urn:x-personium:xmlns");
+        this.serviceCollectionInfo = (String) ((Map<?, ?>) getResp.getSource().get("d")).get(
+                "service@urn:x-personium:xmlns");
         if (null == this.serviceCollectionInfo) {
             log.info("Service property Invalid ");
             throw new PersoniumEngineException("404 Not Found (Service property invalid) ",
@@ -176,17 +177,20 @@ public class EsServiceResourceSourceManager implements ISourceManager {
         }
 
         BinaryDataAccessor binaryAccessor = new BinaryDataAccessor(PersoniumEngineConfig.getBlobStoreRoot(), this.index
-                .substring(PersoniumEngineConfig.getUnitPrefix().length() + 1), PersoniumEngineConfig.getFsyncEnabled());
+                .substring(PersoniumEngineConfig.getUnitPrefix().length() + 1),
+                PersoniumEngineConfig.getFsyncEnabled());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             binaryAccessor.copy(sourceNodeId, baos);
             return baos.toString("UTF-8");
         } catch (BinaryDataAccessException e) {
             log.info("UserScript Encoding error(UnsupportedEncodingException) ", e);
-            throw new PersoniumEngineException("404 UserScript Encoding error", PersoniumEngineException.STATUSCODE_NOTFOUND, e);
+            throw new PersoniumEngineException("404 UserScript Encoding error",
+                    PersoniumEngineException.STATUSCODE_NOTFOUND, e);
         } catch (UnsupportedEncodingException e) {
             log.info("UserScript Encoding error(UnsupportedEncodingException) ", e);
-            throw new PersoniumEngineException("404 UserScript Encoding error", PersoniumEngineException.STATUSCODE_NOTFOUND, e);
+            throw new PersoniumEngineException("404 UserScript Encoding error",
+                    PersoniumEngineException.STATUSCODE_NOTFOUND, e);
         }
 
 
