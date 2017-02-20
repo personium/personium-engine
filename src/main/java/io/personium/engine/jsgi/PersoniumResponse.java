@@ -354,6 +354,6 @@ public final class PersoniumResponse extends ScriptableObject {
 
     @Override
     public String getClassName() {
-        return "DcResponse";
+        return "PersoniumResponse";
     }
 }

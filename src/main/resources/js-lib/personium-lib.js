@@ -20,7 +20,7 @@ _p.dcjvm = pjvm;
 _p.util = {};
 
 _p.util.obj2javaJson = function(obj) {
-    return _p.pjvm.newPersoniumJSONObject(JSON.stringify(obj));
+    return _p.pjvm.newJSONObject(JSON.stringify(obj));
 };
 
 
