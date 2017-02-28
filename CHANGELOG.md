@@ -1,3 +1,9 @@
+## 1.4.4
+
+ BUG FIXES: 
+ - Loaded method name is invalid in `personium-lib.js `.([#5](https://github.com/personium/personium-engine/issues/5)).
+
+
 ## 1.4.3
 
  BUG FIXES: 
