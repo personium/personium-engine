@@ -18,11 +18,13 @@ package io.personium.engine.accesscontrol;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.json.simple.JSONObject;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.NativeArray;
+import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 
@@ -59,6 +61,13 @@ public class PrimitiveWrapFactory extends WrapFactory {
 
         } else if (obj instanceof JSONObject && !(obj instanceof PersoniumJSONObject)) {
             return ((JSONObject) obj).toJSONString();
+
+        } else if (obj instanceof NativeObject) {
+        	NativeObject newObj = new NativeObject();
+        	for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
+        		newObj.put((String)o.getKey(), newObj, wrap(cx, scope, o.getValue(), staticType));
+        	}
+            return newObj;
 
         } else if (obj instanceof ArrayList) {
             // クライアントライブラリからJava配列を直接返された時(ACLなど扱う処理で返される)に、
