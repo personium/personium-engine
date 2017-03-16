@@ -63,10 +63,10 @@ public class PersoniumWrapFactory extends WrapFactory {
             return ((JSONObject) obj).toJSONString();
 
         } else if (obj instanceof NativeObject) {
-        	NativeObject newObj = new NativeObject();
-        	for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
-        		newObj.put((String)o.getKey(), newObj, wrap(cx, scope, o.getValue(), staticType));
-        	}
+            NativeObject newObj = new NativeObject();
+            for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
+                newObj.put((String)o.getKey(), newObj, wrap(cx, scope, o.getValue(), staticType));
+            }
             return newObj;
 
         } else if (obj instanceof ArrayList) {
