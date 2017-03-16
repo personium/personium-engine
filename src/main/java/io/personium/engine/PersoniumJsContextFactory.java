@@ -22,7 +22,7 @@ import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Scriptable;
 
 import io.personium.engine.accesscontrol.PersoniumClassShutterImpl;
-import io.personium.engine.accesscontrol.PrimitiveWrapFactory;
+import io.personium.engine.accesscontrol.PersoniumWrapFactory;
 
 
 
@@ -43,7 +43,7 @@ public class PersoniumJsContextFactory extends ContextFactory {
         // ClassShutterの登録(Javaパッケージ呼び出し制御)
         cx.setClassShutter(new PersoniumClassShutterImpl());
 
-        cx.setWrapFactory(new PrimitiveWrapFactory());
+        cx.setWrapFactory(new PersoniumWrapFactory());
 
         return cx;
     }
