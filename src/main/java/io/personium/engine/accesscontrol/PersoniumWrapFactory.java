@@ -62,12 +62,13 @@ public class PersoniumWrapFactory extends WrapFactory {
         } else if (obj instanceof JSONObject && !(obj instanceof PersoniumJSONObject)) {
             return ((JSONObject) obj).toJSONString();
 
-        } else if (obj instanceof NativeObject) {
-            NativeObject newObj = new NativeObject();
-            for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
-                newObj.put((String)o.getKey(), newObj, wrap(cx, scope, o.getValue(), staticType));
-            }
-            return newObj;
+//        } else if (obj instanceof NativeObject) {
+        	// NativeObjectに格納されたObjectに対してwrapを行う。
+//            NativeObject newObj = new NativeObject();
+//            for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
+//                newObj.put((String)o.getKey(), newObj, wrap(cx, scope, o.getValue(), staticType));
+//            }
+//            return newObj;
 
         } else if (obj instanceof ArrayList) {
             // クライアントライブラリからJava配列を直接返された時(ACLなど扱う処理で返される)に、
