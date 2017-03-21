@@ -27,6 +27,8 @@ import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.personium.engine.adapter.PersoniumRequestBodyStream;
 import io.personium.engine.wrapper.PersoniumInputStream;
@@ -36,6 +38,8 @@ import io.personium.engine.wrapper.PersoniumJSONObject;
  * JavaScriptからJavaメソッド呼び出し時の返却値ラップ動作制御.
  */
 public class PersoniumWrapFactory extends WrapFactory {
+    /** ログオブジェクト. */
+    private static Logger log = LoggerFactory.getLogger(PersoniumWrapFactory.class);
 
     /*
      * 以下の変換処理を実施.
@@ -57,18 +61,21 @@ public class PersoniumWrapFactory extends WrapFactory {
             return obj;
 
         } else if (obj instanceof InputStream && !(obj instanceof PersoniumInputStream)) {
-            return new PersoniumInputStream((InputStream) obj);
+        	PersoniumInputStream pis = new PersoniumInputStream((InputStream) obj);
+        	log.debug("PersoniumWrapFactory wrap:" + pis.getClass().getName());
+        	return pis;
+//            return (PersoniumInputStream) new PersoniumInputStream((InputStream) obj);
 
         } else if (obj instanceof JSONObject && !(obj instanceof PersoniumJSONObject)) {
             return ((JSONObject) obj).toJSONString();
 
         } else if (obj instanceof NativeObject) {
             // NativeObjectに格納されたObjectに対してwrapを行う。
-            NativeObject newObj = new NativeObject();
+            NativeObject no = new NativeObject();
             for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
-                newObj.put((String)o.getKey(), newObj, wrap(cx, scope, o.getValue(), staticType));
+                no.put((String)o.getKey(), no, wrap(cx, scope, o.getValue(), staticType));
             }
-            return newObj;
+            return no;
 
         } else if (obj instanceof ArrayList) {
             // クライアントライブラリからJava配列を直接返された時(ACLなど扱う処理で返される)に、
