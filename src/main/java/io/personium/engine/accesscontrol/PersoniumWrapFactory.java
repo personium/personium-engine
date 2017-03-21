@@ -41,8 +41,8 @@ public class PersoniumWrapFactory extends WrapFactory {
      * 以下の変換処理を実施.
      * ・数値型が渡された場合はラップしないことよってRhinoにJavaScriptのnumber型に変換させる
      * ・Stringはラップせずにそのまま返すことでrhinoにJavaScriptのstring型に変換させる
-     * ・InputStreamはDcInputStreamというEngineのラッパークラスに置き換える
-     * ・JSONObjectはDcJSONObjectというEngineのラッパークラスに置き換える
+     * ・InputStreamはPersoniumInputStreamというEngineのラッパークラスに置き換える
+     * ・JSONObjectはPersoniumJSONObjectというEngineのラッパークラスに置き換える
      *   （EngineクライアントライブラリでJSONObject前提の処理があるのでその対応）
      * ・ArrayListはJavaScriptのNativeArrayに置き換える
      *   （EngineクライアントライブラリでArrayList前提の処理があるのでその対応）
@@ -63,7 +63,7 @@ public class PersoniumWrapFactory extends WrapFactory {
             return ((JSONObject) obj).toJSONString();
 
         } else if (obj instanceof NativeObject) {
-        	// NativeObjectに格納されたObjectに対してwrapを行う。
+            // NativeObjectに格納されたObjectに対してwrapを行う。
             NativeObject newObj = new NativeObject();
             for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
                 newObj.put((String)o.getKey(), newObj, wrap(cx, scope, o.getValue(), staticType));
