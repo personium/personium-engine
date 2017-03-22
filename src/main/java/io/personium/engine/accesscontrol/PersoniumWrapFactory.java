@@ -54,6 +54,7 @@ public class PersoniumWrapFactory extends WrapFactory {
     @SuppressWarnings("unchecked")
     @Override
     public Object wrap(Context cx, Scriptable scope, Object obj, Class<?> staticType) {
+        log.debug("PersoniumWrapFactory wrap in:" + obj.getClass().getName());
         if (obj instanceof Number) {
             return obj;
 
@@ -62,7 +63,6 @@ public class PersoniumWrapFactory extends WrapFactory {
 
         } else if (obj instanceof InputStream && !(obj instanceof PersoniumInputStream)) {
 //          return (PersoniumInputStream) new PersoniumInputStream((InputStream) obj);
-            log.debug("PersoniumWrapFactory wrap in:" + obj.getClass().getName());
             PersoniumInputStream pis = new PersoniumInputStream((InputStream) obj);
             log.debug("PersoniumWrapFactory wrap out:" + pis.getClass().getName());
             return pis;
