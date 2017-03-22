@@ -365,27 +365,27 @@ public final class PersoniumResponse extends ScriptableObject {
 
     // Check the type of Object.
     private String ExceptionObject(Object obj) {
-    	String objName ="";
-    	if (obj instanceof Number) {
-    		objName = "Number";
+        String objName = "";
+        if (obj instanceof Number) {
+    	    objName = "Number";
         } else if (obj instanceof String) {
-        	objName = "String";
+            objName = "String";
         } else if (obj instanceof InputStream) {
-        	objName = "InputStream";
+            objName = "InputStream";
         } else if (obj instanceof PersoniumInputStream) {
-        	objName = "PersoniumInputStream";
+            objName = "PersoniumInputStream";
         } else if (obj instanceof JSONObject) {
-        	objName = "JSONObject";
+            objName = "JSONObject";
         } else if (obj instanceof PersoniumJSONObject) {
-        	objName = "PersoniumJSONObject";
+            objName = "PersoniumJSONObject";
         } else if (obj instanceof NativeObject) {
-        	objName = "NativeObject";
+            objName = "NativeObject";
         } else if (obj instanceof NativeArray) {
-        	objName = "NativeArray";
+            objName = "NativeArray";
         } else if (obj instanceof ArrayList) {
-        	objName = "ArrayList";
+            objName = "ArrayList";
         } else {
-        	objName = "Not Object";
+            objName = "Not Object";
         }
         return objName + ":Class=" + obj.getClass().getName();
     }

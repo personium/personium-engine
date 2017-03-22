@@ -61,10 +61,11 @@ public class PersoniumWrapFactory extends WrapFactory {
             return obj;
 
         } else if (obj instanceof InputStream && !(obj instanceof PersoniumInputStream)) {
+//          return (PersoniumInputStream) new PersoniumInputStream((InputStream) obj);
+            log.debug("PersoniumWrapFactory wrap in:" + obj.getClass().getName());
             PersoniumInputStream pis = new PersoniumInputStream((InputStream) obj);
-            log.debug("PersoniumWrapFactory wrap:" + pis.getClass().getName());
+            log.debug("PersoniumWrapFactory wrap out:" + pis.getClass().getName());
             return pis;
-//            return (PersoniumInputStream) new PersoniumInputStream((InputStream) obj);
 
         } else if (obj instanceof JSONObject && !(obj instanceof PersoniumJSONObject)) {
             return ((JSONObject) obj).toJSONString();
