@@ -95,7 +95,7 @@ public class PersoniumEngineContext implements Closeable {
 
     /**
      * コンストラクタ.
-     * @throws PersoniumEngineException DcEngine例外
+     * @throws PersoniumEngineException PersoniumEngine例外
      */
     public PersoniumEngineContext() throws PersoniumEngineException {
         // Rhinoの実行環境を作成する
@@ -109,10 +109,7 @@ public class PersoniumEngineContext implements Closeable {
     /**
      * Extensionクラスを JavaScriptに公開する.
      * この際、ロガークラス実体を Extensionクラス側に設定する。
-     * @throws DcEngineException 公開失敗時
-     */
-    /**
-     * @throws PersoniumEngineException
+     * @throws PersoniumEngineException 公開失敗時
      */
     private void prepareExtensionClass() throws PersoniumEngineException {
         // Extension用 jarのロード
@@ -129,8 +126,8 @@ public class PersoniumEngineContext implements Closeable {
 
         // Javascript内でプロトタイプとして使用可能な Javaクラスを定義する。
         // スコープの設定
-        NativeObject dcScope = (NativeObject) this.scope.get(PERSONIUM_SCOPE, this.scope);
-        NativeObject declaringClass = (NativeObject) dcScope.get(EXTENSION_SCOPE, dcScope);
+        NativeObject pScope = (NativeObject) this.scope.get(PERSONIUM_SCOPE, this.scope);
+        NativeObject declaringClass = (NativeObject) pScope.get(EXTENSION_SCOPE, pScope);
 
         for (Class<? extends Scriptable> clazz : extLoader.getPrototypeClassSet()) {
             try {
@@ -206,7 +203,7 @@ public class PersoniumEngineContext implements Closeable {
      * @param is リクエストストリームオブジェクト
      * @param serviceSubject サービスサブジェクト
      * @return Response
-     * @throws PersoniumEngineException DcEngine例外
+     * @throws PersoniumEngineException PersoniumEngine例外
      */
     public final Response runJsgi(final String source,
             final HttpServletRequest req,
@@ -261,9 +258,9 @@ public class PersoniumEngineContext implements Closeable {
             ret = evalUserScript(source, jsReq);
             log.info("[" + PersoniumEngineConfig.getVersion() + "] " + "<<< Request Ended ");
 
-            PersoniumResponse dcRes = PersoniumResponse.parseJsgiResponse(ret);
+            PersoniumResponse pRes = PersoniumResponse.parseJsgiResponse(ret);
 
-            return dcRes.build();
+            return pRes.build();
         } catch (Error e) {
             // ユーザースクリプトのタイムアウトはINFOレベルでログ出力
             log.info("UserScript TimeOut", e);
@@ -285,7 +282,7 @@ public class PersoniumEngineContext implements Closeable {
      * UserScript実行.
      * @param source ユーザースクリプトソース
      * @throws IOException IO例外
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     private Object evalUserScript(final String source, JSGIRequest jsReq) throws PersoniumEngineException {
         cx.evaluateString(scope, "fn_jsgi = " + source, null, 1, null);
@@ -313,20 +310,20 @@ public class PersoniumEngineContext implements Closeable {
         PersoniumEngineLoggerFactory engLogFactory = new PersoniumEngineLoggerFactory();
         PersoniumLoggerFactory.setDefaultFactory(engLogFactory);
 
-        PersoniumEngineDao dccx = new PersoniumEngineDao(baseUrl, currentCellName, currentSchemeUri, currentBoxName);
-        dccx.setServiceSubject(serviceSubject);
-        dccx.setBoxSchema(req.getHeader("X-Personium-Box-Schema"));
+        PersoniumEngineDao pcx = new PersoniumEngineDao(baseUrl, currentCellName, currentSchemeUri, currentBoxName);
+        pcx.setServiceSubject(serviceSubject);
+        pcx.setBoxSchema(req.getHeader("X-Personium-Box-Schema"));
         String auth = req.getHeader(HttpHeaders.AUTHORIZATION);
         String version = req.getHeader(PersoniumEngineDao.PERSONIUM_VERSION);
         if (version != null && !(version.equals(""))) {
-            dccx.setPersoniumVersion(version);
+            pcx.setPersoniumVersion(version);
         }
         log.debug("auth : --------------------------------------------------------------------------");
         log.debug(auth);
         if (auth != null && auth.length() > "Bearer".length()) {
-            dccx.setClientToken(auth.substring("Bearer".length()).trim());
+            pcx.setClientToken(auth.substring("Bearer".length()).trim());
         }
-        return dccx;
+        return pcx;
     }
 
     /**

@@ -43,7 +43,7 @@ public class PersoniumJsContext extends Context {
 
     /**
      * タイムアウト値のチェック.
-     * @throws PersoniumEngineException DcEngine例外
+     * @throws PersoniumEngineException PersoniumEngine例外
      */
     public final void checkTimeout() throws PersoniumEngineException {
         if (timeout < System.currentTimeMillis()) {

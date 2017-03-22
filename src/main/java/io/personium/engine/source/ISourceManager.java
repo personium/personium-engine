@@ -26,14 +26,14 @@ public interface ISourceManager {
     /**
      * サービスサブジェクトを返却.
      * @return サービスサブジェクト
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     String getServiceSubject() throws PersoniumEngineException;
     /**
      * サービス名に対応したスクリプトを返却.
      * @param servicePath サービス名
      * @return スクリプトファイル名
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException;
 
@@ -41,7 +41,7 @@ public interface ISourceManager {
      * スクリプトファイルの中身を返却.
      * @param scriptFileName スクリプトファイル名
      * @return スクリプトファイルの中身
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     String getSource(String scriptFileName) throws PersoniumEngineException;
 }

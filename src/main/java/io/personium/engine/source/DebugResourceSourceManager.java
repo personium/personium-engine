@@ -40,7 +40,7 @@ public class DebugResourceSourceManager implements ISourceManager {
     /**
      * サービスコレクションに設定されたサービスサブジェクトの取得.
      * @return サービスサブジェクト
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     public String getServiceSubject() throws PersoniumEngineException {
         return "engine";
@@ -50,7 +50,7 @@ public class DebugResourceSourceManager implements ISourceManager {
      * サービス名に対応したスクリプトファイル名の取得.
      * @param servicePath サービス名
      * @return スクリプトファイル名
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     public String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException {
         // デバッグ用リソース動作時はURLで呼び出されたフィル名と実行スクリプト名が同一
@@ -61,7 +61,7 @@ public class DebugResourceSourceManager implements ISourceManager {
      * ソースファイルを取得.
      * @param sourceName ソースファイル名
      * @return ソースファイルの中身
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     public String getSource(String sourceName) throws PersoniumEngineException {
         try {

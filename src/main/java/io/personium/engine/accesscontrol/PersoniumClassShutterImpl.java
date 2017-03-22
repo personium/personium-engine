@@ -22,7 +22,7 @@ import java.util.Set;
 import org.mozilla.javascript.ClassShutter;
 
 /**
- * ClassShutterの実装. DcEngine上で呼び出し可能なJavaパッケージの制御
+ * ClassShutterの実装. PersoniumEngine上で呼び出し可能なJavaパッケージの制御
  */
 public final class PersoniumClassShutterImpl implements ClassShutter {
     private static final Set<String> ACCEPTED = new HashSet<String>();

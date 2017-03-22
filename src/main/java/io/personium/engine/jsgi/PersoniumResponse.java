@@ -68,7 +68,7 @@ public final class PersoniumResponse extends ScriptableObject {
     /**
      * ユーザスクリプトから返却されたJSGIのレスポンスをチェックし、Javaオブジェクトに変換する.
      * @param jsgiResponse JavaScriptのJSGIレスポンス
-     * @return DcResponse
+     * @return PersoniumResponse
      * @throws Exception Exception
      */
     public static PersoniumResponse parseJsgiResponse(Object jsgiResponse) throws Exception {
@@ -267,8 +267,9 @@ public final class PersoniumResponse extends ScriptableObject {
     }
 
     /**
-     * JavaScriptからレスポンスで返すStremingOutputを設定する. 直接StreamingOutputを扱わずにラップしたDcStremingOutputを受け取る
-     * @param value DcStremingOutputオブジェクト
+     * JavaScriptからレスポンスで返すStremingOutputを設定する. 
+     * 直接StreamingOutputを扱わずにラップしたStremingOutputを受け取る
+     * @param value StremingOutputオブジェクト
      */
     private void setBody(StreamingOutput value) {
         this.streaming = value;
