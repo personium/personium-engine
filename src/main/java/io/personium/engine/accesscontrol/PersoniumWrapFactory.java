@@ -27,8 +27,8 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
 
 import io.personium.engine.adapter.PersoniumRequestBodyStream;
-import io.personium.engine.wrapper.PersoniumInputStream;
 import io.personium.engine.wrapper.PersoniumJSONObject;
+import io.personium.engine.extension.wrapper.PersoniumInputStream;
 
 /**
  * JavaScriptからJavaメソッド呼び出し時の返却値ラップ動作制御.
