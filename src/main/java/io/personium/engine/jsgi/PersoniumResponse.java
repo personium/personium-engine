@@ -17,14 +17,11 @@
 package io.personium.engine.jsgi;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +31,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.http.HttpStatus;
-import org.json.simple.JSONObject;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.FunctionObject;
 import org.mozilla.javascript.JavaScriptException;
@@ -45,7 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.personium.engine.wrapper.PersoniumInputStream;
-import io.personium.engine.wrapper.PersoniumJSONObject;
 
 
 /**
@@ -68,7 +63,7 @@ public final class PersoniumResponse extends ScriptableObject {
     /**
      * ユーザスクリプトから返却されたJSGIのレスポンスをチェックし、Javaオブジェクトに変換する.
      * @param jsgiResponse JavaScriptのJSGIレスポンス
-     * @return PersoniumResponse
+     * @return DcResponse
      * @throws Exception Exception
      */
     public static PersoniumResponse parseJsgiResponse(Object jsgiResponse) throws Exception {
@@ -267,9 +262,8 @@ public final class PersoniumResponse extends ScriptableObject {
     }
 
     /**
-     * JavaScriptからレスポンスで返すStremingOutputを設定する. 
-     * 直接StreamingOutputを扱わずにラップしたStremingOutputを受け取る
-     * @param value StremingOutputオブジェクト
+     * JavaScriptからレスポンスで返すStremingOutputを設定する. 直接StreamingOutputを扱わずにラップしたDcStremingOutputを受け取る
+     * @param value DcStremingOutputオブジェクト
      */
     private void setBody(StreamingOutput value) {
         this.streaming = value;
@@ -329,8 +323,7 @@ public final class PersoniumResponse extends ScriptableObject {
      */
     public void bodyCheckFunction(Object element, double number, NativeArray object) throws Exception {
         if (!(element instanceof PersoniumInputStream) && !(element instanceof String)) {
-            String objStr = ExceptionObject(element);
-        	String msg = "response body illegal type. " + objStr;
+            String msg = "response body illegal type.";
             log.info(msg);
             throw new Exception(msg);
         }
@@ -363,32 +356,4 @@ public final class PersoniumResponse extends ScriptableObject {
     public String getClassName() {
         return "PersoniumResponse";
     }
-
-    // Check the type of Object.
-    private String ExceptionObject(Object obj) {
-        String objName = "";
-        if (obj instanceof Number) {
-    	    objName = "Number";
-        } else if (obj instanceof String) {
-            objName = "String";
-        } else if (obj instanceof InputStream) {
-            objName = "InputStream";
-        } else if (obj instanceof PersoniumInputStream) {
-            objName = "PersoniumInputStream";
-        } else if (obj instanceof JSONObject) {
-            objName = "JSONObject";
-        } else if (obj instanceof PersoniumJSONObject) {
-            objName = "PersoniumJSONObject";
-        } else if (obj instanceof NativeObject) {
-            objName = "NativeObject";
-        } else if (obj instanceof NativeArray) {
-            objName = "NativeArray";
-        } else if (obj instanceof ArrayList) {
-            objName = "ArrayList";
-        } else {
-            objName = "Not Object";
-        }
-        return objName + ":Class=" + obj.getClass().getName();
-    }
-
 }

@@ -18,17 +18,13 @@ package io.personium.engine.accesscontrol;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Map.Entry;
 
 import org.json.simple.JSONObject;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.NativeArray;
-import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrapFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.personium.engine.adapter.PersoniumRequestBodyStream;
 import io.personium.engine.wrapper.PersoniumInputStream;
@@ -38,15 +34,13 @@ import io.personium.engine.wrapper.PersoniumJSONObject;
  * JavaScriptからJavaメソッド呼び出し時の返却値ラップ動作制御.
  */
 public class PersoniumWrapFactory extends WrapFactory {
-    /** ログオブジェクト. */
-    private static Logger log = LoggerFactory.getLogger(PersoniumWrapFactory.class);
 
     /*
      * 以下の変換処理を実施.
      * ・数値型が渡された場合はラップしないことよってRhinoにJavaScriptのnumber型に変換させる
      * ・Stringはラップせずにそのまま返すことでrhinoにJavaScriptのstring型に変換させる
-     * ・InputStreamはPersoniumInputStreamというEngineのラッパークラスに置き換える
-     * ・JSONObjectはPersoniumJSONObjectというEngineのラッパークラスに置き換える
+     * ・InputStreamはDcInputStreamというEngineのラッパークラスに置き換える
+     * ・JSONObjectはDcJSONObjectというEngineのラッパークラスに置き換える
      *   （EngineクライアントライブラリでJSONObject前提の処理があるのでその対応）
      * ・ArrayListはJavaScriptのNativeArrayに置き換える
      *   （EngineクライアントライブラリでArrayList前提の処理があるのでその対応）
@@ -54,7 +48,6 @@ public class PersoniumWrapFactory extends WrapFactory {
     @SuppressWarnings("unchecked")
     @Override
     public Object wrap(Context cx, Scriptable scope, Object obj, Class<?> staticType) {
-        log.debug("PersoniumWrapFactory wrap in:" + obj.getClass().getName());
         if (obj instanceof Number) {
             return obj;
 
@@ -62,21 +55,10 @@ public class PersoniumWrapFactory extends WrapFactory {
             return obj;
 
         } else if (obj instanceof InputStream && !(obj instanceof PersoniumInputStream)) {
-//          return (PersoniumInputStream) new PersoniumInputStream((InputStream) obj);
-            PersoniumInputStream pis = new PersoniumInputStream((InputStream) obj);
-            log.debug("PersoniumWrapFactory wrap out:" + pis.getClass().getName());
-            return pis;
+            return new PersoniumInputStream((InputStream) obj);
 
         } else if (obj instanceof JSONObject && !(obj instanceof PersoniumJSONObject)) {
             return ((JSONObject) obj).toJSONString();
-
-        } else if (obj instanceof NativeObject) {
-            // NativeObjectに格納されたObjectに対してwrapを行う。
-            NativeObject no = new NativeObject();
-            for (Entry<Object, Object> o : ((NativeObject) obj).entrySet()) {
-                no.put((String)o.getKey(), no, wrap(cx, scope, o.getValue(), staticType));
-            }
-            return no;
 
         } else if (obj instanceof ArrayList) {
             // クライアントライブラリからJava配列を直接返された時(ACLなど扱う処理で返される)に、
