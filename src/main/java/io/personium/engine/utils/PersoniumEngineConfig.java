@@ -220,7 +220,7 @@ public class PersoniumEngineConfig {
      */
     private static PersoniumEngineConfig singleton = new PersoniumEngineConfig();
 
-    // static Logger log = LoggerFactory.getLogger(DcCoreConfig.class);
+    // static Logger log = LoggerFactory.getLogger(PersoniumEngineConfig.class);
 
     /**
      * 設定値を格納するプロパティ実体.

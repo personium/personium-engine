@@ -90,7 +90,7 @@ public class EsServiceResourceSourceManager implements ISourceManager {
 
     /**
      * サービスコレクションの情報を取得.
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     private void loadServiceCollectionInfo() throws PersoniumEngineException {
         if (this.sourceInfo != null) {
@@ -149,7 +149,7 @@ public class EsServiceResourceSourceManager implements ISourceManager {
      * サービス名に対応したスクリプトファイル名の取得.
      * @param servicePath サービス名
      * @return スクリプトファイル名
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     public String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException {
         this.loadServiceCollectionInfo();
@@ -160,7 +160,7 @@ public class EsServiceResourceSourceManager implements ISourceManager {
      * ソースファイルを取得.
      * @param sourceName ソースファイル名
      * @return ソースファイルの中身
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     public String getSource(String sourceName) throws PersoniumEngineException {
         this.loadServiceCollectionInfo();

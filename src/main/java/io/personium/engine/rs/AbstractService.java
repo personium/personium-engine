@@ -471,7 +471,7 @@ public abstract class AbstractService {
     /**
      * ServiceCollectionManager取得.
      * @return ISourceManager
-    * @throws PersoniumEngineException DcEngineException
+    * @throws PersoniumEngineException
      */
     public abstract ISourceManager getServiceCollectionManager() throws PersoniumEngineException;
 

@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import io.personium.engine.wrapper.PersoniumInputStream;
+import io.personium.engine.extension.wrapper.PersoniumInputStream;
 
 
 /**

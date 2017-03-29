@@ -40,8 +40,7 @@ import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.personium.engine.wrapper.PersoniumInputStream;
-
+import io.personium.engine.extension.wrapper.PersoniumInputStream;
 
 /**
  * ユーザスクリプトから返されたJSGIオブジェクト（JavaScript）をJAX-RSで返却する.

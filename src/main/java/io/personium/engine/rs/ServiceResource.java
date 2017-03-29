@@ -40,7 +40,7 @@ public class ServiceResource extends AbstractService {
 
     /**
      * コンストラクタ.
-     * @throws PersoniumEngineException DcEngine例外
+     * @throws PersoniumEngineException PersoniumEngine例外
      */
     public ServiceResource() throws PersoniumEngineException {
         super();

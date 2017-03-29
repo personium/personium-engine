@@ -29,7 +29,7 @@ import io.personium.engine.source.ISourceManager;
  * Require読み込み用クラス.
  */
 public class Require {
-    /** DcEngineContext. */
+    /** PersoniumEngineContext. */
     private PersoniumEngineContext context;
 
     /** ソース情報管理. */
@@ -43,7 +43,7 @@ public class Require {
     }
     /**
      * コンストラクタ.
-     * @param context DcContext
+     * @param context PersoniumContext
      */
     public Require(PersoniumEngineContext context) {
         this.context = context;
@@ -53,7 +53,7 @@ public class Require {
      * Require実行.
      * @param moduleName require対象モジュール名
      * @return Require結果
-     * @throws PersoniumEngineException DcEngineException
+     * @throws PersoniumEngineException
      */
     public Object doRequire(String moduleName) throws PersoniumEngineException {
         String source = this.sourceManager.getSource(moduleName + ".js");
