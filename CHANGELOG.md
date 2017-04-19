@@ -1,3 +1,8 @@
+## 1.5.0
+BUG FIXES:
+* Unavailability of TLS 1.2.
+ ([#3](https://github.com/personium/personium-client-java/issues/3))
+
 ##1.4.5
 
 BUG FIXES:
