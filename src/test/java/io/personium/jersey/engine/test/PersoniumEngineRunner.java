@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import io.personium.common.auth.token.LocalToken;
 import io.personium.common.auth.token.TransCellAccessToken;
+import io.personium.core.model.file.DataCryptor;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
@@ -59,6 +60,7 @@ public class PersoniumEngineRunner extends BlockJUnit4ClassRunner {
         TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(),
                 PersoniumEngineConfig.getX509Certificate(), PersoniumEngineConfig.getX509RootCertificate());
         LocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
+        DataCryptor.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
     }
 
     @Override

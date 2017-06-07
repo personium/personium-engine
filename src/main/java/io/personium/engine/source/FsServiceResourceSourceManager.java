@@ -18,6 +18,7 @@ package io.personium.engine.source;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -30,6 +31,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -41,6 +43,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import io.personium.core.model.file.DataCryptor;
 import io.personium.engine.PersoniumEngineException;
 
 /**
@@ -51,6 +54,8 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     private static Logger log = LoggerFactory.getLogger(FsServiceResourceSourceManager.class);
 
     private String fsPath;
+    /** RoutingId(CellID). */
+    private String fsRoutingId;
 
     /** コレクションのPROPPATCH情報. */
     private String serviceCollectionInfo;
@@ -63,10 +68,12 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     /**
      * コンストラクタ.
      * @param filePath 対象サービスコレクションのFile System Path.
+     * @param fsRoutingId CellID having target service collection.
      * @throws PersoniumEngineException DcEngineException
      */
-    public FsServiceResourceSourceManager(String filePath) throws PersoniumEngineException {
+    public FsServiceResourceSourceManager(String filePath, String fsRoutingId) throws PersoniumEngineException {
         this.fsPath = filePath;
+        this.fsRoutingId = fsRoutingId;
         log.info("Source File Path: [" + this.fsPath + "]");
         this.loadServiceCollectionInfo();
         this.parseServiceTag();
@@ -85,17 +92,7 @@ public class FsServiceResourceSourceManager implements ISourceManager {
         }
 
         // サービスコレクションを取得
-        File metaFile = new File(this.fsPath + "/.pmeta");
-        JSONObject json = null;
-        try (Reader reader = Files.newBufferedReader(metaFile.toPath(), Charsets.UTF_8)) {
-            JSONParser parser = new JSONParser();
-            json = (JSONObject) parser.parse(reader);
-        } catch (IOException | ParseException e) {
-            // IO failure or JSON is broken
-            log.info("Meta file not found or invalid (" + this.fsPath + ")");
-            throw new PersoniumEngineException("500 Server Error",
-            PersoniumEngineException.STATUSCODE_SERVER_ERROR);
-        }
+        JSONObject json = getMetaData(this.fsPath);
 
         // スクリプトの情報を取得する
         this.serviceCollectionInfo = (String) ((Map<?, ?>) json.get("d")).get("service@urn:x-personium:xmlns");
@@ -125,8 +122,8 @@ public class FsServiceResourceSourceManager implements ISourceManager {
      */
     public String getSource(String sourceName) throws PersoniumEngineException {
         // 対象のスクリプトの情報を取得する
-        String sourcePath = this.fsPath + File.separator + "__src" + File.separator + sourceName
-            + File.separator + "content";
+        String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
+        String sourcePath = sourceDir + File.separator + "content";
         File sourceFile = new File(sourcePath);
 
         if (!sourceFile.exists()) {
@@ -134,8 +131,22 @@ public class FsServiceResourceSourceManager implements ISourceManager {
             throw new PersoniumEngineException("404 Not Found", PersoniumEngineException.STATUSCODE_NOTFOUND);
         }
 
+        // Determine whether the file is encrypted
+        JSONObject json = getMetaData(sourceDir);
+        String encryptionType = (String) json.get("et");
+
         try {
-            return new String(Files.readAllBytes(sourceFile.toPath()), Charsets.UTF_8);
+            String source = "";
+            if (DataCryptor.ENCRYPTION_TYPE_AES.equals(encryptionType)) {
+                // Perform decryption.
+                DataCryptor cryptor = new DataCryptor(this.fsRoutingId);
+                try (InputStream in = cryptor.decode(new FileInputStream(sourceFile))) {
+                    source = IOUtils.toString(in, Charsets.UTF_8);
+                }
+            } else {
+                source = new String(Files.readAllBytes(sourceFile.toPath()), Charsets.UTF_8);
+            }
+            return source;
         } catch (IOException e) {
           log.info("UserScript Encoding error(UnsupportedEncodingException) ", e);
           throw new PersoniumEngineException("404 UserScript Encoding error",
@@ -182,5 +193,30 @@ public class FsServiceResourceSourceManager implements ISourceManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Get .pmeta in JSON format.
+     * @param metaDirPath Directory path in which meta file to be acquired is stored
+     * @return .pmeta in JSON format
+     * @throws PersoniumEngineException Meta file not found.
+     */
+    private JSONObject getMetaData(String metaDirPath) throws PersoniumEngineException {
+        String separator = "";
+        if (!metaDirPath.endsWith(File.separator)) {
+            separator = File.separator;
+        }
+        File metaFile = new File(metaDirPath + separator + ".pmeta");
+        JSONObject json = null;
+        try (Reader reader = Files.newBufferedReader(metaFile.toPath(), Charsets.UTF_8)) {
+            JSONParser parser = new JSONParser();
+            json = (JSONObject) parser.parse(reader);
+        } catch (IOException | ParseException e) {
+            // IO failure or JSON is broken
+            log.info("Meta file not found or invalid (" + this.fsPath + ")");
+            throw new PersoniumEngineException("500 Server Error",
+            PersoniumEngineException.STATUSCODE_SERVER_ERROR);
+        }
+        return json;
     }
 }
