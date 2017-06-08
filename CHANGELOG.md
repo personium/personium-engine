@@ -1,3 +1,10 @@
+## 1.5.1
+BUG FIXES:
+* Engine Service Library can not register ACL, which is caused by incorrect object names.([#12](https://github.com/personium/personium-engine/issues/12))
+
+IMPROVEMENTS:
+* WebDAV file encryption.([#13](https://github.com/personium/personium-engine/issues/13))
+
 ## 1.5.0
 BUG FIXES:
 * Unavailability of TLS 1.2.
