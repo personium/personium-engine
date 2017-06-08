@@ -284,7 +284,7 @@ _p.AclManager = function() {
  */
 _p.AclManager.prototype.set = function(param) {
     try {
-        var acl = new io._p.client.Acl();
+        var acl = new io.personium.client.Acl();
 
         if (param["requireSchemaAuthz"] !== null
         && typeof param["requireSchemaAuthz"] !== "undefined"
@@ -297,7 +297,7 @@ _p.AclManager.prototype.set = function(param) {
             for (var i = 0; i < aces.length; i++) {
                 aceObj = aces[i];
                 if (aceObj != null) {
-                    var ace = new io._p.client.Ace();
+                    var ace = new io.personium.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
                         ace.setRole(aceObj["role"].core);
                     }
@@ -2246,7 +2246,7 @@ _p.PersoniumException = function(msg) {
     // JavaDAOからは、ステータスコードとレスポンスボディがカンマ区切りで通知される
     // よって、最初のカンマまでをステータスコードと判断し、それ以降をExceptionメッセージとする
     // また、以下のように、かならず、Javaのパッケージ名が先頭に含まれる
-    // io._p.client.DaoException: 409,{"code":"PR409-OD-0003","message":{"lang":"en","value":"The entity already exists."}}
+    // io.personium.client.DaoException: 409,{"code":"PR409-OD-0003","message":{"lang":"en","value":"The entity already exists."}}
     msg = msg.substring(msg.indexOf(" ")+1);
     this.message = msg;
     this.code = 0;

@@ -69,7 +69,7 @@ public class ServiceResource extends AbstractService {
         ISourceManager svcRsSourceManager = null;
         // ソースの管理情報を取得
         if (this.getFsPath() != null) {
-          svcRsSourceManager = new FsServiceResourceSourceManager(this.getFsPath());
+          svcRsSourceManager = new FsServiceResourceSourceManager(this.getFsPath(), this.getFsRoutingId());
         } else {
           svcRsSourceManager = new EsServiceResourceSourceManager(
               getIndex(), getType(), getId(), getRoutingId());

@@ -84,6 +84,9 @@ public abstract class AbstractService {
     /** リクエストヘッダから取得するFsPath. */
     @HeaderParam("X-Personium-Fs-Path")
     private String fsPath;
+    /** FsRoutingId obtained from the request header. */
+    @HeaderParam("X-Personium-Fs-Routing-Id")
+    private String fsRoutingId;
 
     /** サービスサブジェクト. */
     String serviceSubject;
@@ -161,6 +164,14 @@ public abstract class AbstractService {
      */
     public final String getFsPath() {
         return fsPath;
+    }
+
+    /**
+     * Get fsRoutingId.
+     * @return fsRoutingId
+     */
+    public String getFsRoutingId() {
+        return fsRoutingId;
     }
 
     /**
