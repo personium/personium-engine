@@ -1,3 +1,7 @@
+## 1.5.2
+IMPROVEMENTS:
+* Organize PersoniumUnitConfig.([#18](https://github.com/personium/personium-engine/issues/18))
+
 ## 1.5.1
 BUG FIXES:
 * Engine Service Library can not register ACL, which is caused by incorrect object names.([#12](https://github.com/personium/personium-engine/issues/12))
