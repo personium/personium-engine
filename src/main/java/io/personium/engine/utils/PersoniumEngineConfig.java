@@ -74,28 +74,16 @@ public class PersoniumEngineConfig {
         /**
          * Elastic Search ホスト設定のプロパティキー.
          */
-        public static final String HOSTS = KEY_ROOT + "elasticsearch.hosts";
+        public static final String HOSTS = KEY_ROOT + "es.hosts";
 
         /**
          * Elastic Search クラスタ名設定のプロパティキー.
          */
-        public static final String CLUSTERNAME = KEY_ROOT + "elasticsearch.cluster";
-        /**
-         * ルーティングフラグ .
-         */
-        public static final String ROUTING_FLAG = KEY_ROOT + "es.routingFlag";
+        public static final String CLUSTERNAME = KEY_ROOT + "es.cluster.name";
         /**
          * ユニットプレフィックス .
          */
         public static final String UNIT_PREFIX = KEY_ROOT + "es.unitPrefix";
-    }
-
-    /**
-     * debug.
-     */
-    public static final class DebugProp {
-        /** 基底URL. */
-        public static final String KEY_DEFAULT_BASE_URL = KEY_ROOT + "defaultBaseUrl";
     }
 
     /**
@@ -112,11 +100,6 @@ public class PersoniumEngineConfig {
      * Blobの設定.
      */
     public static final class BlobStore {
-        /**
-         * Elastic Search を使用する際、blobデータを格納する方式設定のプロパティキー. 有効値: fs
-         */
-        public static final String TYPE = KEY_ROOT + "blobStore.type";
-
         /**
          * Elastic Search を使用する際、blobデータを格納するルート(URL, PATH)設定のプロパティキー.
          */
@@ -219,8 +202,6 @@ public class PersoniumEngineConfig {
      * singleton.
      */
     private static PersoniumEngineConfig singleton = new PersoniumEngineConfig();
-
-    // static Logger log = LoggerFactory.getLogger(PersoniumEngineConfig.class);
 
     /**
      * 設定値を格納するプロパティ実体.
@@ -413,31 +394,10 @@ public class PersoniumEngineConfig {
     }
 
     /**
-     * @return 基底URL.
-     */
-    public static String getDefaultBaseUrl() {
-        return get(DebugProp.KEY_DEFAULT_BASE_URL);
-    }
-
-    /**
-     * @return blobデータを格納する方式.
-     */
-    public static String getBlobStoreType() {
-        return get(BlobStore.TYPE);
-    }
-
-    /**
      * @return blobデータを格納するルート(URL, PATH).
      */
     public static String getBlobStoreRoot() {
         return get(BlobStore.ROOT);
-    }
-
-    /**
-     * @return ルーティングフラグ (trueの場合、ルーティング処理を行う).
-     */
-    public static boolean getRoutingFlag() {
-        return Boolean.parseBoolean(get(ES.ROUTING_FLAG));
     }
 
     /**

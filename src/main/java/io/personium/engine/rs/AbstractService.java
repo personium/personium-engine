@@ -450,12 +450,7 @@ public abstract class AbstractService {
 
         // クライアントから受け付けたリクエストURL（ホスト？）の取得
         // （通常動作）DCから送られてきたURLがヘッダに指定されていたらそれを利用する。
-        // （デバッグ動作）プロパティファイルに設定されている値を利用する。
-        String defaultBaseUrl = PersoniumEngineConfig.getDefaultBaseUrl();
         baseUrl = req.getHeader(KEY_HEADER_BASEURL);
-        if (baseUrl == null || baseUrl.length() == 0) {
-            baseUrl = defaultBaseUrl;
-        }
 
         // サーブレットリクエストオブジェクトに値を保存。あとでJSGIオブジェクトに設定するため。
         URL baseUrlObj = new URL(baseUrl);
