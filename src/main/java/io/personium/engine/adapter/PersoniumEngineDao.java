@@ -19,6 +19,7 @@ package io.personium.engine.adapter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
@@ -27,7 +28,6 @@ import org.json.simple.parser.ParseException;
 import io.personium.client.Accessor;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
-import io.personium.common.auth.token.AccountAccessToken;
 import io.personium.engine.wrapper.PersoniumJSONObject;
 
 /**
@@ -77,19 +77,10 @@ public class PersoniumEngineDao extends PersoniumContext {
             throw DaoException.create("ServiceSubject undefined.", 0);
         }
 
-        // 設定されたアカウントが、存在することをチェックする。
+        // TODO:設定されたアカウントが、存在することをチェックする。
 
-        // トークン生成
-        long issuedAt = new Date().getTime();
-        AccountAccessToken localToken = new AccountAccessToken(
-                issuedAt,
-                AccountAccessToken.ACCESS_TOKEN_EXPIRES_HOUR * AccountAccessToken.MILLISECS_IN_AN_HOUR,
-                this.getCellUrl(),
-                this.serviceSubject,
-                this.schemaUrl);
-
-        Accessor as = this.withToken(localToken.toTokenString());
-        as.setAccessType(Accessor.KEY_SELF);
+        Accessor as = new PersoniumEngineAccessor(this, this.serviceSubject, this.schemaUrl);
+        as.setDefaultHeaders(this.defaultHeaders);
         return as;
     }
 
@@ -99,7 +90,9 @@ public class PersoniumEngineDao extends PersoniumContext {
      * @throws DaoException DAO例外
      */
     public final Accessor withClientToken() throws DaoException {
-        return this.withToken(this.getClientToken());
+        Accessor as = new PersoniumEngineAccessor(this, getClientToken());
+        as.setDefaultHeaders(this.defaultHeaders);
+        return as;
     }
 
     /**
