@@ -31,6 +31,11 @@ import io.personium.common.auth.token.Role;
 
 public class PersoniumEngineAccessor extends Accessor {
 
+    // AccessType for serviceSubject
+    private static final String KEY_SELF = "self";
+    // AccessType for client
+    private static final String KEY_CLIENT = "client";
+
     private String serviceSubject;
     private String schemaUrl;
 
@@ -39,20 +44,20 @@ public class PersoniumEngineAccessor extends Accessor {
         super(personiumContext);
         this.serviceSubject = subject;
         this.schemaUrl = schema;
-        setAccessType(Accessor.KEY_SELF);
+        setAccessType(KEY_SELF);
     }
 
     // Constructor for client
     public PersoniumEngineAccessor(PersoniumContext personiumContext, String token) {
         super(personiumContext);
         setToken(token, 0, "", 0);
-        setAccessType(Accessor.KEY_CLIENT);
+        setAccessType(KEY_CLIENT);
     }
 
     @Override
     protected void certification() throws DaoException {
         // create token only if the access type is self.
-        if (!Accessor.KEY_SELF.equals(getAccessType())) {
+        if (!KEY_SELF.equals(getAccessType())) {
             return;
         }
 
