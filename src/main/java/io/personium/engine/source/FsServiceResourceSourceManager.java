@@ -137,14 +137,10 @@ public class FsServiceResourceSourceManager implements ISourceManager {
 
         try {
             String source = "";
-            if (DataCryptor.ENCRYPTION_TYPE_AES.equals(encryptionType)) {
-                // Perform decryption.
-                DataCryptor cryptor = new DataCryptor(this.fsRoutingId);
-                try (InputStream in = cryptor.decode(new FileInputStream(sourceFile))) {
-                    source = IOUtils.toString(in, Charsets.UTF_8);
-                }
-            } else {
-                source = new String(Files.readAllBytes(sourceFile.toPath()), Charsets.UTF_8);
+            // Perform decryption.
+            DataCryptor cryptor = new DataCryptor(this.fsRoutingId);
+            try (InputStream in = cryptor.decode(new FileInputStream(sourceFile), encryptionType)) {
+                source = IOUtils.toString(in, Charsets.UTF_8);
             }
             return source;
         } catch (IOException e) {
