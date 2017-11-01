@@ -1,3 +1,12 @@
+## 1.5.3
+BUG FIXES:
+* Can not access to other cell using serviceSubject.([#20](https://github.com/personium/personium-engine/issues/20))
+* Can not access to other cell by _p.as({cellUrl:mycell}).cell('othercell').([#21](https://github.com/personium/personium-engine/issues/21))
+* DaoException '401,Unauthorized' is thrown at _p.as().cell().getToken().([#24](https://github.com/personium/personium-engine/issues/24))
+
+IMPROVEMENTS:
+* Correction with cell export import.([#26](https://github.com/personium/personium-engine/issues/26))
+
 ## 1.5.2
 IMPROVEMENTS:
 * Organize PersoniumUnitConfig.([#18](https://github.com/personium/personium-engine/issues/18))
