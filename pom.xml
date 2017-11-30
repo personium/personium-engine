@@ -43,7 +43,7 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-es-adapter</artifactId>
-            <version>1.4.4</version>
+            <version>1.4.5</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
