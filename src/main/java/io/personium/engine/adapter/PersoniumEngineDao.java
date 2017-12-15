@@ -16,10 +16,8 @@
  */
 package io.personium.engine.adapter;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
@@ -77,7 +75,7 @@ public class PersoniumEngineDao extends PersoniumContext {
             throw DaoException.create("ServiceSubject undefined.", 0);
         }
 
-        // TODO:設定されたアカウントが、存在することをチェックする。
+        // TODO 設定されたアカウントが、存在することをチェックする。
 
         Accessor as = new PersoniumEngineAccessor(this, this.serviceSubject, this.schemaUrl);
         as.setDefaultHeaders(this.defaultHeaders);
