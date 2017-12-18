@@ -1,3 +1,7 @@
+## 1.5.4
+IMPROVEMENTS:
+* Unify the linefeed code of file to LF.([#28](https://github.com/personium/personium-engine/issues/28))
+
 ## 1.5.3
 BUG FIXES:
 * Can not access to other cell using serviceSubject.([#20](https://github.com/personium/personium-engine/issues/20))
