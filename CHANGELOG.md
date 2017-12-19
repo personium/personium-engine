@@ -1,3 +1,7 @@
+## 1.5.5
+IMPROVEMENTS:
+* Upgrade httpclient of engine.([#32](https://github.com/personium/personium-engine/issues/32))
+
 ## 1.5.4
 IMPROVEMENTS:
 * Unify the linefeed code of file to LF.([#28](https://github.com/personium/personium-engine/issues/28))
