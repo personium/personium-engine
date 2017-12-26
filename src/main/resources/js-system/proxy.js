@@ -22,28 +22,28 @@ function(request) {
   var target = parts[0] + '/' + parts[1] + '/' + parts[2] + '/';
 
 
-  var dcx = {sports: {HTTP: {}}};
+  var HTTP = {};
   var __a = new Packages.io.personium.client.PersoniumContext(pjvm.getBaseUrl(), pjvm.getCellName(), pjvm.getBoxSchema(), pjvm.getBoxName()).withToken(null);
-  dcx.sports.HTTP._ra = Packages.io.personium.client.http.RestAdapterFactory.create(__a);
+  HTTP._ra = Packages.io.personium.client.http.RestAdapterFactory.create(__a);
 
   var formatRes = function(dcr) {
     var resp = {body: "" + dcr.bodyAsString(), status: dcr.getStatusCode(), headers: {}};
     return resp;
   }
 
-  dcx.sports.HTTP.get = function(url, headers) {
+  HTTP.get = function(url, headers) {
     if (!headers) {
       headers = {"Accept": "text/plain"};
     }
-    var dcr = dcx.sports.HTTP._ra.get(url, dc.util.obj2javaJson(headers), null);
+    var dcr = HTTP._ra.get(url, dc.util.obj2javaJson(headers), null);
     return formatRes(dcr);
   };
 
-  dcx.sports.HTTP.post = function(url, body, contentType, headers) {
+  HTTP.post = function(url, body, contentType, headers) {
     if (!headers) {
       headers = {"Accept": "text/plain"};
     }
-    var dcr = dcx.sports.HTTP._ra.post(url, dc.util.obj2javaJson(headers), body, contentType);
+    var dcr = HTTP._ra.post(url, dc.util.obj2javaJson(headers), body, contentType);
     return formatRes(dcr);
   };
 
@@ -59,7 +59,7 @@ function(request) {
     "Authorization": "Bearer " + token.access_token,
   };
 
-  apiRes = dcx.sports.HTTP.post(urlE, bodyE, contentTypeE, headersE);
+  apiRes = HTTP.post(urlE, bodyE, contentTypeE, headersE);
   if (apiRes === null || apiRes.status !== 200) {
     return {
       status: apiRes.status,
