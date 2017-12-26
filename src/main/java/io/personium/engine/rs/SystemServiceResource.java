@@ -18,36 +18,25 @@ package io.personium.engine.rs;
 
 import javax.ws.rs.Path;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.source.SystemServiceResourceSourceManager;
 import io.personium.engine.source.ISourceManager;
 
 /**
- * Personium-Engineサーブレットクラス.
+ * JAX-RS Resource class.
  */
 @Path("/{cell}/{schema}/system/{id : .+}")
 public class SystemServiceResource extends AbstractService {
-    /** ログオブジェクト. */
-    private static Log log = LogFactory.getLog(SystemServiceResource.class);
-
-    static {
-        log.getClass();
-    }
-
     /**
-     * コンストラクタ.
-     * @throws PersoniumEngineException PersoniumEngine例外
+     * Constructor.
+     * @throws PersoniumEngineException PersoniumEngineException
      */
     public SystemServiceResource() throws PersoniumEngineException {
         super();
     }
 
     /**
-     * Cell名取得.
-     * @return Cell名
+     * {@inheritDoc}
      */
     @Override
     public final String getCell() {
@@ -55,18 +44,20 @@ public class SystemServiceResource extends AbstractService {
     }
 
     /**
-     * データスキーマURI取得.
-     * @return データスキーマURI
+     * {@inheritDoc}
      */
     @Override
     public final String getSchemaURI() {
         return null;
     }
 
+    /*
+     * {@inheritDoc}
+     */
     @Override
     public ISourceManager getServiceCollectionManager() throws PersoniumEngineException {
         ISourceManager svcRsSourceManager = null;
-        // ソースの管理情報を取得
+        // Create source manager for SystemServiceResource
         if (this.getServiceName() != null) {
           svcRsSourceManager = new SystemServiceResourceSourceManager(this.getServiceName());
         }
