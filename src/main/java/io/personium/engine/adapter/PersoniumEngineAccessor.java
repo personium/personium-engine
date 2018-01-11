@@ -21,14 +21,15 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import io.personium.client.Accessor;
-import io.personium.client.Cell;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
 import io.personium.common.auth.token.AccountAccessToken;
 import io.personium.common.auth.token.TransCellAccessToken;
 import io.personium.common.auth.token.Role;
 
-
+/**
+ * Accessor class for PersoniumEngine.
+ */
 public class PersoniumEngineAccessor extends Accessor {
 
     // AccessType for serviceSubject
@@ -39,7 +40,12 @@ public class PersoniumEngineAccessor extends Accessor {
     private String serviceSubject;
     private String schemaUrl;
 
-    // Constructor for serviceSubject
+    /**
+     * Constructor for serviceSubject.
+     * @param personiumContext PersoniumContext object
+     * @param subject string of subject
+     * @param schema string of schema url
+     */
     public PersoniumEngineAccessor(PersoniumContext personiumContext, String subject, String schema) {
         super(personiumContext);
         this.serviceSubject = subject;
@@ -47,7 +53,11 @@ public class PersoniumEngineAccessor extends Accessor {
         setAccessType(KEY_SELF);
     }
 
-    // Constructor for client
+    /**
+     * Constructor for client.
+     * @param personiumContext PersoniumContext object
+     * @param token client token string
+     */
     public PersoniumEngineAccessor(PersoniumContext personiumContext, String token) {
         super(personiumContext);
         setToken(token, 0, "", 0);
@@ -82,8 +92,7 @@ public class PersoniumEngineAccessor extends Accessor {
             );
             accessToken = token.toTokenString();
             expiresIn = token.expiresIn();
-        }
-        else {
+        } else {
             // create AccountAccessToken
             AccountAccessToken localToken = new AccountAccessToken(
                 issuedAt,

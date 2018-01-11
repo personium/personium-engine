@@ -54,7 +54,8 @@ public class PersoniumEngineRunner extends BlockJUnit4ClassRunner {
      */
     public PersoniumEngineRunner(final Class<?> klass)
             throws InitializationError, NoSuchAlgorithmException,
-            InvalidKeySpecException, CertificateException, IOException, javax.security.cert.CertificateException {
+            InvalidKeySpecException, CertificateException, IOException, javax.security.cert.CertificateException,
+            javax.naming.InvalidNameException {
         super(klass);
         // トークン処理ライブラリの初期設定.
         TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(),
