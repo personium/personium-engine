@@ -1,3 +1,7 @@
+## 1.5.6
+IMPROVEMENTS:
+* Add new endpoint for executing system scripts.([#30](https://github.com/personium/personium-engine/issues/30))
+
 ## 1.5.5
 IMPROVEMENTS:
 * Upgrade httpclient of engine.([#32](https://github.com/personium/personium-engine/issues/32))
