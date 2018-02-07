@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import io.personium.client.PersoniumContext;
 import io.personium.engine.wrapper.PersoniumJSONObject;
 
 /**
- * Personium-Engine用DAO.
+ * Dao for Personium-Engine.
  */
 public class PersoniumEngineDao extends PersoniumContext {
 
@@ -41,16 +41,6 @@ public class PersoniumEngineDao extends PersoniumContext {
      */
     public void setServiceSubject(String serviceSubject) {
         this.serviceSubject = serviceSubject;
-    }
-
-    private String schemaUrl;
-
-    /**
-     * ボックスのスキーマURLのsetter.
-     * @param schemaUrl ボックススキーマURL
-     */
-    public void setSchemaUrl(String schemaUrl) {
-        this.schemaUrl = schemaUrl;
     }
 
     /**
@@ -77,7 +67,7 @@ public class PersoniumEngineDao extends PersoniumContext {
 
         // TODO 設定されたアカウントが、存在することをチェックする。
 
-        Accessor as = new PersoniumEngineAccessor(this, this.serviceSubject, this.schemaUrl);
+        Accessor as = new PersoniumEngineAccessor(this, this.serviceSubject);
         as.setDefaultHeaders(this.defaultHeaders);
         return as;
     }
@@ -88,7 +78,7 @@ public class PersoniumEngineDao extends PersoniumContext {
      * @throws DaoException DAO例外
      */
     public final Accessor withClientToken() throws DaoException {
-        Accessor as = new PersoniumEngineAccessor(this, getClientToken());
+        Accessor as = new PersoniumEngineAccessor(this);
         as.setDefaultHeaders(this.defaultHeaders);
         return as;
     }

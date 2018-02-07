@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,29 +38,25 @@ public class PersoniumEngineAccessor extends Accessor {
     private static final String KEY_CLIENT = "client";
 
     private String serviceSubject;
-    private String schemaUrl;
 
     /**
      * Constructor for serviceSubject.
      * @param personiumContext PersoniumContext object
      * @param subject string of subject
-     * @param schema string of schema url
      */
-    public PersoniumEngineAccessor(PersoniumContext personiumContext, String subject, String schema) {
+    public PersoniumEngineAccessor(PersoniumContext personiumContext, String subject) {
         super(personiumContext);
         this.serviceSubject = subject;
-        this.schemaUrl = schema;
         setAccessType(KEY_SELF);
     }
 
     /**
      * Constructor for client.
      * @param personiumContext PersoniumContext object
-     * @param token client token string
      */
-    public PersoniumEngineAccessor(PersoniumContext personiumContext, String token) {
+    public PersoniumEngineAccessor(PersoniumContext personiumContext) {
         super(personiumContext);
-        setToken(token, 0, "", 0);
+        setToken(personiumContext.getClientToken(), 0, "", 0);
         setAccessType(KEY_CLIENT);
     }
 
@@ -88,7 +84,7 @@ public class PersoniumEngineAccessor extends Accessor {
                 getContext().getCellUrl() + "#" + this.serviceSubject,
                 this.targetCellName,
                 new ArrayList<Role>(),
-                this.schemaUrl
+                getBoxSchema()
             );
             accessToken = token.toTokenString();
             expiresIn = token.expiresIn();
@@ -99,7 +95,7 @@ public class PersoniumEngineAccessor extends Accessor {
                 AccountAccessToken.ACCESS_TOKEN_EXPIRES_HOUR * AccountAccessToken.MILLISECS_IN_AN_HOUR,
                 getContext().getCellUrl(),
                 this.serviceSubject,
-                this.schemaUrl
+                getBoxSchema()
             );
             accessToken = localToken.toTokenString();
             expiresIn = localToken.expiresIn();
