@@ -53,7 +53,7 @@ public class Require {
      * Require実行.
      * @param moduleName require対象モジュール名
      * @return Require結果
-     * @throws PersoniumEngineException
+     * @throws PersoniumEngineException Exception about Engine
      */
     public Object doRequire(String moduleName) throws PersoniumEngineException {
         String source = this.sourceManager.getSource(moduleName + ".js");

@@ -471,13 +471,13 @@ public abstract class AbstractService {
         req.setAttribute("HostHeader", hostHeader);
         req.setAttribute("host", baseUrlObj.getHost());
         req.setAttribute("port", port);
-        req.setAttribute("schema", proto);
+        req.setAttribute("scheme", proto);
         return baseUrl;
     }
     /**
      * ServiceCollectionManager取得.
      * @return ISourceManager
-    * @throws PersoniumEngineException
+     * @throws PersoniumEngineException Exception about Engine
      */
     public abstract ISourceManager getServiceCollectionManager() throws PersoniumEngineException;
 

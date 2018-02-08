@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package io.personium.engine;
 
 import io.personium.client.utils.PersoniumLoggerFactory;
+import io.personium.common.utils.PersoniumCoreUtils;
 import io.personium.engine.adapter.PersoniumEngineDao;
 import io.personium.engine.adapter.PersoniumRequestBodyStream;
 import io.personium.engine.adapter.Require;
@@ -323,6 +324,20 @@ public class PersoniumEngineContext implements Closeable {
         if (auth != null && auth.length() > "Bearer".length()) {
             pcx.setClientToken(auth.substring("Bearer".length()).trim());
         }
+        // set defaultHeaders
+        String requestKey = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_REQUESTKEY);
+        if (requestKey != null) {
+            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_REQUESTKEY, requestKey);
+        }
+        String eventId = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_EVENTID);
+        if (eventId != null) {
+            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_EVENTID, eventId);
+        }
+        String ruleChain = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_RULECHAIN);
+        if (ruleChain != null) {
+            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_RULECHAIN, ruleChain);
+        }
+
         return pcx;
     }
 

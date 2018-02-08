@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public final class JSGIRequest {
             queryString = urlItems[1];
         }
         request.put("queryString", request, queryString);
-        request.put("schema", request, this.req.getAttribute("schema").toString());
+        request.put("scheme", request, this.req.getAttribute("scheme").toString());
 
         request.put("headers", request, this.headers());
 
@@ -92,7 +92,7 @@ public final class JSGIRequest {
         log.debug(String.format(format, "queryString", request.get("queryString", request)));
         log.debug(String.format(format, "host", request.get("host", request)));
         log.debug(String.format(format, "port", request.get("port", request)));
-        log.debug(String.format(format, "schema", request.get("schema", request)));
+        log.debug(String.format(format, "scheme", request.get("scheme", request)));
 
         log.debug(request.get("headers", request).toString());
         log.debug(request.get("jsgi", request).toString());

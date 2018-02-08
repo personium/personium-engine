@@ -1,6 +1,6 @@
 /*
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -493,6 +493,22 @@ _p.Webdav.prototype.odata = function(name) {
 };
 
 /**
+ * Service Collection.
+ * Example:<br>
+ *   box().service("col");
+ * @name {string} name Service Collection name
+ * @returns {_p.ServiceCollection} _p.ServiceCollection object
+ * @exception {_p.PersoniumException} DAO exception
+ */
+_p.Webdav.prototype.service = function(name) {
+    try {
+        return new _p.ServiceCollection(this.core.service(name));
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+};
+
+/**
  * 現在のコレクションのパスを取得する.
  * @returns {string} 現在のコレクションのパス
  * @exception {_p.PersoniumException} DAO例外
@@ -776,12 +792,10 @@ _p.Box.prototype = new _p.Webdav();
  * Box.ctl でアクセスされ、関連APIの呼び出しを行う.
  * @class BoxCtl操作クラス
  * @property {_p.RoleManager} role Role操作のためのプロパティ
- * @property {_p.EventManager} event Event操作のためのプロパティ
  */
 _p.BoxCtl = function(obj) {
     this.core = obj;
     this.role = new _p.RoleManager(this.core.role);
-    this.event = new _p.EventManager(this.core.event);
 };
 
 /**
@@ -898,6 +912,33 @@ _p.ODataCollection = function(obj) {
 _p.ODataCollection.prototype.entitySet = function(name) {
     try {
         return new _p.EntitySet(this.core.entitySet(name));
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+};
+
+/**
+ * Create new ServiceCollection object.
+ * @class ServiceCollection class
+ * @property {string} name ServiceCollection name
+ */
+_p.ServiceCollection = function(obj) {
+    this.core = obj;
+    this.name = "";
+};
+
+/**
+ * Execute Service.
+ * @param {string} name Service name
+ * @param {string} body Http request body
+ * @param {string} contentType Content-Type value
+ * @returns {PersoniumResponse} Http response
+ * @exception {_p.PersoniumException} DAO exception
+ */
+_p.ServiceCollection.prototype.call = function(name, body, contentType) {
+    try {
+        var ret = this.core.call("POST", name, body, contentType);
+        return ret;
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
@@ -1228,19 +1269,20 @@ _p.EventManager = function(obj) {
  * @param {Object} param イベントオブジェクト<br>
  * @param {String} requestKey X-Personium-RequestKeyヘッダの値
  * 呼び出し例：<br>
- *   event.post({"level":"error",
- *               "action":"actionData",
- *               "object":"objectData",
- *               "result":"resultData"},
+ *   event.post({
+ *               "Type":"typeData",
+ *               "Object":"objectData",
+ *               "Info":"infoData"},
  *               "RequestKey");
- * @exception {_p.PersoniumException} DAO例外
+ * @returns {PersoniumResponse} Http response
+ * @exception {_p.PersoniumException} DAO exception
  */
 _p.EventManager.prototype.post = function(param, requestKey) {
     try {
         if (requestKey === null || typeof requestKey === "undefined") {
-            this.core.post(_p.util.obj2javaJson(param));
+            return this.core.post(_p.util.obj2javaJson(param));
         }else{
-            this.core.post(_p.util.obj2javaJson(param), requestKey);
+            return this.core.post(_p.util.obj2javaJson(param), requestKey);
         }
     } catch (e) {
         throw new _p.PersoniumException(e.message);
