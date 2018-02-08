@@ -1,3 +1,10 @@
+## 1.5.7
+BUG FIXES:
+* Schema is not set in Token created by serviceSubjcet.([#37](https://github.com/personium/personium-engine/issues/37))
+
+IMPROVEMENTS:
+* Add some headers on request to Personium API.([#35](https://github.com/personium/personium-engine/issues/35))
+
 ## 1.5.6
 IMPROVEMENTS:
 * Add new endpoint for executing system scripts.([#30](https://github.com/personium/personium-engine/issues/30))
