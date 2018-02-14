@@ -337,6 +337,10 @@ public class PersoniumEngineContext implements Closeable {
         if (ruleChain != null) {
             pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_RULECHAIN, ruleChain);
         }
+        String via = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_VIA);
+        if (via != null) {
+            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_VIA, via);
+        }
 
         return pcx;
     }
