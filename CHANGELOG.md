@@ -1,3 +1,7 @@
+## 1.5.8
+IMPROVEMENTS:
+Add new Action 'relay.event' to Rule.
+
 ## 1.5.7
 BUG FIXES:
 * Schema is not set in Token created by serviceSubjcet.([#37](https://github.com/personium/personium-engine/issues/37))
