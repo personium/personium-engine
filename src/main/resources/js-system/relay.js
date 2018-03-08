@@ -38,7 +38,7 @@ function(request) {
   var bodyE = bodyAsString;
   var contentTypeE = "application/json";
 
-  var apiRes = _p.as('serviceSubject').cell(target).box(box).service(col).call(svc, bodyE, contentTypeE);
+  var apiRes = _p.as('client').cell(target).box(box).service(col).call(svc, bodyE, contentTypeE);
   if (apiRes === null || apiRes.getStatusCode() !== 200) {
     return {
       status: apiRes.getStatusCode(),
