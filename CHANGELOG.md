@@ -1,3 +1,7 @@
+## 1.5.9
+IMPROVEMENTS:
+* Update Rhino version to 1.7.7.([#40](https://github.com/personium/personium-engine/issues/40))
+
 ## 1.5.8
 IMPROVEMENTS:
 Add new Action 'relay.event' to Rule.
