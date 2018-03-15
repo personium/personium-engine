@@ -31,6 +31,19 @@ var dc = _p;
 _p.extension = {};
 
 /**
+ * Return localbox.<br>
+ * @returns {_p.Box} Box object where the engine script is running
+ * @exception {_p.PersoniumException} DAO exception
+ */
+_p.localbox = function() {
+    try {
+        return _p.as('client').cell().box();
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    };
+};
+
+/**
  * アクセス主体を指定.
  * @param {Object} param アクセス主体を指定するパラメタ
  * @returns {_p.Accessor} 生成したAccessorオブジェクト
