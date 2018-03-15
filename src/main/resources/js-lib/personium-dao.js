@@ -331,8 +331,28 @@ _p.AclManager.prototype.get = function() {
 
         var aces = obj.aceList;
         for (var i = 0; i < aces.length; i++) {
+            var principalObj = aces[i].getPrincipal();
+            var roleName;
+            if (principalObj instanceof Packages.io.personium.client.Role) {
+                // Only Role class have getName method
+                roleName = principalObj.getName();
+            } else {
+                switch(principalObj) {
+                case Packages.io.personium.client.Principal.ALL:
+                    roleName = '_ALL';
+                    break;
+                case Packages.io.personium.client.Principal.AUTHENTICATED:
+                    roleName = '_AUTHENTICATED';
+                    break;
+                case Packages.io.personium.client.Principal.UNAUTHENTICATED:
+                    roleName = '_UNAUTHENTICATED';
+                    break;
+                default:
+                    throw new _p.PersoniumException("Parameter Invalid");
+                }
+            }
             var ace = {};
-            ace["role"] = aces[i].roleName + "";
+            ace["role"] = roleName + "";
             var privilegeList = aces[i].privilegeList;
             var privilege = new Array(privilegeList.length);
             for (j = 0; j < privilegeList.length; j++) {
