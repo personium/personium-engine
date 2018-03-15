@@ -31,6 +31,19 @@ var dc = _p;
 _p.extension = {};
 
 /**
+ * Return localbox.<br>
+ * @returns {_p.Box} Box object where the engine script is running
+ * @exception {_p.PersoniumException} DAO exception
+ */
+_p.localbox = function() {
+    try {
+        return _p.as('client').cell().box();
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    };
+};
+
+/**
  * アクセス主体を指定.
  * @param {Object} param アクセス主体を指定するパラメタ
  * @returns {_p.Accessor} 生成したAccessorオブジェクト
@@ -284,7 +297,7 @@ _p.AclManager = function() {
  */
 _p.AclManager.prototype.set = function(param) {
     try {
-        var acl = new io.personium.client.Acl();
+        var acl = new Packages.io.personium.client.Acl();
 
         if (param["requireSchemaAuthz"] !== null
         && typeof param["requireSchemaAuthz"] !== "undefined"
@@ -297,7 +310,7 @@ _p.AclManager.prototype.set = function(param) {
             for (var i = 0; i < aces.length; i++) {
                 aceObj = aces[i];
                 if (aceObj != null) {
-                    var ace = new io.personium.client.Ace();
+                    var ace = new Packages.io.personium.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
                         ace.setRole(aceObj["role"].core);
                     }
@@ -331,8 +344,28 @@ _p.AclManager.prototype.get = function() {
 
         var aces = obj.aceList;
         for (var i = 0; i < aces.length; i++) {
+            var principalObj = aces[i].getPrincipal();
+            var roleName;
+            if (principalObj instanceof Packages.io.personium.client.Role) {
+                // Only Role class have getName method
+                roleName = principalObj.getName();
+            } else {
+                switch(principalObj) {
+                case Packages.io.personium.client.Principal.ALL:
+                    roleName = '_ALL';
+                    break;
+                case Packages.io.personium.client.Principal.AUTHENTICATED:
+                    roleName = '_AUTHENTICATED';
+                    break;
+                case Packages.io.personium.client.Principal.UNAUTHENTICATED:
+                    roleName = '_UNAUTHENTICATED';
+                    break;
+                default:
+                    throw new _p.PersoniumException("Parameter Invalid");
+                }
+            }
             var ace = {};
-            ace["role"] = aces[i].roleName + "";
+            ace["role"] = roleName + "";
             var privilegeList = aces[i].privilegeList;
             var privilege = new Array(privilegeList.length);
             for (j = 0; j < privilegeList.length; j++) {
