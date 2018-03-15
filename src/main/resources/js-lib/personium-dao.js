@@ -284,7 +284,7 @@ _p.AclManager = function() {
  */
 _p.AclManager.prototype.set = function(param) {
     try {
-        var acl = new io.personium.client.Acl();
+        var acl = new Packages.io.personium.client.Acl();
 
         if (param["requireSchemaAuthz"] !== null
         && typeof param["requireSchemaAuthz"] !== "undefined"
@@ -297,7 +297,7 @@ _p.AclManager.prototype.set = function(param) {
             for (var i = 0; i < aces.length; i++) {
                 aceObj = aces[i];
                 if (aceObj != null) {
-                    var ace = new io.personium.client.Ace();
+                    var ace = new Packages.io.personium.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
                         ace.setRole(aceObj["role"].core);
                     }
