@@ -1245,7 +1245,12 @@ _p.AccountManager.prototype = new _p.OData();
 _p.AccountManager.prototype.create = function(user, pass) {
     var obj;
     try {
+        pjvm.setDefaultHeader('X-Personium-Credential', pass); // hack - to be deleted when personium-client-java is fixed
+        
         obj = this.core.create(_p.util.obj2javaJson(user), pass);
+        
+        pjvm.setDefaultHeader('X-Personium-Credential', null); // hack - to be deleted when personium-client-java is fixed
+        
         var account = new _p.Account(obj);
         account.name = obj.getName() + "";
         return account;
