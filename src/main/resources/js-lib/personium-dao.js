@@ -312,7 +312,7 @@ _p.AclManager.prototype.set = function(param) {
                 if (aceObj != null) {
                     var ace = new Packages.io.personium.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
-                        ace.setRole(aceObj["role"].core);
+                        ace.setPrincipal(aceObj["role"].core);
                     }
                     if ((aceObj["privilege"] != null) && (aceObj["privilege"] instanceof Array) && (aceObj["privilege"] != "")) {
                         for (var n = 0; n < aceObj["privilege"].length; n++) {
