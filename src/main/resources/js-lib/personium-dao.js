@@ -131,6 +131,25 @@ _p.Accessor = function(obj) {
 };
 
 /**
+ * Specify Unit.<br>
+ * @param {string} url Personium Unit's URL.<br>
+ * @returns {_p.UnitManager} UnitManager object
+ * @exception {_p.PersoniumException} DAO exception
+ */
+_p.Accessor.prototype.unit = function(unitUrl) {
+    // Upgrade to Unit Admin User
+    var token = this.cell(unitUrl).getToken();
+    var accessor = _p.as({accessToken: token.access_token});
+
+    var unitObj = new Packages.io.personium.client.UnitManager(accessor.core);
+    var unit = new _p.UnitManager(unitObj);
+    unit.token = token;
+    unit.accessor = accessor;
+
+    return unit;
+};
+
+/**
  * Cell指定.<br>
  * 例：<br>
  * 省略：<br>
@@ -1713,6 +1732,33 @@ _p.ExtCellManager.prototype.retrieve = function(url) {
 _p.UnitManager = function(obj) {
     this.core = obj;
     this.ctl = new _p.UnitManagerCtl(obj);
+};
+
+/**
+ * Get a Cell
+ * @param {string} Cell name or URL
+ * @returns {_p.Cell} Cell object
+ * @exception {_p.PersoniumException} DAO exception
+ */
+_p.UnitManager.prototype.cell = function(url) {
+    try {
+        if (typeof url == 'string') {
+            return new _p.Cell(this.accessor.core.cell(url));
+        } else {
+            return new _p.Cell(this.accessor.core.cell());
+        }
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+};
+
+/**
+ * Get Unit Admin token.
+ * @returns {Object} token
+ * @exception {_p.PersoniumException} DAO exception
+ */
+_p.UnitManager.prototype.getToken = function() {
+    return this.token;
 };
 
 /**
