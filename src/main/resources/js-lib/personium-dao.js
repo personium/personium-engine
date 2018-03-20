@@ -331,7 +331,11 @@ _p.AclManager.prototype.set = function(param) {
                 if (aceObj != null) {
                     var ace = new Packages.io.personium.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
-                        ace.setPrincipal(aceObj["role"].core);
+                        if (principalObj instanceof Packages.io.personium.client.Principal) {
+                            ace.setPrincipal(aceObj["role"]);
+                        } else {
+                            ace.setPrincipal(aceObj["role"].core);
+                        }
                     }
                     if ((aceObj["privilege"] != null) && (aceObj["privilege"] instanceof Array) && (aceObj["privilege"] != "")) {
                         for (var n = 0; n < aceObj["privilege"].length; n++) {
@@ -364,25 +368,7 @@ _p.AclManager.prototype.get = function() {
         var aces = obj.aceList;
         for (var i = 0; i < aces.length; i++) {
             var principalObj = aces[i].getPrincipal();
-            var roleName;
-            if (principalObj instanceof Packages.io.personium.client.Role) {
-                // Only Role class have getName method
-                roleName = principalObj.getName();
-            } else {
-                switch(principalObj) {
-                case Packages.io.personium.client.Principal.ALL:
-                    roleName = '_ALL';
-                    break;
-                case Packages.io.personium.client.Principal.AUTHENTICATED:
-                    roleName = '_AUTHENTICATED';
-                    break;
-                case Packages.io.personium.client.Principal.UNAUTHENTICATED:
-                    roleName = '_UNAUTHENTICATED';
-                    break;
-                default:
-                    throw new _p.PersoniumException("Parameter Invalid");
-                }
-            }
+            var roleName = principalObj.getName();
             var ace = {};
             ace["role"] = roleName + "";
             var privilegeList = aces[i].privilegeList;
@@ -1265,7 +1251,7 @@ _p.AccountManager.prototype.create = function(user, pass) {
     var obj;
     try {
         obj = this.core.create(_p.util.obj2javaJson(user), pass);
-        
+
         var account = new _p.Account(obj);
         account.name = obj.getName() + "";
         return account;
