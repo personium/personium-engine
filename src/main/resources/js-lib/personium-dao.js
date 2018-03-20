@@ -368,7 +368,7 @@ _p.AclManager.prototype.get = function() {
         var aces = obj.aceList;
         for (var i = 0; i < aces.length; i++) {
             var principalObj = aces[i].getPrincipal();
-            var roleName = principalObj.getName();
+            var roleName;
             if (principalObj instanceof Packages.io.personium.client.Role) {
                 roleName = principalObj.getName();
             } else {
