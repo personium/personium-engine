@@ -331,7 +331,7 @@ _p.AclManager.prototype.set = function(param) {
                 if (aceObj != null) {
                     var ace = new Packages.io.personium.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
-                        if (principalObj instanceof Packages.io.personium.client.Principal) {
+                        if (aceObj["role"] instanceof Packages.io.personium.client.Principal) {
                             ace.setPrincipal(aceObj["role"]);
                         } else {
                             ace.setPrincipal(aceObj["role"].core);
