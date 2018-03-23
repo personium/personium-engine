@@ -331,7 +331,11 @@ _p.AclManager.prototype.set = function(param) {
                 if (aceObj != null) {
                     var ace = new Packages.io.personium.client.Ace();
                     if ((aceObj["role"] != null) && (aceObj["role"] != "")) {
-                        ace.setPrincipal(aceObj["role"].core);
+                        if (aceObj["role"] instanceof Packages.io.personium.client.Principal) {
+                            ace.setPrincipal(aceObj["role"]);
+                        } else {
+                            ace.setPrincipal(aceObj["role"].core);
+                        }
                     }
                     if ((aceObj["privilege"] != null) && (aceObj["privilege"] instanceof Array) && (aceObj["privilege"] != "")) {
                         for (var n = 0; n < aceObj["privilege"].length; n++) {
@@ -366,17 +370,16 @@ _p.AclManager.prototype.get = function() {
             var principalObj = aces[i].getPrincipal();
             var roleName;
             if (principalObj instanceof Packages.io.personium.client.Role) {
-                // Only Role class have getName method
                 roleName = principalObj.getName();
             } else {
-                switch(principalObj) {
-                case Packages.io.personium.client.Principal.ALL:
+                switch(principalObj.getName()) {
+                case Packages.io.personium.client.Principal.ALL.getName():
                     roleName = '_ALL';
                     break;
-                case Packages.io.personium.client.Principal.AUTHENTICATED:
+                case Packages.io.personium.client.Principal.AUTHENTICATED.getName():
                     roleName = '_AUTHENTICATED';
                     break;
-                case Packages.io.personium.client.Principal.UNAUTHENTICATED:
+                case Packages.io.personium.client.Principal.UNAUTHENTICATED.getName():
                     roleName = '_UNAUTHENTICATED';
                     break;
                 default:
@@ -1265,7 +1268,7 @@ _p.AccountManager.prototype.create = function(user, pass) {
     var obj;
     try {
         obj = this.core.create(_p.util.obj2javaJson(user), pass);
-        
+
         var account = new _p.Account(obj);
         account.name = obj.getName() + "";
         return account;
