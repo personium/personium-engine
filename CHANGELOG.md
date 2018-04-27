@@ -1,3 +1,7 @@
+## 1.5.11
+IMPROVEMENTS:
+* Update pom.xml.([#51](https://github.com/personium/personium-engine/issues/51))
+
 ## 1.5.10
 BUG FIXES:
 * ACE list does not return proper role name when "href" is not found.([#50](https://github.com/personium/personium-engine/issues/50))

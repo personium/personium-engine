@@ -3,7 +3,7 @@
     <groupId>io.personium</groupId>
     <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
-    <version>1.5.11-SNAPSHOT</version>
+    <version>1.5.11</version>
     <name>personium-engine Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <licenses>
@@ -33,22 +33,22 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-client-java</artifactId>
-            <version>1.4.10-SNAPSHOT</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-es-adapter</artifactId>
-            <version>1.5.1-SNAPSHOT</version>
+            <version>1.5.1</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
-            <version>1.4.11-SNAPSHOT</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-ex-base</artifactId>
-            <version>1.4.4-SNAPSHOT</version>
+            <version>1.4.4</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
