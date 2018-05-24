@@ -30,7 +30,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
 
-import org.apache.http.HttpStatus;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.FunctionObject;
 import org.mozilla.javascript.JavaScriptException;
@@ -85,7 +84,6 @@ public final class PersoniumResponse extends ScriptableObject {
         }
         // レスポンスコードが以下の条件にあてはまる場合はエラーとする
         // ・100番台
-        // ・301、303、307
         if (isInvalidResCode((Number) oStatus)) {
             String msg = String.format("response status illegal type. status: %s",
                     String.valueOf(Context.toString(oStatus)));
@@ -186,12 +184,6 @@ public final class PersoniumResponse extends ScriptableObject {
         // ・0番台
         // ・100番台(クライアントの挙動が不安定になるため)
         if (!String.valueOf(Context.toString(oStatus)).matches("^[2-9]\\d{2}$")) {
-            return true;
-        }
-        // 301、303、307はサーブレットコンテナでエラーになるため許容しない
-        if (oStatus.intValue() == HttpStatus.SC_MOVED_PERMANENTLY
-                || oStatus.intValue() == HttpStatus.SC_SEE_OTHER
-                || oStatus.intValue() == HttpStatus.SC_TEMPORARY_REDIRECT) {
             return true;
         }
         return false;
