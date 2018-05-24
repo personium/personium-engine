@@ -1,3 +1,8 @@
+## 1.5.12
+IMPROVEMENTS:
+* Corresponds to authorization code grant flow.([#53](https://github.com/personium/personium-engine/issues/53))
+  * Only a part of the function is implemented. Refer to https://github.com/personium/personium-core/issues/213 for details.
+
 ## 1.5.11
 IMPROVEMENTS:
 * Update pom.xml.([#51](https://github.com/personium/personium-engine/issues/51))
