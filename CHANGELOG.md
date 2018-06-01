@@ -1,3 +1,7 @@
+## 1.5.13
+IMPROVEMENTS:
+* Update personium-lib-common version.
+
 ## 1.5.12
 IMPROVEMENTS:
 * Corresponds to authorization code grant flow.([#53](https://github.com/personium/personium-engine/issues/53))
