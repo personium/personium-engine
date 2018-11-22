@@ -16,16 +16,16 @@
  */
 package io.personium.engine.adapter;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 import io.personium.client.Accessor;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
 import io.personium.common.auth.token.AccountAccessToken;
-import io.personium.common.auth.token.TransCellAccessToken;
 import io.personium.common.auth.token.Role;
+import io.personium.common.auth.token.TransCellAccessToken;
 
 /**
  * Accessor class for PersoniumEngine.
@@ -43,8 +43,9 @@ public class PersoniumEngineAccessor extends Accessor {
      * Constructor for serviceSubject.
      * @param personiumContext PersoniumContext object
      * @param subject string of subject
+     * @throws DaoException DaoException
      */
-    public PersoniumEngineAccessor(PersoniumContext personiumContext, String subject) {
+    public PersoniumEngineAccessor(PersoniumContext personiumContext, String subject) throws DaoException {
         super(personiumContext);
         this.serviceSubject = subject;
         setAccessType(KEY_SELF);
@@ -53,8 +54,9 @@ public class PersoniumEngineAccessor extends Accessor {
     /**
      * Constructor for client.
      * @param personiumContext PersoniumContext object
+     * @throws DaoException DaoException
      */
-    public PersoniumEngineAccessor(PersoniumContext personiumContext) {
+    public PersoniumEngineAccessor(PersoniumContext personiumContext) throws DaoException {
         super(personiumContext);
         setToken(personiumContext.getClientToken(), 0, "", 0);
         setAccessType(KEY_CLIENT);
@@ -74,15 +76,15 @@ public class PersoniumEngineAccessor extends Accessor {
 
         long issuedAt = new Date().getTime();
 
-        if (this.targetCellName != null) {
+        if (this.targetCellUrl != null) {
             // create TransCellToken
             TransCellAccessToken token = new TransCellAccessToken(
                 UUID.randomUUID().toString(),
                 issuedAt,
                 TransCellAccessToken.LIFESPAN,
-                getContext().getCellUrl(),
-                getContext().getCellUrl() + "#" + this.serviceSubject,
-                this.targetCellName,
+                getContext().getCurrentCellUrl(),
+                getContext().getCurrentCellUrl() + "#" + this.serviceSubject,
+                this.targetCellUrl,
                 new ArrayList<Role>(),
                 getBoxSchema()
             );
@@ -93,7 +95,7 @@ public class PersoniumEngineAccessor extends Accessor {
             AccountAccessToken localToken = new AccountAccessToken(
                 issuedAt,
                 AccountAccessToken.ACCESS_TOKEN_EXPIRES_HOUR * AccountAccessToken.MILLISECS_IN_AN_HOUR,
-                getContext().getCellUrl(),
+                getContext().getCurrentCellUrl(),
                 this.serviceSubject,
                 getBoxSchema()
             );
