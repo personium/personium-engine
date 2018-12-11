@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import io.personium.engine.PersoniumEngineException;
-import io.personium.engine.source.EsServiceResourceSourceManager;
 import io.personium.engine.source.FsServiceResourceSourceManager;
 import io.personium.engine.source.ISourceManager;
 
@@ -66,14 +65,7 @@ public class ServiceResource extends AbstractService {
 
     @Override
     public ISourceManager getServiceCollectionManager() throws PersoniumEngineException {
-        ISourceManager svcRsSourceManager = null;
         // ソースの管理情報を取得
-        if (this.getFsPath() != null) {
-          svcRsSourceManager = new FsServiceResourceSourceManager(this.getFsPath(), this.getFsRoutingId());
-        } else {
-          svcRsSourceManager = new EsServiceResourceSourceManager(
-              getIndex(), getType(), getId(), getRoutingId());
-        }
-        return svcRsSourceManager;
+        return new FsServiceResourceSourceManager(this.getFsPath(), this.getFsRoutingId());
     }
 }

@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,18 +69,6 @@ public abstract class AbstractService {
     /** HTTPSポート. */
     private static final int PORT_HTTPS = 443;
 
-    /** リクエストヘッダから取得する インデックス. */
-    @HeaderParam("X-Personium-Es-Index")
-    private String index;
-    /** リクエストヘッダから取得するタイプ. */
-    @HeaderParam("X-Personium-Es-Type")
-    private String type;
-    /** リクエストヘッダから取得するID. */
-    @HeaderParam("X-Personium-Es-Id")
-    private String id;
-    /** リクエストヘッダから取得するRoutingID. */
-    @HeaderParam("X-Personium-Es-Routing-Id")
-    private String routingId;
     /** リクエストヘッダから取得するFsPath. */
     @HeaderParam("X-Personium-Fs-Path")
     private String fsPath;
@@ -124,38 +112,6 @@ public abstract class AbstractService {
      */
     public final void setServiceName(final String value) {
         this.serviceName = value;
-    }
-
-    /**
-     * インデックスを取得する.
-     * @return the index
-     */
-    public final String getIndex() {
-        return index;
-    }
-
-    /**
-     * タイプを取得する.
-     * @return the type
-     */
-    public final String getType() {
-        return type;
-    }
-
-    /**
-     * IDを取得する.
-     * @return the id
-     */
-    public final String getId() {
-        return id;
-    }
-
-    /**
-     * RoutingIDを取得する.
-     * @return the routingId
-     */
-    public final String getRoutingId() {
-        return routingId;
     }
 
     /**
