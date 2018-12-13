@@ -3,7 +3,7 @@
     <groupId>io.personium</groupId>
     <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
-    <version>1.5.15-SNAPSHOT</version>
+    <version>1.5.15</version>
     <name>personium-engine Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <licenses>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-client-java</artifactId>
-            <version>1.4.11-SNAPSHOT</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
