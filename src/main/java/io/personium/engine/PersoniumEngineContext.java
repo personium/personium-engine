@@ -16,22 +16,6 @@
  */
 package io.personium.engine;
 
-import io.personium.client.utils.PersoniumLoggerFactory;
-import io.personium.common.utils.PersoniumCoreUtils;
-import io.personium.engine.adapter.PersoniumEngineDao;
-import io.personium.engine.adapter.PersoniumRequestBodyStream;
-import io.personium.engine.adapter.Require;
-import io.personium.engine.extension.support.AbstractExtensionScriptableObject;
-import io.personium.engine.extension.support.ExtensionJarLoader;
-import io.personium.engine.extension.support.ExtensionLogger;
-import io.personium.engine.extension.support.IExtensionLogger;
-import io.personium.engine.extension.support.JavaClassRevealFilter;
-import io.personium.engine.jsgi.JSGIRequest;
-import io.personium.engine.jsgi.PersoniumResponse;
-import io.personium.engine.source.ISourceManager;
-import io.personium.engine.utils.PersoniumEngineConfig;
-import io.personium.engine.utils.PersoniumEngineLoggerFactory;
-
 import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Function;
@@ -57,6 +42,23 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.personium.client.DaoException;
+import io.personium.client.utils.PersoniumLoggerFactory;
+import io.personium.common.utils.PersoniumCoreUtils;
+import io.personium.engine.adapter.PersoniumEngineDao;
+import io.personium.engine.adapter.PersoniumRequestBodyStream;
+import io.personium.engine.adapter.Require;
+import io.personium.engine.extension.support.AbstractExtensionScriptableObject;
+import io.personium.engine.extension.support.ExtensionJarLoader;
+import io.personium.engine.extension.support.ExtensionLogger;
+import io.personium.engine.extension.support.IExtensionLogger;
+import io.personium.engine.extension.support.JavaClassRevealFilter;
+import io.personium.engine.jsgi.JSGIRequest;
+import io.personium.engine.jsgi.PersoniumResponse;
+import io.personium.engine.source.ISourceManager;
+import io.personium.engine.utils.PersoniumEngineConfig;
+import io.personium.engine.utils.PersoniumEngineLoggerFactory;
 
 /**
  * Personium-Engineのメインクラス.
@@ -306,14 +308,27 @@ public class PersoniumEngineContext implements Closeable {
      * @param req Requestオブジェクト
      * @param serviceSubject サービスサブジェクト
      * @return DAOオブジェクト
+     * @throws PersoniumEngineException PersoniumEngineException
      */
-    private PersoniumEngineDao createDao(final HttpServletRequest req, final String serviceSubject) {
+    private PersoniumEngineDao createDao(final HttpServletRequest req, final String serviceSubject)
+            throws PersoniumEngineException {
         PersoniumEngineLoggerFactory engLogFactory = new PersoniumEngineLoggerFactory();
         PersoniumLoggerFactory.setDefaultFactory(engLogFactory);
 
-        PersoniumEngineDao pcx = new PersoniumEngineDao(baseUrl, currentCellName, currentSchemeUri, currentBoxName);
+        PersoniumEngineDao pcx;
+        try {
+            pcx = new PersoniumEngineDao(baseUrl, currentCellName, currentSchemeUri, currentBoxName);
+        } catch (DaoException e) {
+            log.info("DAO init error) ", e);
+            throw new PersoniumEngineException("Server Error : " + e.getMessage(),
+                    PersoniumEngineException.STATUSCODE_SERVER_ERROR, e);
+        }
         pcx.setServiceSubject(serviceSubject);
         pcx.setBoxSchema(req.getHeader("X-Personium-Box-Schema"));
+        String pathBaseHeader = req.getHeader("X-Personium-Path-Based-Cell-Url-Enabled");
+        boolean pathBase = StringUtils.isEmpty(pathBaseHeader) ? true : Boolean.parseBoolean(pathBaseHeader); //CHECKSTYLE IGNORE
+        pcx.setPathBasedCellUrlEnabled(pathBase);
+
         String auth = req.getHeader(HttpHeaders.AUTHORIZATION);
         String version = req.getHeader(PersoniumEngineDao.PERSONIUM_VERSION);
         if (version != null && !(version.equals(""))) {

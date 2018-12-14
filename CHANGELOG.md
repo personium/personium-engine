@@ -1,3 +1,7 @@
+## 1.5.15
+IMPROVEMENTS:
+* Support per-Cell FQDN.([#57](https://github.com/personium/personium-engine/issues/57))
+
 ## 1.5.14
 IMPROVEMENTS:
 * Update personium-lib-common version.
