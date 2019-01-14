@@ -49,11 +49,13 @@ public class PersoniumEngineDao extends PersoniumContext {
      * @param name Cell Name
      * @param boxSchema Box DataSchemaURI
      * @param bName Box-Name
+     * @param pathBaseEnabled pathBaseEnabled
      * @throws DaoException DaoException
      */
-    public PersoniumEngineDao(final String url, final String name, final String boxSchema, final String bName)
+    public PersoniumEngineDao(final String url, final String name, final String boxSchema,
+            final String bName, boolean pathBaseEnabled)
             throws DaoException {
-        super(url, name, boxSchema, bName);
+        super(url, name, boxSchema, bName, pathBaseEnabled);
     }
 
     /**

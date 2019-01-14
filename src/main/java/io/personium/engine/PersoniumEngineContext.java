@@ -315,9 +315,12 @@ public class PersoniumEngineContext implements Closeable {
         PersoniumEngineLoggerFactory engLogFactory = new PersoniumEngineLoggerFactory();
         PersoniumLoggerFactory.setDefaultFactory(engLogFactory);
 
+        String pathBaseHeader = req.getHeader("X-Personium-Path-Based-Cell-Url-Enabled");
+        boolean pathBase = StringUtils.isEmpty(pathBaseHeader) ? true : Boolean.parseBoolean(pathBaseHeader); //CHECKSTYLE IGNORE
+
         PersoniumEngineDao pcx;
         try {
-            pcx = new PersoniumEngineDao(baseUrl, currentCellName, currentSchemeUri, currentBoxName);
+            pcx = new PersoniumEngineDao(baseUrl, currentCellName, currentSchemeUri, currentBoxName, pathBase);
         } catch (DaoException e) {
             log.info("DAO init error) ", e);
             throw new PersoniumEngineException("Server Error : " + e.getMessage(),
@@ -325,9 +328,6 @@ public class PersoniumEngineContext implements Closeable {
         }
         pcx.setServiceSubject(serviceSubject);
         pcx.setBoxSchema(req.getHeader("X-Personium-Box-Schema"));
-        String pathBaseHeader = req.getHeader("X-Personium-Path-Based-Cell-Url-Enabled");
-        boolean pathBase = StringUtils.isEmpty(pathBaseHeader) ? true : Boolean.parseBoolean(pathBaseHeader); //CHECKSTYLE IGNORE
-        pcx.setPathBasedCellUrlEnabled(pathBase);
 
         String auth = req.getHeader(HttpHeaders.AUTHORIZATION);
         String version = req.getHeader(PersoniumEngineDao.PERSONIUM_VERSION);
