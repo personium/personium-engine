@@ -37,11 +37,6 @@
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
-            <artifactId>personium-lib-es-adapter</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
             <version>1.4.16</version>
         </dependency>

@@ -30,7 +30,6 @@ import io.personium.core.model.file.DataCryptor;
 import io.personium.engine.rs.DebugResource;
 import io.personium.engine.rs.ServiceResource;
 import io.personium.engine.rs.StatusResource;
-import io.personium.engine.rs.SystemServiceResource;
 import io.personium.engine.rs.TestResource;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
@@ -61,7 +60,6 @@ public class PersoniumEngineApplication extends Application {
     public final Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<Class<?>>();
         classes.add(ServiceResource.class);
-        classes.add(SystemServiceResource.class);
         // if (Boolean.valueOf(this.servletContext.getInitParameter(KEY_DCENGINE_DEBUG))) {
         classes.add(StatusResource.class);
         classes.add(DebugResource.class);

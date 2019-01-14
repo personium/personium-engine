@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2018 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,14 +26,14 @@ public interface ISourceManager {
     /**
      * サービスサブジェクトを返却.
      * @return サービスサブジェクト
-     * @throws PersoniumEngineException
+     * @throws PersoniumEngineException exception
      */
     String getServiceSubject() throws PersoniumEngineException;
     /**
      * サービス名に対応したスクリプトを返却.
      * @param servicePath サービス名
      * @return スクリプトファイル名
-     * @throws PersoniumEngineException
+     * @throws PersoniumEngineException exception
      */
     String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException;
 
@@ -41,7 +41,7 @@ public interface ISourceManager {
      * スクリプトファイルの中身を返却.
      * @param scriptFileName スクリプトファイル名
      * @return スクリプトファイルの中身
-     * @throws PersoniumEngineException
+     * @throws PersoniumEngineException exception
      */
     String getSource(String scriptFileName) throws PersoniumEngineException;
 }
