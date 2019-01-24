@@ -16,6 +16,9 @@
  */
 package io.personium.jersey.engine.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,22 +31,20 @@ import org.json.simple.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import com.sun.jersey.test.framework.AppDescriptor;
+import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.spi.container.TestContainerFactory;
+
 import io.personium.client.Accessor;
 import io.personium.client.Box;
 import io.personium.client.Cell;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
 import io.personium.client.ServiceCollection;
+import io.personium.client.http.HttpClientFactory;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
-import io.personium.client.http.HttpClientFactory;
 import io.personium.engine.utils.PersoniumEngineConfig;
-import com.sun.jersey.test.framework.AppDescriptor;
-import com.sun.jersey.test.framework.JerseyTest;
-import com.sun.jersey.test.framework.spi.container.TestContainerFactory;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * engineスクリプトのテストを実行するための基底クラス.
@@ -151,7 +152,7 @@ public abstract class ScriptTestBase extends JerseyTest {
     @BeforeClass
     public static final void beforeClass() throws DaoException {
         // ＤＡＯインスタンスを生成
-        personiumCtx = new PersoniumContext(baseUrl, cellName, boxSchema, boxSchema);
+        personiumCtx = new PersoniumContext(baseUrl, cellName, boxSchema, boxSchema, true);
         String version = getVersion();
         if (version != null && !(version.equals(""))) {
             personiumCtx.setPersoniumVersion(version);
