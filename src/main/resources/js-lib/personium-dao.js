@@ -475,9 +475,9 @@ _p.Webdav.prototype.getFileList = function() {
  * @returns {string[]} サブコレクションへのWebDAVパス一覧
  * @exception {_p.PersoniumException} DAO例外
  */
-_p.Webdav.prototype.getColList = function(name) {
+_p.Webdav.prototype.getColList = function() {
     try {
-        return this.core.getColList(name);
+        return this.core.getColList();
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
