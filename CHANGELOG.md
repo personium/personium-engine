@@ -1,3 +1,8 @@
+## 1.5.16
+BUG FIXES:
+* Wrong BOX URL error.([#61](https://github.com/personium/personium-engine/issues/61))
+* getFileList(), getColList() does not work.([#64](https://github.com/personium/personium-engine/issues/64))
+
 ## 1.5.15
 IMPROVEMENTS:
 * Support per-Cell FQDN.([#57](https://github.com/personium/personium-engine/issues/57))
