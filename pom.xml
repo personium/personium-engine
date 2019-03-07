@@ -33,17 +33,17 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-client-java</artifactId>
-            <version>1.4.12</version>
+            <version>1.4.13-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
-            <version>1.4.16</version>
+            <version>1.4.20-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-ex-base</artifactId>
-            <version>1.4.4</version>
+            <version>1.4.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -280,7 +280,6 @@
                         <exclude>checkstyle_maven.properties</exclude>
                         <exclude>checkstyle-suppressions.xml</exclude>
                         <exclude>personium-checkstyle.xml</exclude>
-                        <exclude>findbugs-exclude.xml</exclude>
                         <exclude>pom.xml</exclude>
                         <exclude>logback.xml</exclude>
                         <exclude>NOTICE.txt</exclude>
@@ -344,17 +343,6 @@
                         </reports>
                     </reportSet>
                 </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <xmlOutput>true</xmlOutput>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
