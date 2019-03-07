@@ -18,7 +18,6 @@ package io.personium.engine.adapter;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 import io.personium.client.Accessor;
 import io.personium.client.DaoException;
@@ -79,9 +78,7 @@ public class PersoniumEngineAccessor extends Accessor {
         if (this.targetCellUrl != null) {
             // create TransCellToken
             TransCellAccessToken token = new TransCellAccessToken(
-                UUID.randomUUID().toString(),
                 issuedAt,
-                TransCellAccessToken.LIFESPAN,
                 getContext().getCurrentCellUrl(),
                 getContext().getCurrentCellUrl() + "#" + this.serviceSubject,
                 this.targetCellUrl,

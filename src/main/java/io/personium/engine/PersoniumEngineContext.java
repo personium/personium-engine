@@ -316,7 +316,10 @@ public class PersoniumEngineContext implements Closeable {
         PersoniumLoggerFactory.setDefaultFactory(engLogFactory);
 
         String pathBaseHeader = req.getHeader("X-Personium-Path-Based-Cell-Url-Enabled");
-        boolean pathBase = StringUtils.isEmpty(pathBaseHeader) ? true : Boolean.parseBoolean(pathBaseHeader); //CHECKSTYLE IGNORE
+        boolean pathBase = StringUtils.isEmpty(pathBaseHeader);
+        if (!pathBase) {
+            pathBase = Boolean.parseBoolean(pathBaseHeader);
+        }
 
         PersoniumEngineDao pcx;
         try {
