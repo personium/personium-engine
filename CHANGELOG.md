@@ -1,3 +1,7 @@
+## 1.5.17
+BUG FIXES:
+* An error occurs when reading the TranscellToken created by engine script with core.([#68](https://github.com/personium/personium-engine/issues/68))
+
 ## 1.5.16
 BUG FIXES:
 * Wrong BOX URL error.([#61](https://github.com/personium/personium-engine/issues/61))
