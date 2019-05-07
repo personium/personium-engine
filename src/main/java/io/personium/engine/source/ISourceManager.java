@@ -16,6 +16,10 @@
  */
 package io.personium.engine.source;
 
+import java.util.Map;
+
+import org.mozilla.javascript.Script;
+
 import io.personium.engine.PersoniumEngineException;
 
 /**
@@ -36,6 +40,11 @@ public interface ISourceManager {
      * @throws PersoniumEngineException exception
      */
     String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException;
+
+    void createCachedScript(Script script, String sourceName, Map<String, Script> engineLibCache);
+//    void createCachedScript(Script script, Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException;
+    Script getCachedScript(String sourceName, Map<String, Script> engineLibCache);
+//    Script getCachedScript(Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException, ClassNotFoundException;
 
     /**
      * スクリプトファイルの中身を返却.

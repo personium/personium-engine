@@ -35,6 +35,7 @@ import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.mozilla.javascript.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -113,6 +114,47 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     public String getScriptNameForServicePath(String servicePath) {
         return this.pathMap.get(servicePath);
     }
+
+    // メモリ
+    public void createCachedScript(Script script, String sourceName, Map<String, Script> engineLibCache) {
+        String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
+        engineLibCache.put(sourceDir, script);
+    }
+
+//    // ファイル
+//    public void createCachedScript(Script script, Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException {
+//        String cacheDir = this.fsPath + File.separator + "__src" + File.separator + sourceName + File.separator + ".scriptcache";
+//        new File(cacheDir).mkdirs();
+//        String cachePath = cacheDir + File.separator + keyPrefix + "cache";
+//        File cacheFile = new File(cachePath);
+//        try (ScriptableOutputStream outputStream = new ScriptableOutputStream(new FileOutputStream(cacheFile), scope)) {
+//            outputStream.writeObject(script);
+//        }
+//    }
+
+    // メモリ
+    public Script getCachedScript(String sourceName, Map<String, Script> engineLibCache) {
+        String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
+        if (engineLibCache.containsKey(sourceDir)) {
+            return engineLibCache.get(sourceDir);
+        }
+        return null;
+    }
+
+//    // ファイル
+//    public Script getCachedScript(Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException, ClassNotFoundException {
+//        String cacheDir = this.fsPath + File.separator + "__src" + File.separator + sourceName + File.separator + ".scriptcache";
+//        String cachePath = cacheDir + File.separator + keyPrefix + "cache";
+//        File cacheFile = new File(cachePath);
+//        if (!cacheFile.exists()) {
+//            return null;
+//        }
+//        try (ScriptableInputStream inputStream = new ScriptableInputStream(new FileInputStream(cacheFile), scope)) {
+//            Object obj = inputStream.readObject();
+//            Script script = (Script) obj;
+//            return script;
+//        }
+//    }
 
     /**
      * ソースファイルを取得.
