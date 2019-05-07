@@ -362,7 +362,6 @@ public class PersoniumEngineContext implements Closeable {
 
         if (log.isDebugEnabled()) {
             log.debug("runJsgi.");
-            log.debug("    clientToken: " + pcx.getClientToken());
             log.debug("    X-Personium-RequestKey: " + requestKey);
             log.debug("    X-Personium-EventId: " + eventId);
             log.debug("    X-Personium-RuleChain: " + ruleChain);
