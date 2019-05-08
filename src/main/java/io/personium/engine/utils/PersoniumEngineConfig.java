@@ -141,6 +141,14 @@ public class PersoniumEngineConfig {
     }
 
     /**
+     * Setting around EngineScript.
+     */
+    public static final class Engine {
+        /** Max number of engine script chache. */
+        public static final String SCRIPT_CACHE_MAXNUM = KEY_ROOT + "engine.script.cache.maxNum";
+    }
+
+    /**
      * バージョン廻りの設定.
      */
     public static final String CONFIG_VERSION = KEY_ROOT + "version";
@@ -196,6 +204,14 @@ public class PersoniumEngineConfig {
      */
     public static String getTokenSecretKey() {
         return get(Security.TOKEN_SECRET_KEY);
+    }
+
+    /**
+     * Get max number of engine script chache.
+     * @return Max number of engine script chache
+     */
+    public static int getScriptCacheMaxNum() {
+        return Integer.parseInt(get(Engine.SCRIPT_CACHE_MAXNUM));
     }
 
     /**

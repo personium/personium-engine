@@ -242,6 +242,12 @@ public abstract class AbstractService {
             final HttpServletRequest req,
             final HttpServletResponse res,
             final InputStream is) {
+
+        //XXX Debug
+        long requestStartTime = System.currentTimeMillis();
+        long previousPhaseTime = System.currentTimeMillis();
+        StringBuilder timeBuilder = new StringBuilder();
+
         StringBuilder msg = new StringBuilder();
         msg.append("[" + PersoniumEngineConfig.getVersion() + "] " + ">>> Request Started ");
         msg.append(" method:");
@@ -289,7 +295,7 @@ public abstract class AbstractService {
         PersoniumEngineContext pecx = null;
         try {
             try {
-                pecx = new PersoniumEngineContext();
+                pecx = new PersoniumEngineContext(timeBuilder);
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
             }
@@ -306,8 +312,9 @@ public abstract class AbstractService {
             pecx.loadGlobalObject(baseUrl, targetCell, targetSchema, targetSchema, targetServiceName);
             // ユーザスクリプトを取得（設定及びソース）
             String source = "";
+            String sourceName = "";
             try {
-                String sourceName = this.sourceManager.getScriptNameForServicePath(targetServiceName);
+                sourceName = this.sourceManager.getScriptNameForServicePath(targetServiceName);
                 source = this.sourceManager.getSource(sourceName);
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
@@ -320,7 +327,7 @@ public abstract class AbstractService {
             }
             // JSGI実行
             try {
-                response = pecx.runJsgi(source, req, res, is, this.serviceSubject);
+                response = pecx.runJsgi(source, req, res, is, this.serviceSubject, previousPhaseTime, sourceName);
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
             } catch (Exception e) {
@@ -330,6 +337,9 @@ public abstract class AbstractService {
             }
         } finally {
             IOUtils.closeQuietly(pecx);
+            timeBuilder.append("Total,");
+            timeBuilder.append(System.currentTimeMillis() - requestStartTime);
+            log.info("========== Engine timestamp. " + timeBuilder.toString());
         }
         return response;
     }

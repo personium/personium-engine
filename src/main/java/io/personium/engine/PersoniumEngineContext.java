@@ -18,11 +18,14 @@ package io.personium.engine;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -71,6 +74,15 @@ public class PersoniumEngineContext implements Closeable {
     private static final String EXTENSION_SCOPE = "extension";
     private static Map<String, Script> engineLibCache = new ConcurrentHashMap<String, Script>();
 
+//    private static Map<String, Script> userScriptCache = new ConcurrentHashMap<String, Script>();
+    private static final int CACHE_MAX_NUM = PersoniumEngineConfig.getScriptCacheMaxNum();
+    private static Map<String, Script> userScriptCache = Collections.synchronizedMap(
+            new LinkedHashMap<String, Script>(CACHE_MAX_NUM, 0.75f, true) { // 0.75 is default.
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, Script> eldest) {
+                    return size() > CACHE_MAX_NUM;
+                }
+            });
 
     /** Cell名. */
     private String currentCellName;
@@ -92,6 +104,11 @@ public class PersoniumEngineContext implements Closeable {
     /** ソース情報管理. */
     private ISourceManager sourceManager;
 
+
+    //XXX Debug
+    private StringBuilder timeBuilder;
+
+
     static {
         ContextFactory.initGlobal(new PersoniumJsContextFactory());
     }
@@ -107,6 +124,12 @@ public class PersoniumEngineContext implements Closeable {
 
         this.scope = cx.initStandardObjects();
 
+        cx.setOptimizationLevel(-1);
+    }
+
+    public PersoniumEngineContext(StringBuilder timeBuilder) throws PersoniumEngineException {
+        this();
+        this.timeBuilder = timeBuilder;
     }
 
     /**
@@ -212,7 +235,9 @@ public class PersoniumEngineContext implements Closeable {
             final HttpServletRequest req,
             final HttpServletResponse res,
             final InputStream is,
-            final String serviceSubject) throws PersoniumEngineException {
+            final String serviceSubject,
+            long previousPhaseTime,
+            String sourceName) throws PersoniumEngineException {
         // JSGI実行準備
         // DAOオブジェクトを生成
         PersoniumEngineDao ed = createDao(req, serviceSubject);
@@ -258,7 +283,7 @@ public class PersoniumEngineContext implements Closeable {
         try {
             Object ret;
             log.info("eval user script : script size = " + source.length());
-            ret = evalUserScript(source, jsReq);
+            ret = evalUserScript(source, jsReq, previousPhaseTime, sourceName);
             log.info("[" + PersoniumEngineConfig.getVersion() + "] " + "<<< Request Ended ");
 
             PersoniumResponse pRes = PersoniumResponse.parseJsgiResponse(ret);
@@ -287,8 +312,46 @@ public class PersoniumEngineContext implements Closeable {
      * @throws IOException IO例外
      * @throws PersoniumEngineException
      */
-    private Object evalUserScript(final String source, JSGIRequest jsReq) throws PersoniumEngineException {
-        cx.evaluateString(scope, "fn_jsgi = " + source, null, 1, null);
+    private Object evalUserScript(final String source, JSGIRequest jsReq, long previousPhaseTime, String sourceName) throws PersoniumEngineException, ClassNotFoundException, IOException {
+
+        long nowTime = System.currentTimeMillis();
+        previousPhaseTime = nowTime;
+
+//        cx.evaluateString(scope, "fn_jsgi = " + source, null, 1, null);
+        Script script;
+//        try {
+        script = sourceManager.getCachedScript(sourceName, userScriptCache);
+//        script = sourceManager.getCachedScript(scope, "", sourceName);
+        if (script == null) {
+            script = cx.compileString("fn_jsgi = " + source, null, 1, null);
+            sourceManager.createCachedScript(script, sourceName, userScriptCache);
+//            sourceManager.createCachedScript(script, scope, "", sourceName);
+
+            nowTime = System.currentTimeMillis();
+            timeBuilder.append("Phase-compile,");
+            timeBuilder.append(nowTime - previousPhaseTime);
+            timeBuilder.append(",");
+            previousPhaseTime = nowTime;
+        } else {
+            nowTime = System.currentTimeMillis();
+            timeBuilder.append("Phase-cache,");
+            timeBuilder.append(nowTime - previousPhaseTime);
+            timeBuilder.append(",");
+            previousPhaseTime = nowTime;
+        }
+
+
+        if (script != null) {
+            script.exec(cx, scope);
+        }
+        nowTime = System.currentTimeMillis();
+        timeBuilder.append("Phase-exec,");
+        timeBuilder.append(nowTime - previousPhaseTime);
+        timeBuilder.append(",");
+        previousPhaseTime = nowTime;
+//        } catch (ClassNotFoundException | IOException e) {
+//            throw new PersoniumEngineException("UserScript exec failed.", 500, e);
+//        }
 
         Object fObj = scope.get("fn_jsgi", scope);
         Object result = null;
@@ -298,8 +361,18 @@ public class PersoniumEngineContext implements Closeable {
         }
 
         Object[] functionArgs = {jsReq.getRequestObject() };
+
+        previousPhaseTime = System.currentTimeMillis();
+
         Function f = (Function) fObj;
         result = f.call(cx, scope, scope, functionArgs);
+
+        nowTime = System.currentTimeMillis();
+        timeBuilder.append("Phase-call,");
+        timeBuilder.append(nowTime - previousPhaseTime);
+        timeBuilder.append(",");
+        previousPhaseTime = nowTime;
+
         return result;
     }
 
@@ -423,10 +496,47 @@ public class PersoniumEngineContext implements Closeable {
      * @param source JavaScriptソースの中身
      * @param path JavaScriptソース名
      * @return オブジェクト
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws FileNotFoundException
      */
     public Object requireJs(final String source, final String path) {
-        Object ret = cx.evaluateString(scope, source, path, 1, null);
+        long previousPhaseTime = System.currentTimeMillis();
+
+//        Object ret = cx.evaluateString(scope, source, path, 1, null);
+        StringBuilder builder = new StringBuilder();
+        // Requireは.jsがついていないのでつける
+        String jsName = path + ".js";
+        Object ret = null;
+        Script script = sourceManager.getCachedScript(jsName, userScriptCache);
+//        Script script = sourceManager.getCachedScript(scope, prefix, jsName);
+        if (script == null) {
+            script = cx.compileString(source, path, 1, null);
+            sourceManager.createCachedScript(script, jsName, userScriptCache);
+//            sourceManager.createCachedScript(script, scope, prefix, jsName);
+
+            builder.append("========== Require timestamp. ");
+            builder.append("Compile,");
+            builder.append(System.currentTimeMillis() - previousPhaseTime);
+            builder.append(",");
+            previousPhaseTime = System.currentTimeMillis();
+        } else {
+            builder.append("========== Require timestamp. ");
+            builder.append("Cache,");
+            builder.append(System.currentTimeMillis() - previousPhaseTime);
+            builder.append(",");
+            previousPhaseTime = System.currentTimeMillis();
+        }
+        if (script != null) {
+            ret = script.exec(cx, scope);
+        }
+
+        builder.append("Exec,");
+        builder.append(System.currentTimeMillis() - previousPhaseTime);
+
         log.debug("Load JavaScript from Require Resource : " + path);
+        log.info(builder.toString());
+
         return ret;
     }
 
