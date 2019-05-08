@@ -433,6 +433,13 @@ public class PersoniumEngineContext implements Closeable {
             pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_VIA, via);
         }
 
+        if (log.isDebugEnabled()) {
+            log.debug("runJsgi.");
+            log.debug("    X-Personium-RequestKey: " + requestKey);
+            log.debug("    X-Personium-EventId: " + eventId);
+            log.debug("    X-Personium-RuleChain: " + ruleChain);
+            log.debug("    X-Personium-Via: " + via);
+        }
         return pcx;
     }
 
