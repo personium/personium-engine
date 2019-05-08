@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -72,8 +74,15 @@ public class PersoniumEngineContext implements Closeable {
     private static final String EXTENSION_SCOPE = "extension";
     private static Map<String, Script> engineLibCache = new ConcurrentHashMap<String, Script>();
 
-    private static Map<String, Script> userScriptCache = new ConcurrentHashMap<String, Script>();
-
+//    private static Map<String, Script> userScriptCache = new ConcurrentHashMap<String, Script>();
+    private static final int CACHE_MAX_NUM = PersoniumEngineConfig.getScriptCacheMaxNum();
+    private static Map<String, Script> userScriptCache = Collections.synchronizedMap(
+            new LinkedHashMap<String, Script>(CACHE_MAX_NUM, 0.75f, true) { // 0.75 is default.
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, Script> eldest) {
+                    return size() > CACHE_MAX_NUM;
+                }
+            });
 
     /** Cell名. */
     private String currentCellName;
