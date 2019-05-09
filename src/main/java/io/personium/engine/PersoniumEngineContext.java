@@ -77,7 +77,7 @@ public class PersoniumEngineContext implements Closeable {
 //    private static Map<String, Script> userScriptCache = new ConcurrentHashMap<String, Script>();
     private static final int CACHE_MAX_NUM = PersoniumEngineConfig.getScriptCacheMaxNum();
     private static Map<String, Script> userScriptCache = Collections.synchronizedMap(
-            new LinkedHashMap<String, Script>(CACHE_MAX_NUM, 0.75f, true) { // 0.75 is default.
+            new LinkedHashMap<String, Script>(16, 0.75f, true) { // 16, 0.75 is default.
                 @Override
                 protected boolean removeEldestEntry(Map.Entry<String, Script> eldest) {
                     return size() > CACHE_MAX_NUM;
