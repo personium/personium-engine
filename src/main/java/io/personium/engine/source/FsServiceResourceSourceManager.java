@@ -46,6 +46,8 @@ import org.xml.sax.SAXException;
 
 import io.personium.core.model.file.DataCryptor;
 import io.personium.engine.PersoniumEngineException;
+import io.personium.engine.model.DavMetadataFile;
+import io.personium.engine.model.ScriptCache;
 
 /**
  * Service resource source management using file system.
@@ -115,46 +117,28 @@ public class FsServiceResourceSourceManager implements ISourceManager {
         return this.pathMap.get(servicePath);
     }
 
-    // メモリ
-    public void createCachedScript(Script script, String sourceName, Map<String, Script> engineLibCache) {
+    public void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> engineLibCache)
+            throws PersoniumEngineException {
         String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
-        engineLibCache.put(sourceDir, script);
+        DavMetadataFile metaFile = DavMetadataFile.newInstance(sourceDir);
+        metaFile.load();
+        ScriptCache cache = new ScriptCache(script, metaFile.getUpdated());
+        engineLibCache.put(sourceDir, cache);
     }
 
-//    // ファイル
-//    public void createCachedScript(Script script, Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException {
-//        String cacheDir = this.fsPath + File.separator + "__src" + File.separator + sourceName + File.separator + ".scriptcache";
-//        new File(cacheDir).mkdirs();
-//        String cachePath = cacheDir + File.separator + keyPrefix + "cache";
-//        File cacheFile = new File(cachePath);
-//        try (ScriptableOutputStream outputStream = new ScriptableOutputStream(new FileOutputStream(cacheFile), scope)) {
-//            outputStream.writeObject(script);
-//        }
-//    }
-
-    // メモリ
-    public Script getCachedScript(String sourceName, Map<String, Script> engineLibCache) {
+    public Script getCachedScript(String sourceName, Map<String, ScriptCache> engineLibCache) throws PersoniumEngineException {
         String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
-        if (engineLibCache.containsKey(sourceDir)) {
-            return engineLibCache.get(sourceDir);
+        DavMetadataFile metaFile = DavMetadataFile.newInstance(sourceDir);
+        metaFile.load();
+        if (!engineLibCache.containsKey(sourceDir)) {
+            return null;
         }
-        return null;
+        ScriptCache cache = engineLibCache.get(sourceDir);
+        if (cache.isScriptFileUpdated(metaFile.getUpdated())) {
+            return null;
+        }
+        return cache.getScript();
     }
-
-//    // ファイル
-//    public Script getCachedScript(Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException, ClassNotFoundException {
-//        String cacheDir = this.fsPath + File.separator + "__src" + File.separator + sourceName + File.separator + ".scriptcache";
-//        String cachePath = cacheDir + File.separator + keyPrefix + "cache";
-//        File cacheFile = new File(cachePath);
-//        if (!cacheFile.exists()) {
-//            return null;
-//        }
-//        try (ScriptableInputStream inputStream = new ScriptableInputStream(new FileInputStream(cacheFile), scope)) {
-//            Object obj = inputStream.readObject();
-//            Script script = (Script) obj;
-//            return script;
-//        }
-//    }
 
     /**
      * ソースファイルを取得.

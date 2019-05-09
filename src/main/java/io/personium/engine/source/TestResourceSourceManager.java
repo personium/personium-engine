@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.personium.engine.PersoniumEngineException;
+import io.personium.engine.model.ScriptCache;
 import io.personium.engine.utils.PersoniumUtils;
 
 /**
@@ -59,17 +60,14 @@ public class TestResourceSourceManager implements ISourceManager {
         return servicePath;
     }
 
-    public void createCachedScript(Script script, String sourceName, Map<String, Script> engineLibCache) {
+    public void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> engineLibCache)
+            throws PersoniumEngineException {
     }
-//    public void createCachedScript(Script script, Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException {
-//    }
 
-    public Script getCachedScript(String sourceName, Map<String, Script> engineLibCache) {
+    public Script getCachedScript(String sourceName, Map<String, ScriptCache> engineLibCache)
+            throws PersoniumEngineException {
         return null;
     }
-//    public Script getCachedScript(Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException, ClassNotFoundException {
-//        return null;
-//    }
 
     /**
      * ソースファイルを取得.
