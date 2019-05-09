@@ -21,6 +21,7 @@ import java.util.Map;
 import org.mozilla.javascript.Script;
 
 import io.personium.engine.PersoniumEngineException;
+import io.personium.engine.model.ScriptCache;
 
 /**
  * ユーザースクリプトのソースを管理するインターフェース.
@@ -41,10 +42,8 @@ public interface ISourceManager {
      */
     String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException;
 
-    void createCachedScript(Script script, String sourceName, Map<String, Script> engineLibCache);
-//    void createCachedScript(Script script, Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException;
-    Script getCachedScript(String sourceName, Map<String, Script> engineLibCache);
-//    Script getCachedScript(Scriptable scope, String keyPrefix, String sourceName) throws FileNotFoundException, IOException, ClassNotFoundException;
+    void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> engineLibCache) throws PersoniumEngineException;
+    Script getCachedScript(String sourceName, Map<String, ScriptCache> engineLibCache) throws PersoniumEngineException;
 
     /**
      * スクリプトファイルの中身を返却.

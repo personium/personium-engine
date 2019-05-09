@@ -59,6 +59,7 @@ import io.personium.engine.extension.support.IExtensionLogger;
 import io.personium.engine.extension.support.JavaClassRevealFilter;
 import io.personium.engine.jsgi.JSGIRequest;
 import io.personium.engine.jsgi.PersoniumResponse;
+import io.personium.engine.model.ScriptCache;
 import io.personium.engine.source.ISourceManager;
 import io.personium.engine.utils.PersoniumEngineConfig;
 import io.personium.engine.utils.PersoniumEngineLoggerFactory;
@@ -76,10 +77,10 @@ public class PersoniumEngineContext implements Closeable {
 
 //    private static Map<String, Script> userScriptCache = new ConcurrentHashMap<String, Script>();
     private static final int CACHE_MAX_NUM = PersoniumEngineConfig.getScriptCacheMaxNum();
-    private static Map<String, Script> userScriptCache = Collections.synchronizedMap(
-            new LinkedHashMap<String, Script>(CACHE_MAX_NUM, 0.75f, true) { // 0.75 is default.
+    private static Map<String, ScriptCache> userScriptCache = Collections.synchronizedMap(
+            new LinkedHashMap<String, ScriptCache>(16, 0.75f, true) { // 16, 0.75 is default.
                 @Override
-                protected boolean removeEldestEntry(Map.Entry<String, Script> eldest) {
+                protected boolean removeEldestEntry(Map.Entry<String, ScriptCache> eldest) {
                     return size() > CACHE_MAX_NUM;
                 }
             });
@@ -501,33 +502,27 @@ public class PersoniumEngineContext implements Closeable {
      * @throws ClassNotFoundException
      * @throws FileNotFoundException
      */
-    public Object requireJs(final String source, final String path) {
+    public Object requireJs(final String source, final String path) throws PersoniumEngineException {
         long previousPhaseTime = System.currentTimeMillis();
 
-//        Object ret = cx.evaluateString(scope, source, path, 1, null);
         StringBuilder builder = new StringBuilder();
-        // Requireは.jsがついていないのでつける
+        // Add because there is no extension.
         String jsName = path + ".js";
         Object ret = null;
         Script script = sourceManager.getCachedScript(jsName, userScriptCache);
-//        Script script = sourceManager.getCachedScript(scope, prefix, jsName);
         if (script == null) {
             script = cx.compileString(source, path, 1, null);
             sourceManager.createCachedScript(script, jsName, userScriptCache);
-//            sourceManager.createCachedScript(script, scope, prefix, jsName);
-
             builder.append("========== Require timestamp. ");
             builder.append("Compile,");
-            builder.append(System.currentTimeMillis() - previousPhaseTime);
-            builder.append(",");
-            previousPhaseTime = System.currentTimeMillis();
         } else {
             builder.append("========== Require timestamp. ");
             builder.append("Cache,");
-            builder.append(System.currentTimeMillis() - previousPhaseTime);
-            builder.append(",");
-            previousPhaseTime = System.currentTimeMillis();
         }
+        builder.append(System.currentTimeMillis() - previousPhaseTime);
+        builder.append(",");
+        previousPhaseTime = System.currentTimeMillis();
+
         if (script != null) {
             ret = script.exec(cx, scope);
         }
