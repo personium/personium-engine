@@ -432,6 +432,7 @@ public class PersoniumEngineContext implements Closeable {
         if (via != null) {
             pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_VIA, via);
         }
+        pcx.setDefaultHeader("Connection", "close");
 
         if (log.isDebugEnabled()) {
             log.debug("runJsgi.");
