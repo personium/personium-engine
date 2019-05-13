@@ -1,6 +1,13 @@
+## 1.5.19
+BUG FIXES:
+* HttpClient close leak.([#77](https://github.com/personium/personium-engine/issues/77))
+
+IMPROVEMENTS:
+* Cache compiled script objects.([#74](https://github.com/personium/personium-engine/issues/74))
+
 ## 1.5.18
 IMPROVEMENTS:
-Maintenance of checkstyle and PMD.([#66](https://github.com/personium/personium-engine/issues/66))
+* Maintenance of checkstyle and PMD.([#66](https://github.com/personium/personium-engine/issues/66))
 
 ## 1.5.17
 BUG FIXES:
