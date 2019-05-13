@@ -1,6 +1,6 @@
 /**
- * personium.io
- * Copyright 2014 FUJITSU LIMITED
+ * Personium
+ * Copyright 2019 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,6 +119,7 @@ public class DavMetadataFile {
 
     /**
      * load from the file.
+     * @throws PersoniumEngineException exception
      */
     public void load() throws PersoniumEngineException {
         // Coping with core issue #28.

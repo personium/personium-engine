@@ -42,8 +42,24 @@ public interface ISourceManager {
      */
     String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException;
 
-    void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> engineLibCache) throws PersoniumEngineException;
-    Script getCachedScript(String sourceName, Map<String, ScriptCache> engineLibCache) throws PersoniumEngineException;
+    /**
+     * Create script cache.
+     * @param script script
+     * @param sourceName script source name
+     * @param userScriptCache script cache map
+     * @throws PersoniumEngineException exception
+     */
+    void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> userScriptCache)
+            throws PersoniumEngineException;
+
+    /**
+     * Get script cache.
+     * @param sourceName script source name
+     * @param userScriptCache script cache map
+     * @return script cache
+     * @throws PersoniumEngineException exception
+     */
+    Script getCachedScript(String sourceName, Map<String, ScriptCache> userScriptCache) throws PersoniumEngineException;
 
     /**
      * スクリプトファイルの中身を返却.
