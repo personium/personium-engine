@@ -60,11 +60,19 @@ public class TestResourceSourceManager implements ISourceManager {
         return servicePath;
     }
 
-    public void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> engineLibCache)
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> userScriptCache)
             throws PersoniumEngineException {
     }
 
-    public Script getCachedScript(String sourceName, Map<String, ScriptCache> engineLibCache)
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Script getCachedScript(String sourceName, Map<String, ScriptCache> userScriptCache)
             throws PersoniumEngineException {
         return null;
     }

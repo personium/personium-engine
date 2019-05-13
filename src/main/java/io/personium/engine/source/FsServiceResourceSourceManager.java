@@ -117,23 +117,32 @@ public class FsServiceResourceSourceManager implements ISourceManager {
         return this.pathMap.get(servicePath);
     }
 
-    public void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> engineLibCache)
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void createCachedScript(Script script, String sourceName, Map<String, ScriptCache> userScriptCache)
             throws PersoniumEngineException {
         String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
         DavMetadataFile metaFile = DavMetadataFile.newInstance(sourceDir);
         metaFile.load();
         ScriptCache cache = new ScriptCache(script, metaFile.getUpdated());
-        engineLibCache.put(sourceDir, cache);
+        userScriptCache.put(sourceDir, cache);
     }
 
-    public Script getCachedScript(String sourceName, Map<String, ScriptCache> engineLibCache) throws PersoniumEngineException {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Script getCachedScript(String sourceName, Map<String, ScriptCache> userScriptCache)
+            throws PersoniumEngineException {
         String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
         DavMetadataFile metaFile = DavMetadataFile.newInstance(sourceDir);
         metaFile.load();
-        if (!engineLibCache.containsKey(sourceDir)) {
+        if (!userScriptCache.containsKey(sourceDir)) {
             return null;
         }
-        ScriptCache cache = engineLibCache.get(sourceDir);
+        ScriptCache cache = userScriptCache.get(sourceDir);
         if (cache.isScriptFileUpdated(metaFile.getUpdated())) {
             return null;
         }

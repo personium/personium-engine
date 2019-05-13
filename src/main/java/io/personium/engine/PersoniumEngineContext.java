@@ -18,7 +18,6 @@ package io.personium.engine;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -77,7 +76,7 @@ public class PersoniumEngineContext implements Closeable {
 
     private static final int CACHE_MAX_NUM = PersoniumEngineConfig.getScriptCacheMaxNum();
     private static Map<String, ScriptCache> userScriptCache = Collections.synchronizedMap(
-            new LinkedHashMap<String, ScriptCache>(16, 0.75f, true) { // 16, 0.75 is default.
+            new LinkedHashMap<String, ScriptCache>(16, 0.75f, true) { //CHECKSTYLE IGNORE 16, 0.75 is default.
                 @Override
                 protected boolean removeEldestEntry(Map.Entry<String, ScriptCache> eldest) {
                     return size() > CACHE_MAX_NUM;
@@ -127,6 +126,11 @@ public class PersoniumEngineContext implements Closeable {
         cx.setOptimizationLevel(-1);
     }
 
+    /**
+     * Constructor.
+     * @param timeBuilder time string builder
+     * @throws PersoniumEngineException exception
+     */
     public PersoniumEngineContext(StringBuilder timeBuilder) throws PersoniumEngineException {
         this();
         this.timeBuilder = timeBuilder;
@@ -228,6 +232,8 @@ public class PersoniumEngineContext implements Closeable {
      * @param res Responseオブジェクト
      * @param is リクエストストリームオブジェクト
      * @param serviceSubject サービスサブジェクト
+     * @param previousPhaseTime previous phase time
+     * @param sourceName source name
      * @return Response
      * @throws PersoniumEngineException PersoniumEngine例外
      */
@@ -312,7 +318,8 @@ public class PersoniumEngineContext implements Closeable {
      * @throws IOException IO例外
      * @throws PersoniumEngineException
      */
-    private Object evalUserScript(final String source, JSGIRequest jsReq, long previousPhaseTime, String sourceName) throws PersoniumEngineException, ClassNotFoundException, IOException {
+    private Object evalUserScript(final String source, JSGIRequest jsReq, long previousPhaseTime, String sourceName)
+            throws PersoniumEngineException, ClassNotFoundException, IOException {
 
         long nowTime = System.currentTimeMillis();
         previousPhaseTime = nowTime;
@@ -490,9 +497,7 @@ public class PersoniumEngineContext implements Closeable {
      * @param source JavaScriptソースの中身
      * @param path JavaScriptソース名
      * @return オブジェクト
-     * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws FileNotFoundException
+     * @throws PersoniumEngineException exception
      */
     public Object requireJs(final String source, final String path) throws PersoniumEngineException {
         long previousPhaseTime = System.currentTimeMillis();
