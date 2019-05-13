@@ -339,7 +339,7 @@ public abstract class AbstractService {
             IOUtils.closeQuietly(pecx);
             timeBuilder.append("Total,");
             timeBuilder.append(System.currentTimeMillis() - requestStartTime);
-            log.info("========== Engine timestamp. " + timeBuilder.toString());
+            log.debug("========== Engine timestamp. " + timeBuilder.toString());
         }
         return response;
     }

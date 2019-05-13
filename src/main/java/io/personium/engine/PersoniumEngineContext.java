@@ -75,7 +75,6 @@ public class PersoniumEngineContext implements Closeable {
     private static final String EXTENSION_SCOPE = "extension";
     private static Map<String, Script> engineLibCache = new ConcurrentHashMap<String, Script>();
 
-//    private static Map<String, Script> userScriptCache = new ConcurrentHashMap<String, Script>();
     private static final int CACHE_MAX_NUM = PersoniumEngineConfig.getScriptCacheMaxNum();
     private static Map<String, ScriptCache> userScriptCache = Collections.synchronizedMap(
             new LinkedHashMap<String, ScriptCache>(16, 0.75f, true) { // 16, 0.75 is default.
@@ -318,15 +317,11 @@ public class PersoniumEngineContext implements Closeable {
         long nowTime = System.currentTimeMillis();
         previousPhaseTime = nowTime;
 
-//        cx.evaluateString(scope, "fn_jsgi = " + source, null, 1, null);
         Script script;
-//        try {
         script = sourceManager.getCachedScript(sourceName, userScriptCache);
-//        script = sourceManager.getCachedScript(scope, "", sourceName);
         if (script == null) {
             script = cx.compileString("fn_jsgi = " + source, null, 1, null);
             sourceManager.createCachedScript(script, sourceName, userScriptCache);
-//            sourceManager.createCachedScript(script, scope, "", sourceName);
 
             nowTime = System.currentTimeMillis();
             timeBuilder.append("Phase-compile,");
@@ -350,9 +345,6 @@ public class PersoniumEngineContext implements Closeable {
         timeBuilder.append(nowTime - previousPhaseTime);
         timeBuilder.append(",");
         previousPhaseTime = nowTime;
-//        } catch (ClassNotFoundException | IOException e) {
-//            throw new PersoniumEngineException("UserScript exec failed.", 500, e);
-//        }
 
         Object fObj = scope.get("fn_jsgi", scope);
         Object result = null;
@@ -531,7 +523,7 @@ public class PersoniumEngineContext implements Closeable {
         builder.append(System.currentTimeMillis() - previousPhaseTime);
 
         log.debug("Load JavaScript from Require Resource : " + path);
-        log.info(builder.toString());
+        log.debug(builder.toString());
 
         return ret;
     }
