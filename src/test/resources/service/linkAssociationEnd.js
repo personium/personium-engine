@@ -63,7 +63,7 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        //アンリンク 
+        //アンリンク
         aeKeeper.associationEnd.unLink(aeAnimal);
         //アンリンク (404)
         try {
@@ -85,13 +85,13 @@ function(request){
 
         // 作成したコレクションを削除する
         box.del("col");
-        
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

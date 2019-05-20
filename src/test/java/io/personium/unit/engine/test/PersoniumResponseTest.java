@@ -69,13 +69,13 @@ public class PersoniumResponseTest {
             assertFalse((Boolean) obj);
             // 301番
             obj = method.invoke(dcResponse, (Number) 301);
-            assertTrue((Boolean) obj);
+            assertFalse((Boolean) obj);
             // 303番
             obj = method.invoke(dcResponse, (Number) 303);
-            assertTrue((Boolean) obj);
+            assertFalse((Boolean) obj);
             // 307番
             obj = method.invoke(dcResponse, (Number) 307);
-            assertTrue((Boolean) obj);
+            assertFalse((Boolean) obj);
             // 500番
             obj = method.invoke(dcResponse, (Number) 201);
             assertFalse((Boolean) obj);

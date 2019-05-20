@@ -25,13 +25,13 @@ function(request){
     var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
-    var data = {Name:"relation"};
+    var data = {Name:"linkRelationRole_relation"};
     try {
         // Relation作成
         var relation = _p.as("client").cell(cellName).ctl.relation.create(data);
 
         // Role作成
-        data = {Name:"role"};
+        data = {Name:"linkRelationRole_role"};
         var role = _p.as("client").cell(cellName).ctl.role.create(data);
         // Relation リンク
         relation.role.link(role);
@@ -43,7 +43,7 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        //アンリンク 
+        //アンリンク
         relation.role.unLink(role);
         //アンリンク (404)
         try {
@@ -55,16 +55,16 @@ function(request){
         }
 
         // 作成したRelationを削除する
-        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"linkRelationRole_relation"});
         // 作成したRoleを削除する
-        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
-        
+        _p.as("client").cell(cellName).ctl.role.del({Name:"linkRelationRole_role"});
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

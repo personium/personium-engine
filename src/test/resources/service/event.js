@@ -30,14 +30,14 @@ function(request){
 
     try {
         // イベント登録
-        _p.as("client").cell(cellName).box().ctl.event.post(event);
+        _p.as("client").cell(cellName).event.post(event);
 
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

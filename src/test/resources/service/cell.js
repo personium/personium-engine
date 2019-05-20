@@ -19,26 +19,25 @@
  */
 function(request){
     //var util = require2("testCommon");
+    var baseUrl = pjvm.getBaseUrl();
     var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
-    var responseBody = "";
-    var json = {Name:cellName + "_1"}
-    try {
 
+    try {
         // Cellの作成
-        var cell = _p.as("client").asCellOwner().unit.ctl.cell.create(json);
+        var cell = _p.as("client").unit(baseUrl).ctl.cell.create({Name:cellName + "-crud-1"});
 
         // Cellの更新
-        _p.as("client").asCellOwner().unit.ctl.cell.update(cellName + "_1", {Name:cellName + "_2"});
+        _p.as("client").unit(baseUrl).ctl.cell.update(cellName + "-crud-1", {Name:cellName + "-crud-2"});
 
         // Cellの取得
-        _p.as("client").asCellOwner().unit.ctl.cell.retrieve(cellName + "_2");
+        _p.as("client").unit(baseUrl).ctl.cell.retrieve(cellName + "-crud-2");
 
         // Cellの一覧取得
-        var celllist = _p.as("client").asCellOwner().unit.ctl.cell.query().filter("startswith(Name,'cell')").run();
+        var celllist = _p.as("client").unit(baseUrl).ctl.cell.query().filter("startswith(Name,'cell')").run();
 
         // 作成したCellを削除する
-        _p.as("client").asCellOwner().unit.ctl.cell.del(cellName + "_2");
+        _p.as("client").unit(baseUrl).ctl.cell.del(cellName + "-crud-2");
 
         if (version >= "1.1.0") {
             var version = _p.getServerVersion();
@@ -53,7 +52,14 @@ function(request){
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-
+    	try {
+    		_p.as("client").unit(baseUrl).ctl.cell.del(cellName + "-crud-1");
+        } catch (e) {
+        }
+    	try {
+    		_p.as("client").unit(baseUrl).ctl.cell.del(cellName + "-crud-2");
+        } catch (e) {
+        }
     }
 }
 

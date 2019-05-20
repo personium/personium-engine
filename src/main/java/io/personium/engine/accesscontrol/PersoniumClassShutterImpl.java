@@ -32,6 +32,7 @@ public final class PersoniumClassShutterImpl implements ClassShutter {
             "io.personium.client.",
             "io.personium.engine.wrapper.",
             "io.personium.engine.adapter.",
+            "io.personium.engine.extension.wrapper.",
 
             // testでログ出力しているため消せない(クラス)
             "ch.qos.logback.classic.Logger" };

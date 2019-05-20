@@ -25,7 +25,7 @@ function(request){
     var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
-    var data = {Name:"relation"};
+    var data = {Name:"linkRelationExtCell_relation"};
     try {
         // Relation作成
         var relation = _p.as("client").cell(cellName).ctl.relation.create(data);
@@ -44,7 +44,7 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        //アンリンク 
+        //アンリンク
         relation.extCell.unLink(extcell);
         //アンリンク (404)
         try {
@@ -56,16 +56,16 @@ function(request){
         }
 
         // 作成したRelationを削除する
-        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"linkRelationExtCell_relation"});
         // 作成したExtCellを削除する
         _p.as("client").cell(cellName).ctl.extCell.del(extcell.url);
-        
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

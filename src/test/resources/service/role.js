@@ -25,7 +25,7 @@ function(request){
     var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
-    var data = {Name:"role"};
+    var data = {Name:"roleCRUDTest"};
     try {
         // Role作成
         var role = _p.as("client").cell(cellName).ctl.role.create(data);
@@ -40,17 +40,17 @@ function(request){
         }
 
         // 作成したRoleを取得
-        role = _p.as("client").cell(cellName).ctl.role.retrieve({Name:"role"});
+        role = _p.as("client").cell(cellName).ctl.role.retrieve({Name:"roleCRUDTest"});
 
         // 作成したRoleを削除する
-        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
-        
+        _p.as("client").cell(cellName).ctl.role.del({Name:"roleCRUDTest"});
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

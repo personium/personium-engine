@@ -44,6 +44,7 @@ import io.personium.client.ServiceCollection;
 import io.personium.client.http.HttpClientFactory;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
+import io.personium.common.utils.PersoniumCoreUtils;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
@@ -54,7 +55,7 @@ public abstract class ScriptTestBase extends JerseyTest {
     /** ローカルテスト用EngineリクエストUrl. */
     public static final String LOCAL_TEST_SERVICE_URL = "http://localhost:9998";
     /** デフォルトのリクエスト送信先URL. */
-    public static final String DEFAULT_TARGET_URL = "http://localhost:8080/personium-core";
+    public static final String DEFAULT_TARGET_URL = "http://localhost";
     /** リクエスト送信先URLを取得するプロパティのキー. */
     public static final String PROP_TARGET_URL = "io.personium.test.target";
     /** システムプロパティから接続先のURLを取得する。 指定がない場合はデフォルトのURLを使用する. */
@@ -105,14 +106,15 @@ public abstract class ScriptTestBase extends JerseyTest {
     private static String serviceName = "test";
     /** サービスパス名. */
     private static String serviceScriptPath = "test.js";
-    /** Httpクライアント. */
-    HttpClient httpClient = HttpClientFactory.create("insecure", 0);
     /** マスタートークン. */
     private static String masterToken = PersoniumEngineConfig.getMasterToken();
     /** トークン. */
     static String token = "";
     /** DCコンテキスト. */
     private static PersoniumContext personiumCtx;
+
+    /** Httpクライアント. */
+    HttpClient httpClient = HttpClientFactory.create("insecure", 0);
 
     /**
      * コンストラクタ.
@@ -162,7 +164,7 @@ public abstract class ScriptTestBase extends JerseyTest {
         if ("".equals(unitUserCell) || "".equals(unitUserAccount) || "".equals(unitUserPassword)) {
             // ユニットユーザーとして認証する情報がなければマスタートークンを利用する
             token = masterToken;
-            personiumCtx.setDefaultHeader("X-Personium-Unit-User", "https://example.com/test#UnitUser");
+            //personiumCtx.setDefaultHeader("X-Personium-Unit-User", "https://example.com/test#UnitUser");
         } else {
             // ユニットユーザーが指定されていれば、ユニットユーザーで認証したトークンを利用する
             Accessor as = personiumCtx.asAccount(unitUserCell, unitUserAccount, unitUserPassword);
@@ -302,33 +304,32 @@ public abstract class ScriptTestBase extends JerseyTest {
             }
         }
 
-        // Box削除
+        // Cell Recursive Delete
         try {
-            cell.box.del(boxName);
-        } catch (DaoException e) {
-            if (Integer.parseInt(e.getCode()) != HttpStatus.SC_NOT_FOUND) {
-                fail(e.getMessage());
-            }
-        }
+            Accessor deleteAs = personiumCtx.withToken(token);
+            deleteAs.getDefaultHeaders().put(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_RECURSIVE, "true");
 
-        // Account削除
-        try {
-            cell.account.del(accountName);
-            // サービスサブジェクトアカウントの削除
-            cell.account.del(engineAccountName);
-        } catch (DaoException e) {
-            if (Integer.parseInt(e.getCode()) != HttpStatus.SC_NOT_FOUND) {
-                fail(e.getMessage());
+            HttpClient httpClient = HttpClientFactory.create("insecure", 0);
+            HttpUriRequest req = new PersoniumRequestBuilder()
+                    .url(cell.getUrl())
+                    .method("DELETE")
+                    .token(token)
+                    .defaultHeaders(deleteAs.getDefaultHeaders())
+                    .build();
+            HttpResponse objResponse = httpClient.execute(req);
+            int statusCode = objResponse.getStatusLine().getStatusCode();
+            if (statusCode >= HttpStatus.SC_MULTIPLE_CHOICES && statusCode != HttpStatus.SC_NOT_FOUND) {
+                fail("cell delete failled.");
             }
-        }
 
-        // Cell削除
-        try {
-            testAs.asCellOwner().unit.cell.del(name);
-        } catch (DaoException e) {
-            if (Integer.parseInt(e.getCode()) != HttpStatus.SC_NOT_FOUND) {
-                fail(e.getMessage());
+            // Sleep 1 second for asynchronous processing.
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("");
             }
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
     }
 

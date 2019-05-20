@@ -17,8 +17,10 @@
 package io.personium.engine.source;
 
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Map;
 
+import org.apache.commons.lang.CharEncoding;
 import org.mozilla.javascript.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +89,7 @@ public class TestResourceSourceManager implements ISourceManager {
         try {
             URL path = getClass().getResource("/service/" + sourceName);
 
-            return PersoniumUtils.readFile(path.getFile());
+            return PersoniumUtils.readFile(URLDecoder.decode(path.getFile(), CharEncoding.UTF_8));
         } catch (Exception e) {
             log.info("CouchClientException msg:" + e.getMessage() + ",svcName:" + sourceName);
             log.info("UserScript read error ", e);
