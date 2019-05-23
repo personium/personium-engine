@@ -29,10 +29,10 @@ function(request){
 
     try {
         // ボックス作成
-        box = _p.as("client").cell(cellName).ctl.box.create({Name:"acltest", Schema:null});
+        box = _p.as("client").cell(cellName).ctl.box.create({Name:"aclNormalVariationTest_box", Schema:null});
 
         // Role作成
-        role1 = _p.as("client").cell(cellName).ctl.role.create({Name:"role1"});
+        role1 = _p.as("client").cell(cellName).ctl.role.create({Name:"aclNormalVariationTest_role1"});
 
         // ACL設定_aceがnullの場合
         var aclData = {"requireSchemaAuthz":"public"};
@@ -57,17 +57,17 @@ function(request){
         }
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
         if (role1 !== null) {
             // Role削除
-            _p.as("client").cell(cellName).ctl.role.del({Name:"role1"});
+            _p.as("client").cell(cellName).ctl.role.del({Name:"aclNormalVariationTest_role1"});
         }
         if (box !== null) {
             // ボックス削除
-            _p.as("client").cell(cellName).ctl.box.del("acltest");
+            _p.as("client").cell(cellName).ctl.box.del("aclNormalVariationTest_box");
         }
     }
 }

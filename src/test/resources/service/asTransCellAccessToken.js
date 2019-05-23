@@ -28,7 +28,7 @@ function(request){
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
     try {
     	var cell = _p.as(json).cell(cellName + "1");
-    	
+
     	var token = cell.getToken();
 
     	json = {cellUrl:cellName, accessToken:token.access_token};
@@ -41,6 +41,6 @@ function(request){
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

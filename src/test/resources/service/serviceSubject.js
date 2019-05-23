@@ -38,7 +38,7 @@ function(request){
 
         // ロール作成
         role = _p.as("client").cell(cellName).ctl.role.create(roleData);
-    	
+
     	// engineアカウントにロール結びつけ設定
         account = _p.as("client").cell(cellName).ctl.account.retrieve("engine");
     	role.account.link(account);
@@ -50,10 +50,10 @@ function(request){
 
         // コレクション作成(サービスサブジェクトが使えることの確認)
         _p.as("serviceSubject").cell(cellName).box("boxname").col(collectionName1).mkCol(collectionName2);
- 
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {

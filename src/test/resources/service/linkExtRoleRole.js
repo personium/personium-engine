@@ -27,16 +27,16 @@ function(request){
 
     try {
         // Relation作成
-        var relationData = {Name:"relation"};
+        var relationData = {Name:"linkExtTest_relation"};
         var relation = _p.as("client").cell(cellName).ctl.relation.create(relationData);
 
         // Role作成
-        var roleData = {Name:"role"};
+        var roleData = {Name:"linkExtTest_role"};
         var role = _p.as("client").cell(cellName).ctl.role.create(roleData);
 
         // ExtRole作成
         var strUrl = _p.as("client").cell(cellName + "1").getUrl();
-        var extRoleData = {ExtRole:strUrl,"_Relation.Name":"relation"};
+        var extRoleData = {ExtRole:strUrl,"_Relation.Name":"linkExtTest_relation"};
         var extrole = _p.as("client").cell(cellName).ctl.extRole.create(extRoleData);
         // ExtRole リンク
         extrole.role.link(role);
@@ -48,7 +48,7 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        // ExtRoleアンリンク 
+        // ExtRoleアンリンク
         extrole.role.unLink(role);
         // ExtRoleアンリンク (404)
         try {
@@ -58,21 +58,20 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        
+
         // 作成したExtRoleを削除する
         _p.as("client").cell(cellName).ctl.extRole.del(extRoleData);
-
         // 作成したRoleを削除する
-        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
+        _p.as("client").cell(cellName).ctl.role.del({Name:"linkExtTest_role"});
         // 作成したRelationを削除する
-        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
-        
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"linkExtTest_relation"});
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

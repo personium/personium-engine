@@ -28,6 +28,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.util.EntityUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -38,20 +39,20 @@ import io.personium.client.http.PersoniumResponse;
 import io.personium.jersey.engine.test.categories.Integration;
 
 /**
- * ユーザースクリプトの自動テスト.
+ * User script test.
  */
 @RunWith(PersoniumEngineRunner.class)
 @Category({Integration.class })
 public class ScriptTest extends ScriptTestBase {
     /**
-     * コンストラクタ.
+     * constructor.
      */
     public ScriptTest() {
         super("io.personium.engine");
     }
 
     /**
-     * CellのCURDテスト.
+     * Cell's CURD test.
      */
     @Test
     public final void cellTest() {
@@ -59,7 +60,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * BoxのCURDテスト.
+     * Box's CURD test.
      */
     @Test
     public final void boxTest() {
@@ -67,7 +68,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * AccountのCURDテスト.
+     * Account CURD test.
      */
     @Test
     public final void accountTest() {
@@ -75,7 +76,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * AccountのバリデートCURDテスト.
+     * Account validate CURD test.
      */
     @Test
     public final void accountValidateTest() {
@@ -83,7 +84,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ServiceSubjectのテスト.
+     * ServiceSubject test.
      */
     @Test
     public final void serviceSubjectTest() {
@@ -91,7 +92,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ChangePasswordのCURDテスト.
+     * ChangePassword's CURD test.
      */
     @Test
     public final void changePasswordTest() {
@@ -99,7 +100,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ChangeMyPasswordのCURDテスト.
+     * ChangeMyPassword's CURD test.
      */
     @Test
     public final void changeMyPasswordTest() {
@@ -107,7 +108,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * Eventの登録テスト.
+     * Event registration test.
      */
     @Test
     public final void eventTest() {
@@ -115,7 +116,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * CellLevelEventの登録テスト.
+     * CellLevelEvent registration test.
      */
     @Test
     public final void cellLevelEventTest() {
@@ -123,7 +124,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ログファイル取得のテスト.
+     * Get log file test.
      */
     @Test
     public final void cellLevelEventLogTest() {
@@ -131,7 +132,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * RoleのCRUDテスト.
+     * Role CRUD test.
      */
     @Test
     public final void roleTest() {
@@ -139,7 +140,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * Role(複合キー)のCRUDテスト.
+     * Role (composite key) CRUD test.
      */
     @Test
     public final void roleComplexTest() {
@@ -147,7 +148,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * RelationのCRUDテスト.
+     * Relation CRUD test.
      */
     @Test
     public final void relationTest() {
@@ -155,7 +156,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * Relation(複合キー)のCRUDテスト.
+     * Relation (composite key) CRUD test.
      */
     @Test
     public final void relationComplexTest() {
@@ -163,7 +164,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ExtRoleのCRUDテスト.
+     * ExtRole CRUD test.
      */
     @Test
     public final void extRoleTest() {
@@ -171,7 +172,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ExtCellのCRUDテスト.
+     * ExtCell CRUD test.
      */
     @Test
     public final void extCellTest() {
@@ -179,7 +180,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * MKCOLのテスト.
+     * MKCOL test.
      */
     @Test
     public final void mkColTest() {
@@ -187,7 +188,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * MKODATAのテスト.
+     * MKODATA test.
      */
     @Test
     public final void mkOdataTest() {
@@ -195,7 +196,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * MKSERVICEのテスト.
+     * MKSERVICE test.
      */
     @Test
     public final void mkServiceTest() {
@@ -203,7 +204,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * asExtCellのテスト.
+     * asExtCell test.
      */
     @Test
     public final void asExtCellTest() {
@@ -211,7 +212,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * asTransCellAccessTokenのテスト.
+     * asTransCellAccessToken test.
      */
     @Test
     public final void asTransCellAccessTokenTest() {
@@ -219,7 +220,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * asRefreshTokenのテスト.
+     * asRefreshToken test.
      */
     @Test
     public final void asRefreshTokenTest() {
@@ -227,7 +228,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * asRefreshTokenErrorのテスト.
+     * asRefreshTokenError test.
      */
     @Test
     public final void asRefreshTokenErrorTest() {
@@ -235,7 +236,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * asSchemaのテスト.
+     * asSchema test.
      */
     @Test
     public final void asSchemaTest() {
@@ -243,7 +244,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * asSchemaByTokenのテスト.
+     * asSchemaByToken test.
      */
     @Test
     public final void asSchemaByTokenTest() {
@@ -251,7 +252,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * asSelf & asClientのテスト.
+     * asSelf & asClient test.
      */
     @Test
     public final void asSelfClientTest() {
@@ -259,7 +260,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkRelationRoleのテスト.
+     * linkRelationRole test.
      */
     @Test
     public final void linkRelationRoleTest() {
@@ -267,7 +268,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkRelationExtCellのテスト.
+     * linkRelationExtCell test.
      */
     @Test
     public final void linkRelationExtCellTest() {
@@ -275,7 +276,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkExtCellRelationのテスト.
+     * linkExtCellRelation test.
      */
     @Test
     public final void linkExtCellRelationTest() {
@@ -283,7 +284,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkExtCellRoleのテスト.
+     * linkExtCellRole test.
      */
     @Test
     public final void linkExtCellRoleTest() {
@@ -291,7 +292,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkRoleAccountのテスト.
+     * linkRoleAccount test.
      */
     @Test
     public final void linkRoleAccountTest() {
@@ -299,7 +300,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkRoleExtCellのテスト.
+     * linkRoleExtCell test.
      */
     @Test
     public final void linkRoleExtCellTest() {
@@ -307,7 +308,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkRoleRelationのテスト.
+     * linkRoleRelation test.
      */
     @Test
     public final void linkRoleRelationTest() {
@@ -315,7 +316,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkExtRoleRoleのテスト.
+     * linkExtRoleRole test.
      */
     @Test
     public final void linkExtRoleRoleTest() {
@@ -323,7 +324,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * AssociationEndのテスト.
+     * AssociationEnd test.
      */
     @Test
     public final void associationEndTest() {
@@ -331,7 +332,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ComplexTypeのテスト.
+     * ComplexType test.
      */
     @Test
     public final void complexTypeTest() {
@@ -339,7 +340,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * Propertyのテスト.
+     * Property test.
      */
     @Test
     public final void propertyTest() {
@@ -347,7 +348,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ComplexTypePropertyのテスト.
+     * ComplexTypeProperty test.
      */
     @Test
     public final void complexTypePropertyTest() {
@@ -355,7 +356,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * linkAssociationEndのテスト.
+     * linkAssociationEnd test.
      */
     @Test
     public final void linkAssociationEndTest() {
@@ -363,7 +364,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ユーザーデータテスト.
+     * UserData test.
      */
     @Test
     public final void userDataTest() {
@@ -371,7 +372,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ACLテスト.
+     * ACL test.
      */
     @Test
     public final void aclTest() {
@@ -379,7 +380,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ACL設定の正常系バリエーションテスト.
+     * Normal system variation test of ACL setting.
      */
     @Test
     public final void aclNormalVariationTest() {
@@ -387,7 +388,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * ACL設定の異常系バリエーションテスト.
+     * Abnormal system variation test of ACL setting
      */
     @Test
     public final void aclErrorVariationTest() {
@@ -395,7 +396,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * NavigationPropertyPostのテスト.
+     * NavigationPropertyPost test.
      */
     @Test
     public final void navigationPropertyPostTest() {
@@ -403,15 +404,17 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * Unit昇格のテスト.
+     * Upgrade unit test.
      */
+    // TODO : Since the promotion is not currently supported on the Core side, the test is invalidated.
+    @Ignore
     @Test
     public final void upgradeUnitTest() {
         callService("upgradeUnit.js");
     }
 
     /**
-     * UserDataのQueryテスト.
+     * UserData query test.
      */
     @Test
     public final void userDetaQueryTest() {
@@ -419,7 +422,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * UserDataのQueryテスト.
+     * UserData query expand test.
      */
     @Test
     public final void userDetaQueryExpandTest() {
@@ -427,10 +430,10 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * Javaライブラリが呼び出せないこと.
+     * Java library can not be called.
      */
     @Test
-    public final void Javaライブラリが呼び出せないこと() {
+    public final void accessDenyJavaAPITest() {
         callService("accessDenyJavaAPI.js");
     }
 
@@ -438,15 +441,15 @@ public class ScriptTest extends ScriptTestBase {
      * 呼び出しを許しているwrapperパッケージのクラスのコンストラクタが呼び出せないこと.
      */
     @Test
-    public final void 呼び出しを許しているwrapperパッケージのクラスのコンストラクタが呼び出せないこと() {
+    public final void cantCallConstructorTest() {
         callService("cantCallConstructor.js");
     }
 
     /**
-     * requireしたファイルが異常だった場合にエラーになること.
+     * An error occurs if the required file is abnormal.
      */
     @Test
-    public final void requireしたファイルが異常だった場合にエラーになること() {
+    public final void requireFileErrorTest() {
         if (isServiceTest) {
             // スクリプトの登録 （Davのput）
             putScript("requireEvalErrorSub.js", "requireEvalErrorSub.js");
@@ -463,15 +466,15 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * requireしたファイルが存在しなかった場合にエラーになること.
+     * An error occurs when the required file does not exist.
      */
     @Test
-    public final void requireしたファイルが存在しなかった場合にエラーになること() {
+    public final void requireNoFileTest() {
         callService("requireNoFile.js");
     }
 
     /**
-     * WebDavファイルのバイナリでのアップロード及びダウンロード.
+     * Binary upload and download of WebDav files..
      */
     @Test
     public final void WebDavファイルのバイナリでのアップロード及びダウンロード() {
@@ -573,7 +576,7 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * 存在しないServiceのテスト.
+     * 存在しないService test.
      */
     @Test
     public final void serviceNotFound() {
@@ -703,9 +706,10 @@ public class ScriptTest extends ScriptTestBase {
         String url;
         HttpUriRequest req = null;
         try {
-            String[][] jsList = {{"nonSupportedResponseCode105.js", "105" },
-                    {"nonSupportedResponseCode301.js", "301" },
-                    {"nonSupportedResponseCode303.js", "303" }, {"nonSupportedResponseCode307.js", "307" } };
+            String[][] jsList = {
+                    {"nonSupportedResponseCode105.js", "105"},
+                    {"nonSupportedResponseCode2000.js", "2000"},
+            };
             for (String[] testSrc : jsList) {
                 // スクリプトの登録 （Davのput）
                 if (isServiceTest) {
@@ -749,16 +753,18 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * スクリプトから未サポートのレスポンスコードが返却された場合不正なHTTPレスポンスが指定されたエラーとなること(レスポンスコードはクエリで指定).
+     * スクリプトから未サポートのレスポンスコードが返却された場合不正なHTTPレスポンスが指定されたエラーとなること.
+     * (レスポンスコードはクエリで指定).
      */
     @Test
     public final void nonSupportedResponseCodeWithQuery() {
         String url;
         HttpUriRequest req = null;
         try {
-            String[][] jsList = {{"returnResponseCodewithQuery.js", "105" },
-                    {"returnResponseCodewithQuery.js", "301" },
-                    {"returnResponseCodewithQuery.js", "303" }, {"returnResponseCodewithQuery.js", "307" } };
+            String[][] jsList = {
+                    {"returnResponseCodewithQuery.js", "105"},
+                    {"returnResponseCodewithQuery.js", "2000"}
+            };
             for (String[] testSrc : jsList) {
                 // スクリプトの登録 （Davのput）
                 if (isServiceTest) {

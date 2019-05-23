@@ -32,7 +32,7 @@ function(request){
         var account = _p.as("client").cell(cellName).ctl.account.create(user, password);
 
         // Role作成
-        data = {Name:"role"};
+        data = {Name:"linkRoleAccount_role"};
         var role = _p.as("client").cell(cellName).ctl.role.create(data);
         // Role リンク
         role.account.link(account);
@@ -44,7 +44,7 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        // Roleアンリンク 
+        // Roleアンリンク
         role.account.unLink(account);
         // Roleアンリンク (404)
         try {
@@ -58,14 +58,14 @@ function(request){
         // 作成したアカウントを取得する
         _p.as("client").cell(cellName).ctl.account.del(account.name);
         // 作成したRoleを削除する
-        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
-        
+        _p.as("client").cell(cellName).ctl.role.del({Name:"linkRoleAccount_role"});
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

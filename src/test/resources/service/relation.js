@@ -25,7 +25,7 @@ function(request){
     var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
-    var data = {Name:"relation"};
+    var data = {Name:"relationCRUDTest"};
     try {
         // Relation作成
         var relation = _p.as("client").cell(cellName).ctl.relation.create(data);
@@ -40,17 +40,17 @@ function(request){
         }
 
         // 作成したRelationを取得
-        relation = _p.as("client").cell(cellName).ctl.relation.retrieve({Name:"relation"});
+        relation = _p.as("client").cell(cellName).ctl.relation.retrieve({Name:"relationCRUDTest"});
 
         // 作成したRelationを削除する
-        _p.as("client").cell(cellName).ctl.relation.del({Name:"relation"});
-        
+        _p.as("client").cell(cellName).ctl.relation.del({Name:"relationCRUDTest"});
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

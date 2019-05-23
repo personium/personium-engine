@@ -25,7 +25,7 @@ function(request){
     var query = _p.util.queryParse(request.queryString);
     var cellName = query["cell"];
 
-    var data = {Name:"role"};
+    var data = {Name:"linkExtCellRole_role"};
     try {
         // Role作成
         var role = _p.as("client").cell(cellName).ctl.role.create(data);
@@ -44,7 +44,7 @@ function(request){
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
-        // ExtCellアンリンク 
+        // ExtCellアンリンク
         extcell.role.unLink(role);
         // ExtCellアンリンク (404)
         try {
@@ -56,16 +56,16 @@ function(request){
         }
 
         // 作成したRoleを削除する
-        _p.as("client").cell(cellName).ctl.role.del({Name:"role"});
+        _p.as("client").cell(cellName).ctl.role.del({Name:"linkExtCellRole_role"});
         // 作成したExtCellを削除する
         _p.as("client").cell(cellName).ctl.extCell.del(extcell.url);
-        
+
         // レスポンスを返却
         return util.response().responseBody("OK").build();
-        
+
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-        
+
     }
 }

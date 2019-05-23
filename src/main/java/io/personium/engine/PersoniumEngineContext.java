@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.mozilla.javascript.ContextFactory;
@@ -468,7 +470,7 @@ public class PersoniumEngineContext implements Closeable {
         if (engineLibCache.containsKey(path.toString())) {
             jsBuildObject = engineLibCache.get(path.toString());
         } else {
-            FileInputStream fis = new FileInputStream(path.getFile());
+            FileInputStream fis = new FileInputStream(URLDecoder.decode(path.getFile(), CharEncoding.UTF_8));
             InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
             jsBuildObject = cx.compileReader(isr, path.getPath(), 1, null);
             engineLibCache.put(path.toString(), jsBuildObject);
