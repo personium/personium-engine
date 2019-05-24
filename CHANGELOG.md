@@ -1,3 +1,8 @@
+## 1.5.20
+IMPROVEMENTS:
+* Tests do not work properly.([#14](https://github.com/personium/personium-engine/issues/14))
+  * Only a part was fixed.(ScriptTest)
+
 ## 1.5.19
 BUG FIXES:
 * HttpClient close leak.([#77](https://github.com/personium/personium-engine/issues/77))
