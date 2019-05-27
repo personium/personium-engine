@@ -146,6 +146,8 @@ public class PersoniumEngineConfig {
     public static final class Engine {
         /** Max number of engine script chache. */
         public static final String SCRIPT_CACHE_MAXNUM = KEY_ROOT + "engine.script.cache.maxNum";
+        /** Engine script connection timeout(msec). */
+        public static final String SCRIPT_CONNECTION_TIMEOUT = KEY_ROOT + "engine.script.connection.timeout";
     }
 
     /**
@@ -212,6 +214,14 @@ public class PersoniumEngineConfig {
      */
     public static int getScriptCacheMaxNum() {
         return Integer.parseInt(get(Engine.SCRIPT_CACHE_MAXNUM));
+    }
+
+    /**
+     * Get engine script connection timeout(msec).
+     * @return Engine script connection timeout(msec)
+     */
+    public static int getScriptConnectionTimeout() {
+        return Integer.parseInt(get(Engine.SCRIPT_CONNECTION_TIMEOUT));
     }
 
     /**
