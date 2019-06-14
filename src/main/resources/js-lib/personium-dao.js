@@ -1819,7 +1819,6 @@ _p.CellManager.prototype.update = function(id, json, etag) {
 /**
  * Cellを取得する.
  * @param {string} id Cell取得に必要なid
- * @returns {_p.Cell} 取得したCellオブジェクト
  * @exception {_p.PersoniumException} DAO例外
  */
 _p.CellManager.prototype.retrieve = function(id) {
@@ -1828,6 +1827,19 @@ _p.CellManager.prototype.retrieve = function(id) {
         var cell = new _p.Cell(obj);
         cell.name = obj.getName() + "";
         return cell;
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+};
+
+/**
+ * This method is used for Cell Recursive/force delete.
+ * @param cellName cellName name of cell to be deleted
+ * @throws DaoException Library Exception
+ */
+_p.CellManager.prototype.recursiveDelete = function(cellName) {
+    try {
+        this.core.recursiveDelete(cellName);
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
