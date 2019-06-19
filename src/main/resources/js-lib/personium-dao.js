@@ -1834,6 +1834,19 @@ _p.CellManager.prototype.retrieve = function(id) {
 };
 
 /**
+ * This method is used for Cell Recursive/force delete.
+ * @param cellName cellName name of cell to be deleted
+ * @throws DaoException Library Exception
+ */
+_p.CellManager.prototype.recursiveDelete = function(cellName) {
+    try {
+        this.core.recursiveDelete(cellName);
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+};
+
+/**
  * 新しいEntityTypeManagerオブジェクトを作成する.
  * @class EntityType操作クラス
  * @augments _p.OData
