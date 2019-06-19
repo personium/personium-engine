@@ -122,6 +122,7 @@ public class PersoniumEngineContext implements Closeable {
         // Rhinoの実行環境を作成する
         this.factory = new PersoniumJsContextFactory();
         this.cx = factory.enterContext();
+        this.cx.setLanguageVersion(org.mozilla.javascript.Context.VERSION_ES6);
 
         this.scope = cx.initStandardObjects();
 
