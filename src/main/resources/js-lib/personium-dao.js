@@ -1819,6 +1819,7 @@ _p.CellManager.prototype.update = function(id, json, etag) {
 /**
  * Cellを取得する.
  * @param {string} id Cell取得に必要なid
+ * @returns {_p.Cell} 取得したCellオブジェクト
  * @exception {_p.PersoniumException} DAO例外
  */
 _p.CellManager.prototype.retrieve = function(id) {
