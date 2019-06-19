@@ -1,3 +1,7 @@
+## 1.5.21
+IMPROVEMENTS:
+* Enables setting of timeout time of engine script.([#84](https://github.com/personium/personium-engine/issues/84))
+
 ## 1.5.20
 IMPROVEMENTS:
 * Tests do not work properly.([#14](https://github.com/personium/personium-engine/issues/14))

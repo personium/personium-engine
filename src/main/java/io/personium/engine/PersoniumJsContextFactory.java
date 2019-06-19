@@ -23,6 +23,7 @@ import org.mozilla.javascript.Scriptable;
 
 import io.personium.engine.accesscontrol.PersoniumClassShutterImpl;
 import io.personium.engine.accesscontrol.PersoniumWrapFactory;
+import io.personium.engine.utils.PersoniumEngineConfig;
 
 
 
@@ -30,15 +31,13 @@ import io.personium.engine.accesscontrol.PersoniumWrapFactory;
  * javascript.ContextFactoryの派生クラス.
   */
 public class PersoniumJsContextFactory extends ContextFactory {
-    /** タイムアウト値. */
-    private static final int TIMEOUTVALUE = 50 * 1000;
     /** setInstructionObserverThreshold で使用されていたマジックナンバー. */
     private static final int MVALUE = 10;
 
     @Override
     protected final Context makeContext() {
         PersoniumJsContext cx = new PersoniumJsContext();
-        cx.setInstructionObserverThreshold(TIMEOUTVALUE / MVALUE);
+        cx.setInstructionObserverThreshold(PersoniumEngineConfig.getScriptConnectionTimeout() / MVALUE);
 
         // ClassShutterの登録(Javaパッケージ呼び出し制御)
         cx.setClassShutter(new PersoniumClassShutterImpl());
@@ -56,7 +55,7 @@ public class PersoniumJsContextFactory extends ContextFactory {
             final Scriptable thisObj,
             final Object[] args) {
         long curTime = System.currentTimeMillis();
-        ((PersoniumJsContext) cx).setTimeout(curTime + TIMEOUTVALUE);
+        ((PersoniumJsContext) cx).setTimeout(curTime + PersoniumEngineConfig.getScriptConnectionTimeout());
         return super.doTopCall(callable, cx, scope, thisObj, args);
     }
 
