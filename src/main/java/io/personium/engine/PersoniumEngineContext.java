@@ -479,6 +479,7 @@ public class PersoniumEngineContext implements Closeable {
                 jsBuildObject = cx.compileReader(isr, path.getPath(), 1, null);
             } finally {
                 IOUtils.closeQuietly(isr);
+                IOUtils.closeQuietly(fis);
             }
             engineLibCache.put(path.toString(), jsBuildObject);
         }
