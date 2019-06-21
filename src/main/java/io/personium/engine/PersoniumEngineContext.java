@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
@@ -472,8 +473,14 @@ public class PersoniumEngineContext implements Closeable {
             jsBuildObject = engineLibCache.get(path.toString());
         } else {
             FileInputStream fis = new FileInputStream(URLDecoder.decode(path.getFile(), CharEncoding.UTF_8));
-            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-            jsBuildObject = cx.compileReader(isr, path.getPath(), 1, null);
+            InputStreamReader isr = null;
+            try {
+                isr = new InputStreamReader(fis, "UTF-8");
+                jsBuildObject = cx.compileReader(isr, path.getPath(), 1, null);
+            } finally {
+                IOUtils.closeQuietly(isr);
+                IOUtils.closeQuietly(fis);
+            }
             engineLibCache.put(path.toString(), jsBuildObject);
         }
         if (jsBuildObject == null) {
