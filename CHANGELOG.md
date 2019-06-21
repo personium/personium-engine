@@ -1,3 +1,10 @@
+## 1.5.23
+IMPROVEMENTS:
+* Update Rhino version to 1.7.11 ([#93](https://github.com/personium/personium-engine/pull/93))
+
+BUG FIXES:
+* Correct to close properly.([#94](https://github.com/personium/personium-engine/issues/94))
+
 ## 1.5.22
 IMPROVEMENTS:
 * Set Rhino language version `VERSION_ES6` ([#89](https://github.com/personium/personium-engine/pull/89))
