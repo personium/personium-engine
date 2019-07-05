@@ -1,3 +1,7 @@
+## 1.5.19a
+BUG FIXES:
+* Correct to close properly.([#94](https://github.com/personium/personium-engine/issues/94))
+
 ## 1.5.19
 BUG FIXES:
 * HttpClient close leak.([#77](https://github.com/personium/personium-engine/issues/77))
