@@ -28,7 +28,7 @@ import org.junit.runners.model.InitializationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.personium.common.auth.token.LocalToken;
+import io.personium.common.auth.token.AbstractLocalToken;
 import io.personium.common.auth.token.TransCellAccessToken;
 import io.personium.core.model.file.DataCryptor;
 import io.personium.engine.utils.PersoniumEngineConfig;
@@ -60,7 +60,7 @@ public class PersoniumEngineRunner extends BlockJUnit4ClassRunner {
         // トークン処理ライブラリの初期設定.
         TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(),
                 PersoniumEngineConfig.getX509Certificate(), PersoniumEngineConfig.getX509RootCertificate());
-        LocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
+        AbstractLocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
         DataCryptor.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
     }
 
