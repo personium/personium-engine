@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.model.ScriptCache;
-import io.personium.engine.utils.PersoniumUtils;
+import io.personium.engine.utils.EngineUtils;
 
 /**
  * サービスコレクションの情報を管理する.
@@ -89,7 +89,7 @@ public class TestResourceSourceManager implements ISourceManager {
         try {
             URL path = getClass().getResource("/service/" + sourceName);
 
-            return PersoniumUtils.readFile(URLDecoder.decode(path.getFile(), CharEncoding.UTF_8));
+            return EngineUtils.readFile(URLDecoder.decode(path.getFile(), CharEncoding.UTF_8));
         } catch (Exception e) {
             log.info("CouchClientException msg:" + e.getMessage() + ",svcName:" + sourceName);
             log.info("UserScript read error ", e);
