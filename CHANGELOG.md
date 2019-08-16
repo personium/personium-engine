@@ -3,6 +3,9 @@ IMPROVEMENTS:
 * Tests do not work properly.([#14](https://github.com/personium/personium-engine/issues/14))
   * Only a part was fixed.(ScriptTest)
 
+BUG FIXES:
+* Correct to close properly.([#94](https://github.com/personium/personium-engine/issues/94))
+
 ## 1.5.19
 BUG FIXES:
 * HttpClient close leak.([#77](https://github.com/personium/personium-engine/issues/77))
@@ -107,13 +110,13 @@ BUG FIXES:
 
 ## 1.4.4
 
- BUG FIXES: 
+ BUG FIXES:
  - Loaded method name is invalid in `personium-lib.js `.([#5](https://github.com/personium/personium-engine/issues/5)).
 
 
 ## 1.4.3
 
- BUG FIXES: 
+ BUG FIXES:
  - Remove Checkstyle Errors and PMD warnings.
 
 ## 1.4.2
@@ -129,7 +132,7 @@ BREAKING CHANGES:
  | 1 |Unit Configuration file name|dc-config.properties|personium-unit-config.properties||
  | 2 |XML name space/URN|`xmlns:dc='urn:x-dc1:xmlns'` |`xmlns:p='urn:x-personium:xmlns'`| WebDAV Property data, bar file document or Authn API|
  | 3 |HTTP request header|`X-Dc-Xxxxx`|`X-Personium-Xxxxx`| All APIs with original request header |
- | 4 |POST request parameters' key|`dc_xxxxx`|`p_xxxxx`| APIs with post parameters  | 
+ | 4 |POST request parameters' key|`dc_xxxxx`|`p_xxxxx`| APIs with post parameters  |
  | 5 |Core APIs for Engine Javascript|`dc.xxxx`|`_p.xxxxx`| Engine service script (server-side logic)|
 
 
@@ -137,19 +140,19 @@ BREAKING CHANGES:
 
 IMPROVEMENTS:
   - core *[UriUtils.java, CellEsImpl.java,TokenEndPointResource.java etc]* :<br>
-    A new custom URL scheme `personium-localunit` is introduced for more flexible server operation.<br> 
+    A new custom URL scheme `personium-localunit` is introduced for more flexible server operation.<br>
     It is now supported in major APIs handling URL.
    * You can write `personium-localunit:/cell1/` instead of `https://myunit.example/cell1/` in fields such as  `Box.Schema` or `ExtCell.Url` when referring within the same Unit.
- 
+
    * In previous versions, Unit FQDN change requires data conversion in most cases.
    * By using this new URL scheme, links among Cells on a Unit can be kept without data conversion after Unit FQDN change.
- 
+
 BUG FIXES:
 
   - core *[DcEngineSvcCollectionResource.java etc]*, engine *[FsServiceResourceSourceManager.java etc]*: <br>
     The script file could not be loaded for enabling custom API was fixed. (Issue #27)
 
-  - core *[DavCmpFsImpl.java]*:<br> 
+  - core *[DavCmpFsImpl.java]*:<br>
     The bug that the content length is always reset to 0 at updating WebDAV file was fixed.(Issue #29)
 
 ## 1.4.0
@@ -208,12 +211,12 @@ IMPROVEMENTS:
    Fixed the known issue in V1.3.23 about [Create Account API](https://github.com/personium/io/wiki/Account#create).
    * Account object's `"Type"` value can be validated when you create a new Account.
    * Available values are:<br> `"basic"`,`"oidc:google"` or these space-separated values such as `"oidc:google basic"`.
-   * If the above check fails, the response code will be `400 Bad Request`. 
+   * If the above check fails, the response code will be `400 Bad Request`.
 
   - core *[TokenEndPointResource.java etc]*:<br>
    Fixed the bug about password authentication.
    * Added checking that Account object's `"Type"` value contains `"basic"` at the time of password authentication.
-   * If the above check fails, the response code will be `400 Bad Request`. 
+   * If the above check fails, the response code will be `400 Bad Request`.
 
 ## 1.3.23
 
@@ -226,7 +229,7 @@ IMPROVEMENTS:
    * When authenticating an account with OIDC, use [Authentication API](https://github.com/personium/io/wiki/Authentication-and-Authorization) with request body `"grant_type=urn:x-dc1:oidc:google&id_token=[ID_TOKEN]"` . If you need more information with __OAuth2.0 ID Token__, refer to [Google Developers site](https://developers.google.com/identity/protocols/OpenIDConnect).
 
   - core *[DavDestination.java, DavMoveResource.java, DavCollectionResource.java, DavCmpEsImpl.java, etc.]*:<br>
-   * MOVE method([RFC2518](https://tools.ietf.org/html/rfc2518#section-8.9)) for WedDAV collections and stored files are implemented. (Some restrictions apply.) 
+   * MOVE method([RFC2518](https://tools.ietf.org/html/rfc2518#section-8.9)) for WedDAV collections and stored files are implemented. (Some restrictions apply.)
    * MOVE method requires `Destination:` header which is absolute URI expressing the name or the directory to be changed to. MOVE method can be used by below items:
 
     1. WebDAV collections.
@@ -241,17 +244,17 @@ IMPROVEMENTS:
 
    ######Rename collection (end slash is required)
    ```curl
-   curl -X MOVE "http://[FQDN]/[cell]/[box]/[collection]/[old_name]/" 
+   curl -X MOVE "http://[FQDN]/[cell]/[box]/[collection]/[old_name]/"
    -H "Destination:http://[FQDN]/[cell]/[box]/[collection]/[new_name]/" -i -k -s
    ```
 
-   ######Rename file 
+   ######Rename file
    ```curl
    curl -X MOVE "http://[FQDN]/[cell]/[box]/[collection]/[dir]/old.txt"
    -H "Destination:http://[FQDN]/[cell]/[box]/[collection]/[dir]/new.txt" -i -k -s
    ```
 
-   ######Move file 
+   ######Move file
    ```curl
    curl -X MOVE "http://[FQDN]/[cell]/[box]/[collection]/[from]/file.txt"
    -H "Destination:http://[FQDN]/[cell]/[box]/[collection]/[to]/file.txt" -i -k -s
@@ -285,8 +288,8 @@ BACKWARD INCOMPATIBILITIES:
 KNOWN ISSUES:
 
   - core :
-    Response code for client authentication failure with OAuth 2.0 (__auth endpoint) should be 401 and include 
-    "WWW-Authenticate" response header. However current version of personium.io returns response code 400 without 
+    Response code for client authentication failure with OAuth 2.0 (__auth endpoint) should be 401 and include
+    "WWW-Authenticate" response header. However current version of personium.io returns response code 400 without
     authenticate header due to compatibility for existing applications.
 
 
@@ -332,7 +335,7 @@ BACKWARD INCOMPATIBILITIES:
     |:--- |:----|
     | Prior to V1.3.22 | Nothing is Returned. |
     | From V1.3.22     | Bad Request(400) |
- 
+
     || When the format of operand value is different from the type of property. |
     |:--- |:----|
     | Prior to V1.3.22 | If the operand value is castable to the type of assocaiated property, the operand is treated as valid.<br/>If not castable, retunrs Bad Request(400).  |
@@ -376,9 +379,8 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
-  - core *[DcEngineSvcCollectionResource.java]*, engine *[PersoniumResponse.java]*: 
+  - core *[DcEngineSvcCollectionResource.java]*, engine *[PersoniumResponse.java]*:
     Status code 500 was returned when "Transfer-Encoding: chuncked" header was given on engine response. Fixed.
 
   - core *[AccessContext.java, DcCoreAuthzException.java, etc.]*:
     Authentication and authorization behavior is corrected to comply with HTTP RFC.
-
