@@ -22,7 +22,8 @@ import java.util.Date;
 import io.personium.client.Accessor;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
-import io.personium.common.auth.token.AccountAccessToken;
+import io.personium.common.auth.token.AbstractOAuth2Token;
+import io.personium.common.auth.token.ResidentLocalAccessToken;
 import io.personium.common.auth.token.Role;
 import io.personium.common.auth.token.TransCellAccessToken;
 
@@ -89,12 +90,12 @@ public class PersoniumEngineAccessor extends Accessor {
             expiresIn = token.expiresIn();
         } else {
             // create AccountAccessToken
-            AccountAccessToken localToken = new AccountAccessToken(
+            ResidentLocalAccessToken localToken = new ResidentLocalAccessToken(
                 issuedAt,
-                AccountAccessToken.ACCESS_TOKEN_EXPIRES_HOUR * AccountAccessToken.MILLISECS_IN_AN_HOUR,
+                ResidentLocalAccessToken.ACCESS_TOKEN_EXPIRES_HOUR * ResidentLocalAccessToken.MILLISECS_IN_AN_HOUR,
                 getContext().getCurrentCellUrl(),
                 this.serviceSubject,
-                getBoxSchema()
+                getBoxSchema(), AbstractOAuth2Token.Scope.ENGINE
             );
             accessToken = localToken.toTokenString();
             expiresIn = localToken.expiresIn();

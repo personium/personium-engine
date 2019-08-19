@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import io.personium.client.DaoException;
 import io.personium.client.utils.PersoniumLoggerFactory;
-import io.personium.common.utils.PersoniumCoreUtils;
+import io.personium.common.utils.CommonUtils;
 import io.personium.engine.adapter.PersoniumEngineDao;
 import io.personium.engine.adapter.PersoniumRequestBodyStream;
 import io.personium.engine.adapter.Require;
@@ -420,21 +420,21 @@ public class PersoniumEngineContext implements Closeable {
             pcx.setClientToken(auth.substring("Bearer".length()).trim());
         }
         // set defaultHeaders
-        String requestKey = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_REQUESTKEY);
+        String requestKey = req.getHeader(CommonUtils.HttpHeaders.X_PERSONIUM_REQUESTKEY);
         if (requestKey != null) {
-            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_REQUESTKEY, requestKey);
+            pcx.setDefaultHeader(CommonUtils.HttpHeaders.X_PERSONIUM_REQUESTKEY, requestKey);
         }
-        String eventId = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_EVENTID);
+        String eventId = req.getHeader(CommonUtils.HttpHeaders.X_PERSONIUM_EVENTID);
         if (eventId != null) {
-            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_EVENTID, eventId);
+            pcx.setDefaultHeader(CommonUtils.HttpHeaders.X_PERSONIUM_EVENTID, eventId);
         }
-        String ruleChain = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_RULECHAIN);
+        String ruleChain = req.getHeader(CommonUtils.HttpHeaders.X_PERSONIUM_RULECHAIN);
         if (ruleChain != null) {
-            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_RULECHAIN, ruleChain);
+            pcx.setDefaultHeader(CommonUtils.HttpHeaders.X_PERSONIUM_RULECHAIN, ruleChain);
         }
-        String via = req.getHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_VIA);
+        String via = req.getHeader(CommonUtils.HttpHeaders.X_PERSONIUM_VIA);
         if (via != null) {
-            pcx.setDefaultHeader(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_VIA, via);
+            pcx.setDefaultHeader(CommonUtils.HttpHeaders.X_PERSONIUM_VIA, via);
         }
         pcx.setDefaultHeader("Connection", "close");
 

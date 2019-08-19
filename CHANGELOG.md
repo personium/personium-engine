@@ -1,3 +1,8 @@
+## 1.5.24
+IMPROVEMENTS:
+* Upgrade personium-lib-common to 1.5.x [#99](https://github.com/personium/personium-engine/issues/99)
+* Add logging of unknown exception's stacktrace. [#102](https://github.com/personium/personium-engine/issues/102)
+
 ## 1.5.23
 IMPROVEMENTS:
 * Update Rhino version to 1.7.11 ([#93](https://github.com/personium/personium-engine/pull/93))
@@ -14,6 +19,9 @@ IMPROVEMENTS:
 IMPROVEMENTS:
 * Tests do not work properly.([#14](https://github.com/personium/personium-engine/issues/14))
   * Only a part was fixed.(ScriptTest)
+
+BUG FIXES:
+* Correct to close properly.([#94](https://github.com/personium/personium-engine/issues/94))
 
 ## 1.5.19
 BUG FIXES:
@@ -393,4 +401,3 @@ BUG FIXES:
 
   - core *[AccessContext.java, DcCoreAuthzException.java, etc.]*:
     Authentication and authorization behavior is corrected to comply with HTTP RFC.
-
