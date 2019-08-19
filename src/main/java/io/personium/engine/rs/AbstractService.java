@@ -331,7 +331,7 @@ public abstract class AbstractService {
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
             } catch (Exception e) {
-                log.warn(" unknown Exception(" + e.getMessage() + ")");
+                log.warn(" unknown Exception(" + e.getMessage() + ")", e);
                 return errorResponse(new PersoniumEngineException("404 Not Found (Service Execute Error)",
                         PersoniumEngineException.STATUSCODE_NOTFOUND));
             }
