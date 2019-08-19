@@ -24,7 +24,7 @@ import javax.ws.rs.core.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.personium.common.auth.token.LocalToken;
+import io.personium.common.auth.token.AbstractLocalToken;
 import io.personium.common.auth.token.TransCellAccessToken;
 import io.personium.core.model.file.DataCryptor;
 import io.personium.engine.rs.DebugResource;
@@ -44,7 +44,7 @@ public class PersoniumEngineApplication extends Application {
         try {
             TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(),
                     PersoniumEngineConfig.getX509Certificate(), PersoniumEngineConfig.getX509RootCertificate());
-            LocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
+            AbstractLocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
             DataCryptor.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
         } catch (Exception e) {
             log.warn("Failed to start server.", e);

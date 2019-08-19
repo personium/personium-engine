@@ -15,6 +15,9 @@ IMPROVEMENTS:
 * Tests do not work properly.([#14](https://github.com/personium/personium-engine/issues/14))
   * Only a part was fixed.(ScriptTest)
 
+BUG FIXES:
+* Correct to close properly.([#94](https://github.com/personium/personium-engine/issues/94))
+
 ## 1.5.19
 BUG FIXES:
 * HttpClient close leak.([#77](https://github.com/personium/personium-engine/issues/77))
@@ -393,4 +396,3 @@ BUG FIXES:
 
   - core *[AccessContext.java, DcCoreAuthzException.java, etc.]*:
     Authentication and authorization behavior is corrected to comply with HTTP RFC.
-

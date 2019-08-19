@@ -1,4 +1,4 @@
-# personium-engine
+# Personium Engine
 
 Additional module for personium-core to enable server-side JavaScript execution.
 
@@ -20,4 +20,11 @@ http://personium.io/docs/
 	See the License for the specific language governing permissions and
 	limitations under the License.
 
-	Copyright 2017 FUJITSU LIMITED
+## Build and setup
+
+1. Use maven to build personium-engine.war file to run on a servlet container.
+1. DO NOT make the Engine endpoints public. Personim Engine is designed to run behind the Personium Core.
+1. Configure the personium-core to point to the Personium engine root.
+1. Use reverse proxy like defined in https://github.com/personium/ansible/ for example.
+1. The HTTP relay flow will be as follows:
+  (Reverse Proxy) - (personium-core) - (personium-engine)

@@ -22,13 +22,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * ユーティリティクラス.
+ * Utils class for Engine.
   */
-public final class PersoniumUtils {
+public final class EngineUtils {
     /**
-     * コンストラクタ.
+     * Consturctor.
      */
-    private PersoniumUtils() {
+    private EngineUtils() {
     }
 
     /**

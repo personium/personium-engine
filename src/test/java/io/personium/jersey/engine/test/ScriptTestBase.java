@@ -44,7 +44,7 @@ import io.personium.client.ServiceCollection;
 import io.personium.client.http.HttpClientFactory;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
-import io.personium.common.utils.PersoniumCoreUtils;
+import io.personium.common.utils.CommonUtils;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
@@ -307,7 +307,7 @@ public abstract class ScriptTestBase extends JerseyTest {
         // Cell Recursive Delete
         try {
             Accessor deleteAs = personiumCtx.withToken(token);
-            deleteAs.getDefaultHeaders().put(PersoniumCoreUtils.HttpHeaders.X_PERSONIUM_RECURSIVE, "true");
+            deleteAs.getDefaultHeaders().put(CommonUtils.HttpHeaders.X_PERSONIUM_RECURSIVE, "true");
 
             HttpClient httpClient = HttpClientFactory.create("insecure", 0);
             HttpUriRequest req = new PersoniumRequestBuilder()
