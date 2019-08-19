@@ -1,3 +1,7 @@
+## 1.5.24
+IMPROVEMENTS:
+* Upgrade personium-lib-common to 1.5.x [#99](https://github.com/personium/personium-engine/issues/99)
+
 ## 1.5.23
 IMPROVEMENTS:
 * Update Rhino version to 1.7.11 ([#93](https://github.com/personium/personium-engine/pull/93))
