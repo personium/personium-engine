@@ -85,6 +85,7 @@ public class PersoniumEngineAccessor extends Accessor {
                 this.targetCellUrl,
                 new ArrayList<Role>(),
                 getBoxSchema()
+                , new String[] {"root"}
             );
             accessToken = token.toTokenString();
             expiresIn = token.expiresIn();
