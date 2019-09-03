@@ -1,6 +1,10 @@
+## 1.5.25
+IMPROVEMENTS:
+* Upgrade personium-lib-common to 1.5.1
+
 ## 1.5.24
 IMPROVEMENTS:
-* Upgrade personium-lib-common to 1.5.x [#99](https://github.com/personium/personium-engine/issues/99)
+* Upgrade personium-lib-common to 1.5.0 [#99](https://github.com/personium/personium-engine/issues/99)
 * Add logging of unknown exception's stacktrace. [#102](https://github.com/personium/personium-engine/issues/102)
 
 ## 1.5.23
