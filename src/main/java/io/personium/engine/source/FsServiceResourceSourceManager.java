@@ -44,7 +44,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import io.personium.core.model.file.DataCryptor;
+import io.personium.common.file.DataCryptor;
 import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.model.DavMetadataFile;
 import io.personium.engine.model.ScriptCache;
