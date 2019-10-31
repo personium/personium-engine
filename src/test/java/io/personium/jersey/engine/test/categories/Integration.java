@@ -17,7 +17,7 @@
 package io.personium.jersey.engine.test.categories;
 
 /**
- * 結合テスト用マーカーインタフェース.
+ *  Marker Interface indicating Integration Test.
  */
 public interface Integration {
 }
