@@ -30,35 +30,33 @@ import io.personium.engine.model.ScriptCache;
 import io.personium.engine.utils.EngineUtils;
 
 /**
- * サービスコレクションの情報を管理する.
+ * SourceManager for Test/Debug Mode.
  */
 public class TestResourceSourceManager implements ISourceManager {
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Logger log = LoggerFactory.getLogger(TestResourceSourceManager.class);
 
     /**
-     * コンストラクタ.
+     * Constructor.
      */
     public TestResourceSourceManager() {
     }
 
     /**
-     * サービスコレクションに設定されたサービスサブジェクトの取得.
-     * @return サービスサブジェクト
-     * @throws PersoniumEngineException exception
+     * {@inheritDoc}
      */
+    @Override
     public String getServiceSubject() throws PersoniumEngineException {
+        // In Test / Debug mode, service subject is always "engine" 
         return "engine";
     }
 
     /**
-     * サービス名に対応したスクリプトファイル名の取得.
-     * @param servicePath サービス名
-     * @return スクリプトファイル名
-     * @throws PersoniumEngineException exception
+     * {@inheritDoc}
      */
+    @Override
     public String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException {
-        // テスト用リソース動作時はURLで呼び出されたフィル名と実行スクリプト名が同一
+        // In Test / Debug mode, service path will be equal to the script source file name 
         return servicePath;
     }
 
@@ -80,11 +78,9 @@ public class TestResourceSourceManager implements ISourceManager {
     }
 
     /**
-     * ソースファイルを取得.
-     * @param sourceName ソースファイル名
-     * @return ソースファイルの中身
-     * @throws PersoniumEngineException exception
+     * {@inheritDoc}
      */
+    @Override
     public String getSource(String sourceName) throws PersoniumEngineException {
         try {
             URL path = getClass().getResource("/service/" + sourceName);
