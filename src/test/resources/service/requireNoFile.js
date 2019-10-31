@@ -27,11 +27,11 @@ function(request){
         // require失敗するスクリプトのrequire
         var ngrequire = require("hoge");
     } catch (e) {
-    	if (e.message !== "io.personium.engine.PersoniumEngineException: 404 Not Found") {
-        	code = e.code;
-        	message = e.message;
-    	    return util.response().statusCode(code).responseBody(message).build();
-    	}
+        if (e.message !== "io.personium.engine.PersoniumEngineException: 404 Not Found") {
+            code = e.code;
+            message = e.message;
+            return util.response().statusCode(code).responseBody(message).build();
+        }
     }
     // レスポンスを返却
     return util.response().responseBody("OK").build();

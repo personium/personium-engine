@@ -27,11 +27,11 @@ function(request){
         // require失敗するスクリプトのrequire
         var ngrequire = require("requireEvalErrorSub");
     } catch (e) {
-    	if (e.message !== "syntax error (requireEvalErrorSub#21)") {
-        	code = e.code;
-        	message = e.message;
-    	    return util.response().statusCode(code).responseBody(message).build();
-    	}
+        if (e.message !== "syntax error (requireEvalErrorSub#21)") {
+            code = e.code;
+            message = e.message;
+            return util.response().statusCode(code).responseBody(message).build();
+        }
     }
     // レスポンスを返却
     return util.response().responseBody("OK").build();

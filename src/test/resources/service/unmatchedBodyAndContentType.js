@@ -18,10 +18,10 @@
 function(request){
   // テストです。
   return {
-	status: 200,
+    status: 200,
     headers: {
-    	"Content-Type":"application/json"
-	},
+        "Content-Type":"application/json"
+    },
     body: ["テストです。"]
   };
 }

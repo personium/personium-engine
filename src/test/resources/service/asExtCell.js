@@ -28,7 +28,7 @@ function(request){
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
     try {
 
-    	_p.as(json).cell();
+        _p.as(json).cell();
         // レスポンスを返却
         return util.response().responseBody("OK").build();
 
