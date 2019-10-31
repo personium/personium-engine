@@ -23,16 +23,15 @@ import java.io.InputStreamReader;
 
 import io.personium.engine.extension.wrapper.PersoniumInputStream;
 
-
 /**
- * RequestボディのInputStreamをラップして提供する.
+ * Wrapper for InputStream of Request Body.
  */
 public final class PersoniumRequestBodyStream {
     InputStream input;
     BufferedReader bufferReader;
 
     /**
-     * コンストラクタ.
+     * Constructor.
      * @param input InputStream
      */
     public PersoniumRequestBodyStream(InputStream input) {
@@ -40,19 +39,18 @@ public final class PersoniumRequestBodyStream {
     }
 
     /**
-     * ストリーム型で返却. InputStreamのままJavaScriptに返却するとClassShutterに怒られるのでラップして返却
-     * @return InputStreamのラッパーオブジェクト
-     * @throws Exception Exception
+     * returns wrapped InputStream, which is not shut by the ClassShutter.
+     * @return PersoniumInputStream (wrapper)
+     * @throws Exception
      */
     public PersoniumInputStream stream() throws Exception  {
         return new PersoniumInputStream(this.input);
     }
 
     /**
-     * １行読み込む.
-     * InputStreamのreadLineへリレー
-     * @param encoding 読み込み文字エンコーディング
-     * @return String 読み込んだ行文字列
+     * read one line.
+     * @param encoding CharEncoding for reading
+     * @return the line read in a String format.
      * @throws IOException IOException
      */
     public String readLine(String encoding) throws IOException {
@@ -63,9 +61,8 @@ public final class PersoniumRequestBodyStream {
     }
 
     /**
-     * １行読み込む.
-     * InputStreamのreadLineへリレー
-     * @return String 読み込んだ行文字列
+     * read one line in utf-8.
+     * @return the line read in a String format.
      * @throws IOException IOException
      */
     public String readLine() throws IOException {
@@ -73,10 +70,9 @@ public final class PersoniumRequestBodyStream {
     }
 
     /**
-     * 全体を読み込む.
-     * InputStreamのreadへリレー.
-     * @param encoding 読み込み文字エンコーディング
-     * @return String 読み込んだ行文字列
+     * Read the whole InputStream and return as String.
+     * @param encoding CharEncoding for reading
+     * @return read result String
      * @throws IOException IOException
      */
     public String readAll(String encoding) throws IOException {
@@ -91,10 +87,9 @@ public final class PersoniumRequestBodyStream {
         return sb.toString();
     }
     /**
-     * 全体を読み込む.
-     * InputStreamのreadへリレー.
-     * @return String 読み込んだ行文字列
-     * @throws IOException IOException
+     * Read the whole InputStream and return as String.
+     * @return String read result
+     * @throws IOException
      */
     public String readAll() throws IOException {
         return this.readAll("utf-8");

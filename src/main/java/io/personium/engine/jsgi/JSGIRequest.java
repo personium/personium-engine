@@ -29,12 +29,14 @@ import io.personium.engine.adapter.PersoniumRequestBodyStream;
 
 
 /**
- * JSGIのリクエストオブジェクト. http://wiki.commonjs.org/wiki/JSGI/Level0/A/Draft2
+ * JSGI Request Object. 
+ * See http://wiki.commonjs.org/wiki/JSGI/Level0/A/Draft2
+ * 
  */
 public final class JSGIRequest {
     private static Logger log = LoggerFactory.getLogger(JSGIRequest.class);
 
-    // JSGIバージョン情報
+    // JSGI Version Info
     static final int JSGI_VERSION_MAJOR = 0;
     static final int JSGI_VERSION_MINOR = 3;
 
@@ -42,9 +44,9 @@ public final class JSGIRequest {
     PersoniumRequestBodyStream input;
 
     /**
-     * コンストラクタ.
+     * Constructor.
      * @param req ServletRequest
-     * @param input リクエストボディ
+     * @param input Request Body
      */
     public JSGIRequest(HttpServletRequest req, PersoniumRequestBodyStream input) {
         this.req = req;
@@ -52,8 +54,8 @@ public final class JSGIRequest {
     }
 
     /**
-     * サーブレットのリクエストからJavaScriptのJSGIオブジェクトを生成する.
-     * @return JavaScript用JSGIオブジェクト
+     * Create JavaScript JSGI Request object.
+     * @return JSGI Object in JavaScript
      */
     public NativeObject getRequestObject() {
         NativeObject request = new NativeObject();
@@ -62,7 +64,8 @@ public final class JSGIRequest {
         request.put("port", request, this.req.getAttribute("port").toString());
         request.put("scriptName", request, this.req.getAttribute("scriptName").toString());
         request.put("pathInfo", request, this.req.getPathInfo());
-        // サーバ動作時のPOSTでservlet.getQueryStringでクエリが取れないために以下の取り方で実現。
+        // Hack since
+        // query cannot be obtained with servlet.getQueryString when receiving POST on server
         String[] urlItems = this.req.getAttribute("env.requestUri").toString().split("\\?");
         String queryString = "";
         if (urlItems.length > 1) {
@@ -106,7 +109,7 @@ public final class JSGIRequest {
         Enumeration<String> headernames = this.req.getHeaderNames();
         while (headernames.hasMoreElements()) {
             String headerKey = headernames.nextElement();
-            // ホストヘッダはEngineのローカルのホスト名になっているので、サーブレットリクエストから本来のホスト名を取得
+            // Host Header はEngineのローカルのホスト名になっているので、サーブレットリクエストから本来のホスト名を取得
             if (headerKey.equalsIgnoreCase("host")) {
                 headers.put(headerKey.toLowerCase(), headers, req.getAttribute("HostHeader"));
             } else {
