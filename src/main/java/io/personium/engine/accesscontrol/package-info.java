@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2019 Personium Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 /**
- * JavaAPIアクセス制御まわりのクラス.
+ * Classes for access control of Java APIs.
+ * These classes are configured at PersoniumJsContextFactory#makeContext(): Context
  */
 package io.personium.engine.accesscontrol;
 
