@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * リソース層.
+ * JAX-RS resource classes.
  */
 package io.personium.engine.rs;
 

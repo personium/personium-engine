@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2018 FUJITSU LIMITED
+ * Copyright 2014 - 2019 Personium Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,20 +24,20 @@ import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.model.ScriptCache;
 
 /**
- * ユーザースクリプトのソースを管理するインターフェース.
+ * Interface for managing Engine Script sources.
  */
 public interface ISourceManager {
 
     /**
-     * サービスサブジェクトを返却.
-     * @return サービスサブジェクト
+     * Getter for Service Subject.
+     * @return Service Subject
      * @throws PersoniumEngineException exception
      */
     String getServiceSubject() throws PersoniumEngineException;
     /**
-     * サービス名に対応したスクリプトを返却.
-     * @param servicePath サービス名
-     * @return スクリプトファイル名
+     * Corresponding script File name is returned when given a service name.
+     * @param servicePath Service Name
+     * @return Script File Name
      * @throws PersoniumEngineException exception
      */
     String getScriptNameForServicePath(String servicePath) throws PersoniumEngineException;
@@ -62,9 +62,9 @@ public interface ISourceManager {
     Script getCachedScript(String sourceName, Map<String, ScriptCache> userScriptCache) throws PersoniumEngineException;
 
     /**
-     * スクリプトファイルの中身を返却.
-     * @param scriptFileName スクリプトファイル名
-     * @return スクリプトファイルの中身
+     * Getter for Script file content.
+     * @param scriptFileName Script File Name
+     * @return Script file content
      * @throws PersoniumEngineException exception
      */
     String getSource(String scriptFileName) throws PersoniumEngineException;
