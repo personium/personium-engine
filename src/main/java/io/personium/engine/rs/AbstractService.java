@@ -30,6 +30,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -46,76 +47,77 @@ import io.personium.engine.source.ISourceManager;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
- * 抽象Serviceクラス.
+ * Abstract Resource Class.
  */
 public abstract class AbstractService {
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Log log = LogFactory.getLog(AbstractService.class);
 
-    /** デバッグ実行時のローカルパス. */
+    /** Local path for debug execution. */
     private String sourcePath = "";
-    /** Service名. */
+    /** Service Name. */
     private String serviceName = "";
-    /** サーブレットコンテキストオブジェクト. */
+    /** Servlet Context Object. */
     @Context
     private ServletContext context;
-    /** 基底URLが格納されているヘッダ名. */
+    /** Header Name for Base URL. */
     private static final String KEY_HEADER_BASEURL = "X-Baseurl";
-    /** リクエストURLが格納されているヘッダ名. */
+    /** Header Name for Request URL. */
     private static final String KEY_HEADER_REQUEST_URI = "X-Request-Uri";
 
-    /** HTTPポート. */
+    /** HTTP Port number. */
     private static final int PORT_HTTP = 80;
-    /** HTTPSポート. */
+    /** HTTPS port number. */
     private static final int PORT_HTTPS = 443;
 
-    /** リクエストヘッダから取得するFsPath. */
+    /** FsPath retrieved from the request header. */
     @HeaderParam("X-Personium-Fs-Path")
     private String fsPath;
+
     /** FsRoutingId obtained from the request header. */
     @HeaderParam("X-Personium-Fs-Routing-Id")
     private String fsRoutingId;
 
-    /** サービスサブジェクト. */
+    /** Service Subject. */
     String serviceSubject;
 
-    /** ソース情報管理. */
+    /** SourceManager. */
     ISourceManager sourceManager;
 
     /**
-     * デバッグ実行時のローカルパスの取得.
-     * @return ローカルパス
+     * Getter for local path used in debug execution.
+     * @return Local Path
      */
     public final String getSourcePath() {
         return this.sourcePath;
     }
 
     /**
-     * デバッグ実行時のローカルパスの設定.
-     * @param value ローカルパス
+     * Setter for the local path used in debugging.
+     * @param value Local path
      */
     public final void setSourcePath(final String value) {
         this.sourcePath = value;
     }
 
     /**
-     * Service名を取得する.
-     * @return Service名
+     * Getter for Service Name.
+     * @return Service Name
      */
     public final String getServiceName() {
         return this.serviceName;
     }
 
     /**
-     * Service名を設定する.
-     * @param value Service名
+     * Setter for Service Name.
+     * @param value Service Name
      */
     public final void setServiceName(final String value) {
         this.serviceName = value;
     }
 
     /**
-     * FsPathを取得する.
+     * Getter for FsPath.
      * @return the fsPath
      */
     public final String getFsPath() {
@@ -131,14 +133,14 @@ public abstract class AbstractService {
     }
 
     /**
-     * GETメソッド.
-     * @param cell Cell名
-     * @param schema データスキーマURI
-     * @param svcName サービス名
-     * @param request リクエストオブジェクト
-     * @param response レスポンスオブジェクト
-     * @param is リクエストストリームオブジェクト
-     * @return Responseオブジェクト
+     * GET method processing.
+     * @param cell Cell Name
+     * @param schema Data Schema URI
+     * @param svcName Service Name
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param is Request body InputStream
+     * @return JAX-RS Response Object
      */
     @GET
     public final Response evalJsgiForGet(@PathParam("cell") final String cell,
@@ -151,14 +153,14 @@ public abstract class AbstractService {
     }
 
     /**
-     * POSTメソッド.
-     * @param cell Cell名
-     * @param schema データスキーマURI
-     * @param svcName サービス名
-     * @param request リクエストオブジェクト
-     * @param response レスポンスオブジェクト
-     * @param is リクエストストリームオブジェクト
-     * @return Responseオブジェクト
+     * POST Method processing.
+     * @param cell Cell Name
+     * @param schema Data Schema URI
+     * @param svcName Service Name
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param is Request body InputStream
+     * @return JAX-RS Response Object
      */
     @POST
     public final Response evalJsgiForPost(@PathParam("cell") final String cell,
@@ -171,14 +173,14 @@ public abstract class AbstractService {
     }
 
     /**
-     * PUTメソッド.
-     * @param cell Cell名
-     * @param schema データスキーマURI
-     * @param svcName サービス名
-     * @param request リクエストオブジェクト
-     * @param response レスポンスオブジェクト
-     * @param is リクエストストリームオブジェクト
-     * @return Responseオブジェクト
+     * PUT Method processing.
+     * @param cell Cell Name
+     * @param schema Data Schema URI
+     * @param svcName Service Name
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param is Request body InputStream
+     * @return JAX-RS Response Object
      */
     @PUT
     public final Response evalJsgiForPutMethod(@PathParam("cell") final String cell,
@@ -191,14 +193,14 @@ public abstract class AbstractService {
     }
 
     /**
-     * DELETEメソッド.
-     * @param cell Cell名
-     * @param schema データスキーマURI
-     * @param svcName サービス名
-     * @param request リクエストオブジェクト
-     * @param response レスポンスオブジェクト
-     * @param is リクエストストリームオブジェクト
-     * @return Responseオブジェクト
+     * DELETE Method processing.
+     * @param cell Cell Name
+     * @param schema Data Schema URI
+     * @param svcName Service Name
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param is Request body InputStream
+     * @return JAX-RS Response Object
      */
     @DELETE
     public final Response evalJsgiForDeleteMethod(@PathParam("cell") final String cell,
@@ -211,30 +213,30 @@ public abstract class AbstractService {
     }
 
     /**
-     * 使用するサーブレットコンテキストオブジェクトの指定.
-     * @param value サーブレットコンテキストオブジェクト
+     * setter for the ServletContext to use.
+     * @param value ServletContext Object
      */
     public final void setServletContext(final ServletContext value) {
         this.context = value;
     }
 
     /**
-     * サーブレットコンテキストオブジェクトを取得.
-     * @return サーブレットコンテキストオブジェクト
+     * Getter for the ServletContext object.
+     * @return ServletContext object
      */
     public final ServletContext getServletContext() {
         return this.context;
     }
 
     /**
-     * Service実行.
-     * @param cell Cell名
-     * @param schema データスキーマURI
-     * @param svcName サーバー名
-     * @param req Requestオブジェクト
-     * @param res Responseオブジェクト
-     * @param is リクエストストリームオブジェクト
-     * @return Response
+     * Service Execution.
+     * @param cell Cell Name 
+     * @param schema Data Schema URI
+     * @param svcName Service Name
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param is Request body InputStream
+     * @return JAX-RS Response Object
      */
     public final Response run(final String cell,
             final String schema,
@@ -262,7 +264,7 @@ public abstract class AbstractService {
         msg.append(svcName);
         log.info(msg);
 
-        // デバッグ用 すべてのヘッダをログ出力
+        // Logging all headers in Debug Level
         Enumeration<String> multiheaders = req.getHeaderNames();
         for (String headerName : Collections.list(multiheaders)) {
             Enumeration<String> headers = req.getHeaders(headerName);
@@ -272,7 +274,7 @@ public abstract class AbstractService {
         }
         this.setServiceName(svcName);
 
-        // サービスのURL情報の取得。
+        // Service のURL情報の取得。
         String targetCell = cell;
         if (cell == null) {
             targetCell = getCell();
@@ -287,7 +289,7 @@ public abstract class AbstractService {
         try {
             baseUrl = parseRequestUri(req, res);
         } catch (MalformedURLException e) {
-            // URLに異常があった場合のエラー
+            // If URL is Malformed
             return makeErrorResponse("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR);
         }
 
@@ -300,7 +302,7 @@ public abstract class AbstractService {
                 return errorResponse(e);
             }
 
-            // ソースに関する情報を取得
+            // Load the Script Source 
             try {
                 this.sourceManager = this.getServiceCollectionManager();
                 pecx.setSourceManager(this.sourceManager);
@@ -308,13 +310,15 @@ public abstract class AbstractService {
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
             }
-            // グローバルオブジェクトのロード
+            // Loading the Global objects
             pecx.loadGlobalObject(baseUrl, targetCell, targetSchema, targetSchema, targetServiceName);
-            // ユーザスクリプトを取得（設定及びソース）
+
             String source = "";
             String sourceName = "";
             try {
+                // discover source name
                 sourceName = this.sourceManager.getScriptNameForServicePath(targetServiceName);
+                // read Source content
                 source = this.sourceManager.getSource(sourceName);
             } catch (PersoniumEngineException e) {
                 return errorResponse(e);
@@ -325,7 +329,7 @@ public abstract class AbstractService {
                 return errorResponse(new PersoniumEngineException("404 Not Found (User Script)",
                         PersoniumEngineException.STATUSCODE_NOTFOUND));
             }
-            // JSGI実行
+            // source JSGI Function Execution
             try {
                 response = pecx.runJsgi(source, req, res, is, this.serviceSubject, previousPhaseTime, sourceName);
             } catch (PersoniumEngineException e) {
@@ -341,23 +345,24 @@ public abstract class AbstractService {
             timeBuilder.append(System.currentTimeMillis() - requestStartTime);
             log.debug("========== Engine timestamp. " + timeBuilder.toString());
         }
+        // return JAX-RS Response
         return response;
     }
 
     /**
-     * エラーレスポンス生成.
-     * @param e Exceptionオブジェクト
-     * @return Response
+     * Error Response creation.
+     * @param e Exception Object
+     * @return JAX-RS Response
      */
     final Response errorResponse(final PersoniumEngineException e) {
         return makeErrorResponse(e.getMessage(), e.getStatusCode());
     }
 
     /**
-     * エラー時のレスポンスを生成.
-     * @param msg メッセージ本文
-     * @param code ステータスコード
-     * @return Responseオブジェクト
+     * Error Response Creation.
+     * @param msg Message
+     * @param code Status Code
+     * @return JAX-RS Response
      */
     private Response makeErrorResponse(final String msg, final int code) {
         return Response.status(code)
@@ -367,32 +372,32 @@ public abstract class AbstractService {
     }
 
     /**
-     * Cell名取得.
-     * @return Cell名
+     * Getter for Cell Name.
+     * @return Cell Name
      */
     public abstract String getCell();
 
     /**
-     * データスキーマURI取得.
-     * @return データスキーマURI
+     * Getter for Data Schema URI.
+     * @return Data Schema URI
      */
     public abstract String getSchemaURI();
 
     /**
-     * リクエストＵＲＬの解析.
-     * @param req Requestオブジェクト
-     * @param res Responseオブジェクト
-     * @return 基底URL文字列
-     * @throws MalformedURLException 例外
+     * Request URL Analysis.
+     * @param req HttpServletRequest
+     * @param res HttpServletResponse
+     * @return base URL String
+     * @throws MalformedURLException
      */
     public final String parseRequestUri(final HttpServletRequest req, final HttpServletResponse res)
             throws MalformedURLException {
         String baseUrl = "";
 
-        // リクエストURIを取得する。リクエストURI＝＞ホスト名よりあとのクエリ含んだ文字列。
-        // 例） /personium-engine/engine-test/ds-engine-test/service/hello?a=b&c=d
-        // （通常動作）DCから送られてきたURIがヘッダに指定されていたらそれを利用する。
-        // （デバッグ動作）Personium-Engine呼び出しのURIから生成する。
+        // Request URIを取得する。リクエストURI＝＞ホスト名よりあとのクエリ含んだ文字列。
+        // (Exameple） /personium-engine/engine-test/ds-engine-test/service/hello?a=b&c=d
+        // (Service Behavior） personium-core から送られてきたURIがヘッダに指定されていたらそれを利用する。
+        // (Debug Behavior）      Personium-Engine呼び出しのURIから生成する。
         String requestUri = req.getHeader(KEY_HEADER_REQUEST_URI);
         if (requestUri == null || requestUri.length() == 0) {
             requestUri = req.getRequestURI();
@@ -402,23 +407,24 @@ public abstract class AbstractService {
             }
         }
 
-        // リクエストURIからクエリ部分を切り取って、スクリプト名を抜き出す。
-        // 例）/personium-engine/engine-test/personium-engine-test/service/hello
+        // Request URIからクエリ部分を切り取って、スクリプト名を抜き出す。
+        // (Example) /personium-engine/engine-test/personium-engine-test/service/hello
         int indexQ = requestUri.indexOf("?");
         String scriptName = requestUri;
         if (indexQ > 0) {
             scriptName = requestUri.substring(0, indexQ);
         }
 
-        // サーブレットリクエストオブジェクトに値を保存。あとでJSGIオブジェクトに設定するため。
+        // ServletRequest オブジェクトに値を保存。あとでJSGIオブジェクトに設定するため。
         req.setAttribute("env.requestUri", requestUri);
         req.setAttribute("scriptName", scriptName);
 
-        // クライアントから受け付けたリクエストURL（ホスト？）の取得
-        // （通常動作）DCから送られてきたURLがヘッダに指定されていたらそれを利用する。
+        // Clientから受け付けたリクエストURL（ホスト？）の取得
+        // (Service Behavior) core から送られてきたURLがヘッダに指定されていたらそれを利用する。
         baseUrl = req.getHeader(KEY_HEADER_BASEURL);
 
-        // サーブレットリクエストオブジェクトに値を保存。あとでJSGIオブジェクトに設定するため。
+        // Set to the attributes of ServletRequest object
+        // so that it can be used to configure upon JSGI object.
         URL baseUrlObj = new URL(baseUrl);
         int port = baseUrlObj.getPort();
         String proto = baseUrlObj.getProtocol();
@@ -441,10 +447,9 @@ public abstract class AbstractService {
         return baseUrl;
     }
     /**
-     * ServiceCollectionManager取得.
+     * Getter for SourceManager.
      * @return ISourceManager
      * @throws PersoniumEngineException Exception about Engine
      */
     public abstract ISourceManager getServiceCollectionManager() throws PersoniumEngineException;
-
 }

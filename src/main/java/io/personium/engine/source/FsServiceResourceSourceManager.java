@@ -71,12 +71,11 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     /**
      * Constructor.
      * @param filePath File System Path of the target ESC (Engine Service Collection).
-     * @param fsRoutingId CellID having target service collection.
+     * @param fsRoutingId Cell ID of target service collection.
      * @throws PersoniumEngineException DcEngineException
      */
     public FsServiceResourceSourceManager(String filePath, String fsRoutingId) throws PersoniumEngineException {
         this.fsPath = filePath;
-        // TODO we probably do not need this since we do not use Elastic Search 
         this.fsRoutingId = fsRoutingId;
         log.info("Source File Path: [" + this.fsPath + "]");
         this.loadServiceCollectionInfo();

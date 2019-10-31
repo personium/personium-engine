@@ -27,35 +27,30 @@ import io.personium.engine.source.ISourceManager;
 import io.personium.engine.source.TestResourceSourceManager;
 
 /**
- * デバッグ用Serviceクラス.
+ * Service Class for Debugging.
  */
 @Path("{id}")
 public class DebugResource extends AbstractService {
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Log log = LogFactory.getLog(DebugResource.class);
-    /** デフォルトCell名. */
+    /** Default Cell Name. */
     private static final String CELL = "engine_debug_cell";
-    /** デフォルトBox名. */
+    /** Default Box Name. */
     private static final String SCHEME = "engine_debug_box";
 
     /**
-     * JavaScript リモートデバッグ機能を有効にするかどうかを指定する. <code>true</code>を指定した場合、有効となる。
+     * Flag for whether JavaScript Remote Debugging feature should be enabled or not. 
+     *  enabled when <code>true</code> is set. 
      */
     private Boolean useScriptDebug;
 
-    // @Path("{path1}")
-    // public final Response aaaaa() {
-    // System.out.print("aaa");
-    // return Response.ok().build();
-    // }
-
     /**
-     * デフォルトコンストラクタ.
-     * @param useDebug JavaScript リモートデバッグ機能を有効にするかどうかを指定する
-     * @throws PersoniumEngineException PersoniumEngine例外
+     * Constructor.
+     * @param useDebug Flag for whether JavaScript remote debug feature should be enabled or not
+     * @throws PersoniumEngineException PersoniumEngine Exception
      */
     public DebugResource(@QueryParam("useScriptDebug") final String useDebug) throws PersoniumEngineException {
-        // http://xxx/yy?useScriptDebug=true と指定した場合、useScriptDebugの値が、本パラメタのuseDebugに入る。
+        // Calling http://xxx/yy?useScriptDebug=true, then Remote ScriptDebugging will be enabled
         super();
         this.useScriptDebug = Boolean.valueOf(useDebug);
         log.info("Create DebugResource. useScriptDebug=" + this.useScriptDebug);
@@ -73,7 +68,7 @@ public class DebugResource extends AbstractService {
 
     @Override
     public ISourceManager getServiceCollectionManager() throws PersoniumEngineException {
-        // ソースの情報を取得
+        // Test SourceManager will be returned 
         TestResourceSourceManager sourcemanager = new TestResourceSourceManager();
         return sourcemanager;
     }

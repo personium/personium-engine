@@ -26,11 +26,11 @@ import io.personium.engine.source.FsServiceResourceSourceManager;
 import io.personium.engine.source.ISourceManager;
 
 /**
- * Personium-Engineサーブレットクラス.
+ * Only JAX-RS Resource class used in Personium-Engine for production use.
  */
 @Path("/{cell}/{schema}/service/{id : .+}")
 public class ServiceResource extends AbstractService {
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Log log = LogFactory.getLog(AbstractService.class);
 
     static {
@@ -38,7 +38,7 @@ public class ServiceResource extends AbstractService {
     }
 
     /**
-     * コンストラクタ.
+     * Constructor.
      * @throws PersoniumEngineException PersoniumEngine例外
      */
     public ServiceResource() throws PersoniumEngineException {
@@ -46,8 +46,7 @@ public class ServiceResource extends AbstractService {
     }
 
     /**
-     * Cell名取得.
-     * @return Cell名
+     * {@inheritDoc}
      */
     @Override
     public final String getCell() {
@@ -55,17 +54,19 @@ public class ServiceResource extends AbstractService {
     }
 
     /**
-     * データスキーマURI取得.
-     * @return データスキーマURI
+     * {@inheritDoc}
      */
     @Override
     public final String getSchemaURI() {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISourceManager getServiceCollectionManager() throws PersoniumEngineException {
-        // ソースの管理情報を取得
+        // return FsServiceResourceSourceManager instance (production use)
         return new FsServiceResourceSourceManager(this.getFsPath(), this.getFsRoutingId());
     }
 }
