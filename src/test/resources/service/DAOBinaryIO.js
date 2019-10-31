@@ -18,19 +18,19 @@
  * リクエストで受け付けたデータをストリームでpersonium.ioに登録し、ストリームで取得し、リクエスト元に返す。
  */
 function(request){
-	var res = "";
-	try{
-	    var stream = request['input'].stream();
-	    _p.as("client").cell().box().put({path:"test.txt",contentType:"text/plain",data:stream,etag:"*"});
-	    res = _p.as("client").cell().box().getStream("test.txt");
-	} catch (e){
-		res = "NG";
-	} finally {
-	    _p.as("client").cell().box().del("test.txt")
-	}
-	return {
-	    status: 200,
-	    headers: {"Content-Type":"text/plain"},
-	    body: [res]
-	}
+    var res = "";
+    try{
+        var stream = request['input'].stream();
+        _p.as("client").cell().box().put({path:"test.txt",contentType:"text/plain",data:stream,etag:"*"});
+        res = _p.as("client").cell().box().getStream("test.txt");
+    } catch (e){
+        res = "NG";
+    } finally {
+        _p.as("client").cell().box().del("test.txt")
+    }
+    return {
+        status: 200,
+        headers: {"Content-Type":"text/plain"},
+        body: [res]
+    }
 }

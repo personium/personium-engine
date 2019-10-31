@@ -37,7 +37,7 @@ function(request){
 
         // 同じ名前のExtCellを登録し、409になることを確認
         try {
-        	_p.as("client").cell(cellName).ctl.extCell.create(data);
+            _p.as("client").cell(cellName).ctl.extCell.create(data);
         } catch (e1) {
             if (e1.code != 409) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();

@@ -42,7 +42,7 @@ function(request){
             box.acl.set(aclData);
         } catch (e1) {
             if (e1.code != 400) {
-            	return util.response().statusCode(e1.code).responseBody(e1.message).build();
+                return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
 
@@ -54,7 +54,7 @@ function(request){
             box.acl.set(aclData);
         } catch (e1) {
             if (e1.code != 400) {
-            	return util.response().statusCode(e1.code).responseBody(e1.message).build();
+                return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
 
@@ -66,7 +66,7 @@ function(request){
             box.acl.set(aclData);
         } catch (e1) {
             if (e1.code != 400) {
-            	return util.response().statusCode(e1.code).responseBody(e1.message).build();
+                return util.response().statusCode(e1.code).responseBody(e1.message).build();
             }
         }
 

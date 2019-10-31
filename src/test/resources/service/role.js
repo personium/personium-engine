@@ -32,7 +32,7 @@ function(request){
 
         // 同じ名前のRoleを登録し、409になることを確認
         try {
-        	_p.as("client").cell(cellName).ctl.role.create(data);
+            _p.as("client").cell(cellName).ctl.role.create(data);
         } catch (e1) {
             if (e1.code != 409) {
                 return util.response().statusCode(e1.code).responseBody(e1.message).build();

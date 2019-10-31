@@ -27,15 +27,15 @@ function(request){
 
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
     try {
-    	var cell = _p.as(json).cell(cellName + "1");
+        var cell = _p.as(json).cell(cellName + "1");
 
-    	var token = cell.getToken();
+        var token = cell.getToken();
 
-    	json = {cellUrl:cellName, accessToken:token.access_token};
-    	// トークン認証
-    	_p.as(json).cell();
+        json = {cellUrl:cellName, accessToken:token.access_token};
+        // トークン認証
+        _p.as(json).cell();
 
-    	// レスポンスを返却
+        // レスポンスを返却
         return util.response().responseBody("OK").build();
 
     } catch (e) {

@@ -27,8 +27,8 @@ function(request){
 
     try {
 
-    	_p.as("client").cell();
-    	_p.as("client").cell();
+        _p.as("client").cell();
+        _p.as("client").cell();
         // レスポンスを返却
         return util.response().responseBody("OK").build();
 

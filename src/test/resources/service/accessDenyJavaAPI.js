@@ -26,12 +26,12 @@ function(request){
     try {
         new java.lang.String("javaString");
     } catch (e) {
-    	if (e.message === "[JavaPackage java.lang.String] is not a function, it is object.") {
-    	    // レスポンスを返却
-    	    return util.response().responseBody("OK").build();
-    	}
-    	code = e.code;
-    	message = e.message;
+        if (e.message === "[JavaPackage java.lang.String] is not a function, it is object.") {
+            // レスポンスを返却
+            return util.response().responseBody("OK").build();
+        }
+        code = e.code;
+        message = e.message;
     } finally {
     }
     return util.response().statusCode(code).responseBody(message).build();

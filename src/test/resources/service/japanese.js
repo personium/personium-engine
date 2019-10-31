@@ -18,7 +18,7 @@
 function(request){
   // テストです。
   return {
-	status: 200,
+    status: 200,
     headers: {"Content-Type":"text/html"},
     body: ["テストです。"]
   };
