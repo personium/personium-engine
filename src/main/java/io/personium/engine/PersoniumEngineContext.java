@@ -70,7 +70,7 @@ import io.personium.engine.utils.PersoniumEngineLoggerFactory;
  * Personium-Engineのメインクラス.
  */
 public class PersoniumEngineContext implements Closeable {
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Logger log = LoggerFactory.getLogger(PersoniumEngineContext.class);
 
     private static final String PERSONIUM_SCOPE = "_p";
@@ -87,24 +87,25 @@ public class PersoniumEngineContext implements Closeable {
                 }
             });
 
-    /** Cell名. */
+    /** Cell Name. */
     private String currentCellName;
-    /** Box名. */
+    /** Box Name. */
     private String currentBoxName;
-    /** データスキーマURI. */
+    /** Data Schema URI. */
     private String currentSchemeUri;
 
-    /** RhinoのContext. */
+    /** Rhino Context. */
     private org.mozilla.javascript.Context cx;
-    /** Rhino、ContextFactory. */
+
+    /** Rhino ContextFactory. */
     private PersoniumJsContextFactory factory;
-    /** Rhino、Scope. */
+    /** Rhino Scope. */
     private Scriptable scope;
 
-    /** 基底URL. */
+    /** Base URL. */
     private String baseUrl;
 
-    /** ソース情報管理. */
+    /** Script SourceManager. */
     private ISourceManager sourceManager;
 
 
@@ -117,8 +118,8 @@ public class PersoniumEngineContext implements Closeable {
     }
 
     /**
-     * コンストラクタ.
-     * @throws PersoniumEngineException PersoniumEngine例外
+     * Constructor.
+     * @throws PersoniumEngineException 
      */
     public PersoniumEngineContext() throws PersoniumEngineException {
         // Rhinoの実行環境を作成する
@@ -142,9 +143,9 @@ public class PersoniumEngineContext implements Closeable {
     }
 
     /**
-     * Extensionクラスを JavaScriptに公開する.
+     * Publish Extension class to JavaScript.
      * この際、ロガークラス実体を Extensionクラス側に設定する。
-     * @throws PersoniumEngineException 公開失敗時
+     * @throws PersoniumEngineException When failing to publish
      */
     private void prepareExtensionClass() throws PersoniumEngineException {
         // Extension用 jarのロード
@@ -160,7 +161,7 @@ public class PersoniumEngineContext implements Closeable {
         }
 
         // Javascript内でプロトタイプとして使用可能な Javaクラスを定義する。
-        // スコープの設定
+        // Scope の設定
         NativeObject pScope = (NativeObject) this.scope.get(PERSONIUM_SCOPE, this.scope);
         NativeObject declaringClass = (NativeObject) pScope.get(EXTENSION_SCOPE, pScope);
 
@@ -204,7 +205,7 @@ public class PersoniumEngineContext implements Closeable {
     }
 
     /**
-     * ソース情報を設定する.
+     * Setter for ISourceManager.
      * @param value the ISourceManager
      */
     public final void setSourceManager(final ISourceManager value) {
@@ -231,7 +232,7 @@ public class PersoniumEngineContext implements Closeable {
     }
 
     /**
-     * JSGIを実行.
+     * Run JSGI function.
      * @param source 実行するユーザースクリプト
      * @param req Requestオブジェクト
      * @param res Responseオブジェクト
@@ -250,16 +251,17 @@ public class PersoniumEngineContext implements Closeable {
             long previousPhaseTime,
             String sourceName) throws PersoniumEngineException {
         // JSGI実行準備
-        // DAOオブジェクトを生成
+        // create java-client Contenxt Object
         PersoniumEngineDao ed = createDao(req, serviceSubject);
 
-        // DAOオブジェクトをJavaScriptプロパティへ設定
+        // Set the Java-client Context Object accessible from "pjvm" in JavaScript
         javaToJs(ed, "pjvm");
 
-        // RequireオブジェクトをJavaScriptプロパティへ設定
+        // Set the Require Object acessible with global object "_require" in JavaScript
         javaToJs(createRequireObject(), "_require");
 
-        // personium-dao.js を読み込み
+        // Load JS files
+        //  "personium-dao.js" 
         try {
             loadJs("personium-dao");
         } catch (IOException e1) {
@@ -267,7 +269,7 @@ public class PersoniumEngineContext implements Closeable {
             throw new PersoniumEngineException("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR, e1);
         }
 
-        // personium-lib.js を読み込み
+        //  "personium-lib.js"
         try {
             loadJs("personium-lib");
         } catch (IOException e1) {
@@ -275,7 +277,7 @@ public class PersoniumEngineContext implements Closeable {
             throw new PersoniumEngineException("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR, e1);
         }
 
-        // jsgi-lib.jsを読み込み
+        //  jsgi-lib.js
         try {
             loadJs("jsgi-lib");
         } catch (IOException e1) {
@@ -301,7 +303,8 @@ public class PersoniumEngineContext implements Closeable {
 
             return pRes.build();
         } catch (Error e) {
-            // ユーザースクリプトのタイムアウトはINFOレベルでログ出力
+        	// In case of the user script timeout
+            // log output at INFO level 
             log.info("UserScript TimeOut", e);
             throw new PersoniumEngineException("Script TimeOut", HttpStatus.SC_SERVICE_UNAVAILABLE);
         } catch (Exception e) {
@@ -309,7 +312,8 @@ public class PersoniumEngineContext implements Closeable {
                 e = (Exception) ((WrappedException) e).getWrappedException();
             }
 
-            // ユーザースクリプト内でのエラーはINFOレベルでログ出力
+            // In case of exceptions inside user scripts
+            // Log them with INFO level
             log.info("User Script Evalucation Error : " + e.getMessage(), e);
             throw new PersoniumEngineException("Server Error : " + e.getMessage(),
                     PersoniumEngineException.STATUSCODE_SERVER_ERROR,
@@ -318,9 +322,9 @@ public class PersoniumEngineContext implements Closeable {
     }
 
     /**
-     * UserScript実行.
-     * @param source ユーザースクリプトソース
-     * @throws IOException IO例外
+     * UserScript Evaluation.
+     * @param source User Script Source
+     * @throws IOException
      * @throws PersoniumEngineException
      */
     private Object evalUserScript(final String source, JSGIRequest jsReq, long previousPhaseTime, String sourceName)

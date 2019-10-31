@@ -42,24 +42,25 @@ import org.slf4j.LoggerFactory;
 import io.personium.engine.PersoniumEngineException;
 
 /**
- * Extension用の jarファイルのロード、Rhinoへの登録等を行うクラス.
+ * A class for loading Engine Extension jar files and registering them to Rhino.
  */
 public class ExtensionJarLoader {
 
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Logger log = LoggerFactory.getLogger(ExtensionJarLoader.class);
 
     private static ExtensionJarLoader singleton = null;
 
-    /** Extension用 jarファイルの格納パスの基底部分を定義しているシステムプロパティキー.
-     * 実際のパスはこれに、"/personium-engine/extensions"が加えられる。 */
+    /** 
+     * System Property Key defining the base part of extension jar file repository.
+     * In addition to this, "/personium-engine/extensions" will be added in the actual path.
+     */
     public static final String ENGINE_EXTENSION_DIR_KEY = "io.personium.environment";
-    /** 上記システムプロパティが指定されていない場合の、既定の Extension用 jarファイルの格納パス. */
+    /** Default jar file path in case the above system property is not specified. */
     public static final String DEFAULT_EXTENSION_DIR = "/personium";
 
     private static final String JAR_SUFFIX = "jar";
 
-    // 以下、内部変数
     private Path extensionJarDirectory = null;
     // ExtensionJarDirectoryの子/孫ディレクトリ内の jarファイルもロードするか否かを示すフラグ。
     private boolean searchDescendant = true;
@@ -89,7 +90,7 @@ public class ExtensionJarLoader {
     }
 
     /**
-     * コンストラクタ.
+     * Constructor.
      * PCSの一般用途としては利用すべきではなく、代わりに getInstance()を使用すること。
      * @param extJarDir Extension用jarファイルの格納ディレクトリ
      * @param searchDescend true: サブディレクトリも検索する, false: サブディレクトリは検索しない
@@ -133,7 +134,7 @@ public class ExtensionJarLoader {
      */
     private List<URL> getJarPaths(Path extJarDir, boolean searchDescend) throws PersoniumEngineException {
         try {
-            // 結果格納用リスト
+            // List for 結果格納用
             List<URL> uriList = new ArrayList<URL>();
             // jarファイルと同じ場所を含める。
             uriList.add(new URL("file", "", extJarDir.toFile().getAbsolutePath() + "/"));
@@ -182,8 +183,8 @@ public class ExtensionJarLoader {
             });
 
             if (null != subDirs) {
+                // Add jars in Sub-directories
                 for (File subDir : subDirs) {
-                    // サブディレクトリ内 jarの追加
                     uriList.addAll(getJarPaths(subDir.toPath(), searchDescend));
                 }
             }

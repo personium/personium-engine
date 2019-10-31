@@ -32,17 +32,17 @@ public class Require {
     /** PersoniumEngineContext. */
     private PersoniumEngineContext context;
 
-    /** ソース情報管理. */
+    /** Sourc Manager. */
     private ISourceManager sourceManager;
 
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Log log = LogFactory.getLog(Require.class);
 
     static {
         log.getClass();
     }
     /**
-     * コンストラクタ.
+     * Constructor.
      * @param context PersoniumContext
      */
     public Require(PersoniumEngineContext context) {
@@ -50,9 +50,9 @@ public class Require {
     }
 
     /**
-     * Require実行.
+     * Require Execution.
      * @param moduleName require対象モジュール名
-     * @return Require結果
+     * @return Require result
      * @throws PersoniumEngineException Exception about Engine
      */
     public Object doRequire(String moduleName) throws PersoniumEngineException {
@@ -66,7 +66,7 @@ public class Require {
     }
 
     /**
-     * ソース情報を設定する.
+     * Setter for source manager.
      * @param sourceManager the ISourceManager
      */
     public final void setSourceManager(final ISourceManager sourceManager) {

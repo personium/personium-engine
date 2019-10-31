@@ -29,7 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 設定情報を保持するクラス. このクラスからクラスパス上にある personium-unit-config.propertiesの内容にアクセスできます。
+ * Class for accessing unit configuration file. 
+ * With this class, contents of the personium-unit-config.properties file on the class path can be accessed.
  */
 public class PersoniumEngineConfig {
     /**
@@ -38,7 +39,7 @@ public class PersoniumEngineConfig {
     static final String KEY_CONFIG_FILE = "io.personium.configurationFile";
 
     /**
-     * 本アプリで使うプロパティキーのプレフィクス.
+     * Property key prefix.
      */
     static final String KEY_ROOT = "io.personium.core.";
     static final String COMPATIBLE_KEY_ROOT = "io.personium.engine.";

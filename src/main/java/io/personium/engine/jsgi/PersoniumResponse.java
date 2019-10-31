@@ -42,13 +42,13 @@ import org.slf4j.LoggerFactory;
 import io.personium.engine.extension.wrapper.PersoniumInputStream;
 
 /**
- * ユーザスクリプトから返されたJSGIオブジェクト（JavaScript）をJAX-RSで返却する.
+ * A converter class from a JSGI response JSON (in JavaScript) to JAX-RS response.
  */
 @SuppressWarnings("serial")
 public final class PersoniumResponse extends ScriptableObject {
     private static final int BUFFER_SIZE = 1024;
 
-    /** ログオブジェクト. */
+    /** logger. */
     private static Logger log = LoggerFactory.getLogger(PersoniumResponse.class);
 
     int status = 0;
@@ -59,31 +59,34 @@ public final class PersoniumResponse extends ScriptableObject {
     OutputStream output;
 
     /**
-     * ユーザスクリプトから返却されたJSGIのレスポンスをチェックし、Javaオブジェクトに変換する.
-     * @param jsgiResponse JavaScriptのJSGIレスポンス
-     * @return DcResponse
-     * @throws Exception Exception
+     * Receive a JSGI response JSON returned from the user's script and convert to a java PersoniumResponse object.
+     * TODO change the method name to "create" since this is typical Factory pattern
+     * @param jsgiResponse JSGI response JSON returned in user JavaScript
+     * @return PersoniumResponse
+     * @throws Exception 
      */
     public static PersoniumResponse parseJsgiResponse(Object jsgiResponse) throws Exception {
 
         final PersoniumResponse personiumResponse = new PersoniumResponse();
-        // レスポンス形式のチェック
+        // Input should be a JSON via RHINO.
         if (!(jsgiResponse instanceof NativeObject)) {
             String msg = "not NativeObject";
             log.info(msg);
+            // TODO more suitable exception
             throw new Exception(msg);
         }
         NativeObject response = (NativeObject) jsgiResponse;
 
-        // statusのチェック
+        // check status value in the input JSON
+        // status should be a number
         Object oStatus = ScriptableObject.getProperty(response, "status");
         if (!(oStatus instanceof Number)) {
             String msg = "response status illegal type.";
             log.info(msg + ":" + oStatus.getClass());
+            // TODO more suitable exception
             throw new Exception(msg);
         }
-        // レスポンスコードが以下の条件にあてはまる場合はエラーとする
-        // ・100番台
+        // Error if the status code is invalid (100 Series)
         if (isInvalidResCode((Number) oStatus)) {
             String msg = String.format("response status illegal type. status: %s",
                     String.valueOf(Context.toString(oStatus)));
@@ -92,8 +95,9 @@ public final class PersoniumResponse extends ScriptableObject {
         }
         personiumResponse.setStatus((int) Context.toNumber(oStatus));
 
-        // headersのチェック
+        // check headers
         Object oHeaders = ScriptableObject.getProperty(response, "headers");
+        // should be JSON key value format 
         if (!(oHeaders instanceof NativeObject)) {
             String msg = "not headers";
             log.info(msg);
@@ -108,11 +112,12 @@ public final class PersoniumResponse extends ScriptableObject {
                 throw new Exception(msg);
             }
             String key = Context.toString(o);
-            // Transfer-Encodingの指定は無効にする
+            // Transfer-Encoding will be ignored
             if ("Transfer-Encoding".equalsIgnoreCase(key)) {
                 continue;
             }
             Object value = nHeaders.get(key, nHeaders);
+            // Header value should be String
             if (!(value instanceof String)) {
                 String msg = "header value format error";
                 log.info(msg);
@@ -121,16 +126,16 @@ public final class PersoniumResponse extends ScriptableObject {
             personiumResponse.addHeader(key, Context.toString(value));
         }
 
-        // bodyのチェック
+        // check body
         Object oBody = ScriptableObject.getProperty(response, "body");
-        // 復帰値の型チェック
+        // Should be a ScriptableObject
         if (!(oBody instanceof ScriptableObject)) {
             String msg = "response body undefined forEach.";
             log.info(msg);
             throw new Exception(msg);
         }
         final ScriptableObject scriptableBody = (ScriptableObject) oBody;
-        // forEachが実装されているかチェック
+        // check if it has a property with name "forEach"
         if (!ScriptableObject.hasProperty(scriptableBody, "forEach")) {
             String msg = "response body undefined forEach.";
             log.info(msg);
@@ -150,7 +155,7 @@ public final class PersoniumResponse extends ScriptableObject {
             throw new Exception(e.getMessage());
         }
 
-        // レスポンスの遅延処理登録
+        // Response の遅延処理登録
         StreamingOutput stremingOutput = new StreamingOutput() {
             @Override
             public void write(OutputStream resStream) throws IOException {
@@ -169,7 +174,6 @@ public final class PersoniumResponse extends ScriptableObject {
         };
 
         personiumResponse.setBody(stremingOutput);
-
         return personiumResponse;
     }
 
@@ -179,10 +183,10 @@ public final class PersoniumResponse extends ScriptableObject {
      * @return true:Engineとして許容しないレスポンスコードである false:Engineとして許容できるレスポンスコードである
      */
     private static boolean isInvalidResCode(Number oStatus) {
-        // 以下のレスポンスコードは許容しない
-        // ・3桁ではない
-        // ・0番台
-        // ・100番台(クライアントの挙動が不安定になるため)
+        // Following kinds of response codes are invalid.
+        // - not 3 digits
+        // - 0 series
+        // - 100 Series (クライアントの挙動が不安定になるため)
         if (!String.valueOf(Context.toString(oStatus)).matches("^[2-9]\\d{2}$")) {
             return true;
         }
@@ -322,9 +326,9 @@ public final class PersoniumResponse extends ScriptableObject {
 
     /**
      * JavaScriptのforEach処理をJavaで行うためのメソッド（function）を取得.
-     * @param methodName メソッド名
+     * @param methodName Method name
      * @return function
-     * @throws Exception Exception
+     * @throws Exception 
      */
     private Method getForEach(String methodName) throws Exception {
         Method method;
