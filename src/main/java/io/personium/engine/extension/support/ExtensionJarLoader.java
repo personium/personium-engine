@@ -174,7 +174,7 @@ public class ExtensionJarLoader {
                 }
             }
 
-            // サブディレクトリの検索
+            // Sub-directory search
             File[] subDirs = extJarDir.toFile().listFiles(new FileFilter() {
                 @Override
                 public boolean accept(File pathname) {
@@ -202,7 +202,7 @@ public class ExtensionJarLoader {
     }
 
     /**
-     * jarファイル内のエントリを検索し、JavaScriptへ公開するクラスの Setを返却する.
+     * jar file 内のエントリを検索し、JavaScriptへ公開するクラスの Setを返却する.
      * @param jarPaths  jarファイルのパスリスト
      * @param filter Extension用クラスフィルタ
      * @return Javascript内で使用するプロトタイプ名と、Javaクラスのマップ
@@ -235,7 +235,7 @@ public class ExtensionJarLoader {
                     }
                     //  ※ jarエントリは、"/" がセパレータなので置き換える。
                     entryPath = entryPath.replaceAll("\\/", "\\.");
-                    // このエントリが JavaScriptに公開されるか否かを filterに問い合わせる。
+                    // ask the filter if this entry should be disclosed to  JavaScript or not.
                     if (filter.accept(entryPath,  entryName)) {
                         String className = entryPath + "." + entryName;
                         try {
@@ -247,7 +247,7 @@ public class ExtensionJarLoader {
                                 // OK.
                                 continue;
                             }
-                            // ScriptableObject/Scriptableを継承していないため、JavaScriptに公開できない。
+                            // Cannot disclose to Javascript because it does not extend ScriptableObject or implement Scriptable
                             log.info(String.format(
                                 "Info: Extension class %s is not derived from "
                                     + "ScriptableObject class or does not implment Scriptable interface. Ignored.",

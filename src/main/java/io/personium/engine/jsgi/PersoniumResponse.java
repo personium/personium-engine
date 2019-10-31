@@ -279,8 +279,8 @@ public final class PersoniumResponse extends ScriptableObject {
     }
 
     /**
-     * レスポンスの出力先のストリームをセットする.
-     * @param output 出力先Stream
+     * Setter for the OutputStream for response output target.
+     * @param output target Stream
      */
     private void setOutput(OutputStream output) {
         this.output = output;
@@ -304,7 +304,7 @@ public final class PersoniumResponse extends ScriptableObject {
                 this.output.write(buf, 0, bufLength);
             }
         } else {
-            // 文字列はユーザスクリプトがContent-typeのcharsetで指定した文字エンコーディングで出力。
+            // String はユーザスクリプトがContent-typeのcharsetで指定した文字エンコーディングで出力。
             this.output.write(((String) element).getBytes(charset));
         }
     }

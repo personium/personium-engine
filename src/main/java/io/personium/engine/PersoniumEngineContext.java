@@ -213,7 +213,9 @@ public class PersoniumEngineContext implements Closeable {
     }
 
     /**
-     * グローバルオブジェクトをロード. 過去はグローバルオブジェクトを作成する関数だったが、現状は単なるsetterになっている。
+     * Load Global Object. 
+     * TODO method name change 
+     * 過去はグローバルオブジェクトを作成する関数だったが、現状は単なるsetterになっている。
      * @param url 基底URL
      * @param cell Cell名
      * @param schema データスキーマURI
@@ -291,8 +293,8 @@ public class PersoniumEngineContext implements Closeable {
         // RequestオブジェクトをJavaScriptプロパティへ設定
         JSGIRequest jsReq = new JSGIRequest(req, new PersoniumRequestBodyStream(is));
 
-        // JSGI実行
-        // ユーザースクリプトを実行(eval)する
+        // JSGI Execution
+        //  User Script を実行(eval)する
         try {
             Object ret;
             log.info("eval user script : script size = " + source.length());
