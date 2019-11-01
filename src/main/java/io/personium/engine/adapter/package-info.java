@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 /**
- * JavaScriptからJavaを呼び出すための仲介層.
- * このパッケージはClassShutterでアクセス可能制御しているので公開すべきではないクラスは配置しないこと.
+ * Adapters for JavaScript to call Java objects.
+ * With the RHINO ClassShutter configuratin, this package is accessible from JavaScript layer.
+ * So do not put any classes that should not be accessed from user JavaScript.
  */
 package io.personium.engine.adapter;
 

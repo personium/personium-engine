@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * ユーティリティ処理群.
+ * A package of utility classes.
  */
 package io.personium.engine.utils;
 

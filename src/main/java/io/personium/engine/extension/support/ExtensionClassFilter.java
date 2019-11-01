@@ -17,21 +17,21 @@
 package io.personium.engine.extension.support;
 
 /**
- * Extensionとして JavaScriptに公開するクラスを切り分けるためのフィルターI/F.
+ * Filter interface for hiding / disclosing java classes of the Extension against JavaScript layer.
  */
 public interface ExtensionClassFilter {
 
     /**
-     * Extensionとして JavaScriptに公開するクラスを切り分けるためのフィルター.
-     * @param packageName パッケージ名
-     * @param className クラス名
-     * @return Extensionとして公開するクラスであった場合は、true, そうでない場合は falseを返す。
+     * Method for defining which class in which package should be disclosed to JavaScript layer.
+     * @param packageName Package Name
+     * @param className Class Name
+     * @return true if the class is to be revealed as Extension, false otherwise.
      */
     boolean accept(String packageName, String className);
 
     /**
-     * このフィルタの説明を返す.
-     * @return 説明文
+     * Method for defining the description of the filter.
+     * @return Description String
      */
     String getDescription();
 }

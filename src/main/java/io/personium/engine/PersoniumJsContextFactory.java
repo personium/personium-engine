@@ -25,13 +25,11 @@ import io.personium.engine.accesscontrol.PersoniumClassShutterImpl;
 import io.personium.engine.accesscontrol.PersoniumWrapFactory;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
-
-
 /**
- * javascript.ContextFactoryの派生クラス.
-  */
+ * Personium Engine's customized subclass of RHINO ContextFactory.
+ */
 public class PersoniumJsContextFactory extends ContextFactory {
-    /** setInstructionObserverThreshold で使用されていたマジックナンバー. */
+    /** Magic number used in setInstructionObserverThreshold. */
     private static final int MVALUE = 10;
 
     @Override
@@ -39,9 +37,8 @@ public class PersoniumJsContextFactory extends ContextFactory {
         PersoniumJsContext cx = new PersoniumJsContext();
         cx.setInstructionObserverThreshold(PersoniumEngineConfig.getScriptConnectionTimeout() / MVALUE);
 
-        // ClassShutterの登録(Javaパッケージ呼び出し制御)
+        // ClassShutter registration for java call control
         cx.setClassShutter(new PersoniumClassShutterImpl());
-
         cx.setWrapFactory(new PersoniumWrapFactory());
 
         return cx;

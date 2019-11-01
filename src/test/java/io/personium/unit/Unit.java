@@ -17,7 +17,7 @@
 package io.personium.unit;
 
 /**
- * ユニットテスト用マーカーインタフェース.
+ * Marker Interface for Unit Tests.
  */
 public interface Unit {
 }

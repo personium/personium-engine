@@ -20,30 +20,30 @@ import org.apache.http.HttpStatus;
 import org.mozilla.javascript.Context;
 
 /**
- * javascript.Contextの派生クラス.
+ * Personium Engine's customized subclass of RHINO Context.
  */
 public class PersoniumJsContext extends Context {
-    /** タイムアウト値. */
+    /** Timeout Value. */
     private long timeout;
 
     /**
-     * コンストラクタ.
+     * Constructor.
      */
     @SuppressWarnings("deprecation")
     public PersoniumJsContext() {
     }
 
     /**
-     * タイムアウト値の設定.
-     * @param value タイムアウト値
+     * Setter for the timeout value.
+     * @param value Timeout Value in long
      */
     public final void setTimeout(final long value) {
         this.timeout = value;
     }
 
     /**
-     * タイムアウト値のチェック.
-     * @throws PersoniumEngineException PersoniumEngine例外
+     * Check timeout value.
+     * @throws PersoniumEngineException when timed out
      */
     public final void checkTimeout() throws PersoniumEngineException {
         if (timeout < System.currentTimeMillis()) {

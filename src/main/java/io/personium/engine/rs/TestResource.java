@@ -27,12 +27,12 @@ import io.personium.engine.source.ISourceManager;
 import io.personium.engine.source.TestResourceSourceManager;
 
 /**
- * Test用Serviceクラス.
+ * JAX-RS Resource class for Testing.
  */
 @Path("/{cell}/{schema}/test/{id : .+}")
 public class TestResource extends AbstractService {
-    /** ログオブジェクト. */
-    private static Log log = LogFactory.getLog(DebugResource.class);
+    /** Logger Object. */
+    private static Log log = LogFactory.getLog(TestResource.class);
 
     /**
      * JavaScript リモートデバッグ機能を有効にするかどうかを指定する. <code>true</code>を指定した場合、有効となる。
@@ -40,7 +40,7 @@ public class TestResource extends AbstractService {
     private Boolean useScriptDebug;
 
     /**
-     * デフォルトコンストラクタ.
+     * Constructor.
      * @param useDebug JavaScript リモートデバッグ機能を有効にするかどうかを指定する
      * @throws PersoniumEngineException PersoniumEngine例外
      */
@@ -52,19 +52,28 @@ public class TestResource extends AbstractService {
         log.info("Create DebugResource. useScriptDebug=" + this.useScriptDebug);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final String getCell() {
         return "";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final String getSchemaURI() {
         return "";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISourceManager getServiceCollectionManager() throws PersoniumEngineException {
-        // ソースの情報を取得
+        // returning TestResourceSourceManager instance
         TestResourceSourceManager sourcemanager = new TestResourceSourceManager();
         return sourcemanager;
     }

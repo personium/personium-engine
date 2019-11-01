@@ -17,8 +17,8 @@
 package io.personium.engine;
 
 /**
- * PersoniumEngine内での例外クラス.
-  */
+ * base Exception class for PersoniumEngine.
+ */
 @SuppressWarnings("serial")
 public class PersoniumEngineException extends Exception {
     /** 500. */
@@ -28,16 +28,16 @@ public class PersoniumEngineException extends Exception {
     /** 200. */
     public static final int STATUSCODE_SUCCESS = 200;
 
-    /** オリジナル例外オブジェクト. */
+    /** Original Exception Object. */
     private Exception originalException = null;
-    /** ステータスコード. */
+    /** Status Code. */
     private int statusCode = PersoniumEngineException.STATUSCODE_SUCCESS;
 
     /**
-     * コンストラクタ.
-     * @param msg メッセージ
-     * @param code ステータスコード
-     * @param e オリジナルException
+     * Constructor.
+     * @param msg Message
+     * @param code Status Code
+     * @param e Original Exception
      */
     public PersoniumEngineException(final String msg, final int code, final Exception e) {
         super(msg);
@@ -46,9 +46,9 @@ public class PersoniumEngineException extends Exception {
     }
 
     /**
-     * コンストラクタ.
-     * @param msg メッセージ
-     * @param code ステータスコード
+     * Constructor.
+     * @param msg Message
+     * @param code Status Code
      */
     public PersoniumEngineException(final String msg, final int code) {
         super(msg);
@@ -57,16 +57,16 @@ public class PersoniumEngineException extends Exception {
     }
 
     /**
-     * ステータスコードの取得.
-     * @return ステータスコード
+     * Getter for status code.
+     * @return status code
      */
     public final int getStatusCode() {
         return this.statusCode;
     }
 
     /**
-     * オリジナル例外オブジェクトの取得.
-     * @return オリジナル例外オブジェクト
+     * Getter for original exception object.
+     * @return original exception object
      */
     public final Exception getOriginalException() {
         return this.originalException;

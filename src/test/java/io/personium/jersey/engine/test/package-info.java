@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * 本アプリケーションのテスト用.
+ * Test classes for Personium Engine.
  */
 package io.personium.jersey.engine.test;
 

@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014 - 2019 FUJITSU LIMITED
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,23 +22,25 @@ import java.util.Set;
 import org.mozilla.javascript.ClassShutter;
 
 /**
- * ClassShutterの実装. PersoniumEngine上で呼び出し可能なJavaパッケージの制御
+ * ClassShutter Implementation for Personium Engine. 
+ * Controlling the call-able Java packages on PersoniumEngine.
  */
 public final class PersoniumClassShutterImpl implements ClassShutter {
     private static final Set<String> ACCEPTED = new HashSet<String>();
 
     private static String[] allow = {
-            // EngineがJavaScriptに対して提供しているクラス群(パッケージ)
+            // Classes / Packages that Personium Engine opens access to the 
+            // JavaScript layer.
             "io.personium.client.",
             "io.personium.engine.wrapper.",
             "io.personium.engine.adapter.",
             "io.personium.engine.extension.wrapper.",
 
-            // testでログ出力しているため消せない(クラス)
+            // Cannot delete because we use this in tests (Class)
             "ch.qos.logback.classic.Logger" };
 
     @Override
-    // 可視判定メソッド
+    // Visibility Decision method
     public boolean visibleToScripts(final String fullClassName) {
         if (ACCEPTED.contains(fullClassName)) {
             return true;

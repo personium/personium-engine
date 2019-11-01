@@ -19,14 +19,14 @@ package io.personium.engine.utils;
 import io.personium.client.utils.PersoniumLoggerFactory;
 
 /**
- * Personium-Engineログファクトリークラス.
+ * PersoniumEngineLogger Factory class.
  */
 public class PersoniumEngineLoggerFactory extends PersoniumLoggerFactory {
 
     /**
-     * インスタンス生成.
-     * @param clazz クラス
-     * @return PersoniumEngineLogger Personium-Engineログ
+     * new instance creation.
+     * @param clazz Class object
+     * @return PersoniumEngineLogger
      */
     @SuppressWarnings("rawtypes")
     @Override

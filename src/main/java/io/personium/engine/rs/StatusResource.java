@@ -40,15 +40,15 @@ import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
- * Personium-Engineステータス用サーブレットクラス.
+ * JAX-RS resource class for Personium-Engine status API. (/__status)
  */
 @Path("__status")
 public class StatusResource {
-    /** ログオブジェクト. */
+    /** Logger Object. */
     private static Log log = LogFactory.getLog(AbstractService.class);
 
     /**
-     * GETメソッドに対する処理.
+     * GET method processing.
      * @return JAS-RS Response
      */
     @SuppressWarnings("unchecked")
@@ -57,7 +57,7 @@ public class StatusResource {
     public Response get() {
         StringBuilder sb = new StringBuilder();
 
-        // プロパティ一覧
+        // List of properties
         Properties props = PersoniumEngineConfig.getProperties();
         JSONObject responseJson = new JSONObject();
         JSONObject propertiesJson = new JSONObject();
@@ -72,12 +72,12 @@ public class StatusResource {
     }
 
     /**
-     * POSTメソッド.
+     * POST method processing.
      * @param path リソース名
-     * @param request リクエストオブジェクト
-     * @param response レスポンスオブジェクト
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
      * @param is リクエストストリームオブジェクト
-     * @return Responseオブジェクト
+     * @return JAX-RS Response object
      */
     @POST
     public final Response post(@PathParam("id") final String path,
@@ -108,7 +108,7 @@ public class StatusResource {
         msg.append(" url:");
         log.info(msg);
 
-        // デバッグ用 すべてのヘッダをログ出力
+        //  Debug 用 すべてのヘッダをログ出力
         Enumeration<String> multiheaders = req.getHeaderNames();
         for (String headerName : Collections.list(multiheaders)) {
             Enumeration<String> headers = req.getHeaders(headerName);
@@ -127,19 +127,19 @@ public class StatusResource {
     }
 
     /**
-     * エラーレスポンス生成.
-     * @param e Exceptionオブジェクト
-     * @return Response
+     * Error Response creation.
+     * @param e Exception Object
+     * @return JAX-RS Response
      */
     final Response errorResponse(final PersoniumEngineException e) {
         return makeErrorResponse(e.getMessage(), e.getStatusCode());
     }
 
     /**
-     * エラー時のレスポンスを生成.
-     * @param msg メッセージ本文
-     * @param code ステータスコード
-     * @return Responseオブジェクト
+     * Error Response Creation.
+     * @param msg Message
+     * @param code Status Code
+     * @return JAX-RS Response
      */
     private Response makeErrorResponse(final String msg, final int code) {
         return Response.status(code).entity(msg).build();
