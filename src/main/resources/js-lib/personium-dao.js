@@ -657,11 +657,11 @@ _p.Webdav.prototype.createFile = function(param, contentType, data) {
         this.put(param);
     }
 };
-_p.Webdav.prototype.forceUpdate = function(fileName, contentType, data) {
+_p.Webdav.prototype.updateFile = function(fileName, contentType, data, etag) {
     if (typeof param == 'string') {
-        this.put(fileName, contentType, data, "*");
+        this.put(fileName, contentType, data, etag?etag:"*");
     } else {
-        param.etag = "*";
+        param.etag = param.etag?param.etag:"*";
         this.put(param);
     }
 };
