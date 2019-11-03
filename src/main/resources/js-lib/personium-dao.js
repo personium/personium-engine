@@ -632,14 +632,13 @@ _p.Webdav.prototype.getStream = function(path) {
 _p.Webdav.prototype.put = function(param, contentType, data, etag) {
     if (typeof param == 'string') {
         try {
-            this.core.put(param, contentType, "UTF-8", data, etag?etag:"*");
+            this.core.put(param, contentType, "UTF-8", data, etag);
         } catch (e) {
             throw new _p.PersoniumException(e.message);
         }
     } else {
         if ((param.path) && (param.contentType) && (param.data)) {
             param.charset = param.charset?param.charset:"UTF-8";
-            param.etag = param.etag?param.etag:"*";
             try {
                 this.core.put(param.path, param.contentType, param.charset, param.data, param.etag);
             } catch (e) {
@@ -648,6 +647,22 @@ _p.Webdav.prototype.put = function(param, contentType, data, etag) {
         } else {
             throw new _p.PersoniumException("Parameter Invalid");
         }
+    }
+};
+_p.Webdav.prototype.createFile = function(param, contentType, data) {
+    if (typeof param == 'string') {
+        this.put(param, contentType, data, null);
+    } else {
+        param.etag = null;
+        this.put(param);
+    }
+};
+_p.Webdav.prototype.forceUpdate = function(fileName, contentType, data) {
+    if (typeof param == 'string') {
+        this.put(fileName, contentType, data, "*");
+    } else {
+        param.etag = "*";
+        this.put(param);
     }
 };
 
