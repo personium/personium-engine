@@ -612,7 +612,7 @@ _p.Webdav.prototype.getStream = function(path) {
 
 /**
  * Davへファイルを登録する.<br>
- * 例：<br>
+ * Usage：<br>
  * 1. <br>
  *   .put("test.txt", "text/plain", "test-data", "*");<br>
  * 2.<br>
@@ -627,7 +627,7 @@ _p.Webdav.prototype.getStream = function(path) {
  * @param {string} contentType 登録するファイルのメディアタイプ
  * @param {string} data 登録するデータ(文字列形式)
  * @param {string} etag 対象のEtag
- * @exception {_p.PersoniumException} DAO例外
+ * @exception {_p.PersoniumException} 
  */
 _p.Webdav.prototype.put = function(param, contentType, data, etag) {
     if (typeof param == 'string') {
@@ -649,21 +649,42 @@ _p.Webdav.prototype.put = function(param, contentType, data, etag) {
         }
     }
 };
-_p.Webdav.prototype.createFile = function(param, contentType, data) {
-    if (typeof param == 'string') {
-        this.put(param, contentType, data, null);
-    } else {
-        param.etag = null;
-        this.put(param);
-    }
+/**
+ * Create a new file.<br>
+ * Usage：<br>
+ *   .createFile("test.txt", "test-data", "text/plain", "*");<br>
+ * @param {string} param 対象のDavのパス
+ * @param {string} contentType 登録するファイルのメディアタイプ
+ * @param {string} data 登録するデータ(文字列形式)
+ * @exception {_p.PersoniumException} 
+ */
+_p.Webdav.prototype.createFile = function(fileName, data, contentType, charset) {
+    this.put({
+        path: fileName,
+        data: data,
+        contentType: contentType?contentType:"text/plain",
+        charset: charset?charset: "utf-8",
+        etag: null
+    });
 };
-_p.Webdav.prototype.updateFile = function(fileName, contentType, data, etag) {
-    if (typeof param == 'string') {
-        this.put(fileName, contentType, data, etag?etag:"*");
-    } else {
-        param.etag = param.etag?param.etag:"*";
-        this.put(param);
-    }
+/**
+ * Update a file.<br>
+ * Usage：<br>
+ *   .updateFile("test.txt", "test-data", "text/plain", "*");<br>
+ * @param {string} fileName 対象のDavのパス
+ * @param {string} contentType 登録するファイルのメディアタイプ
+ * @param {string} data 登録するデータ(文字列形式)
+ * @param {string} etag 対象のEtag
+ * @exception {_p.PersoniumException} 
+ */
+_p.Webdav.prototype.updateFile = function(fileName, data, contentType, etag, charset) {
+    this.put({
+        path: fileName,
+        data: data,
+        contentType: contentType?contentType:"text/plain",
+        charset: charset?charset:"utf-8",
+        etag: etag?etag:"*"
+    });
 };
 
 /**
