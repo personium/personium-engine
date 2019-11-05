@@ -662,8 +662,8 @@ _p.Webdav.prototype.createFile = function(fileName, data, contentType, charset) 
     this.put({
         path: fileName,
         data: data,
-        contentType: contentType?contentType:"text/plain",
-        charset: charset?charset: "utf-8",
+        contentType: contentType ? contentType : "text/plain",
+        charset: charset ? charset : "UTF-8",
         etag: null
     });
 };
@@ -681,8 +681,8 @@ _p.Webdav.prototype.updateFile = function(fileName, data, contentType, etag, cha
     this.put({
         path: fileName,
         data: data,
-        contentType: contentType?contentType:"text/plain",
-        charset: charset?charset:"utf-8",
+        contentType: contentType ? contentType : "text/plain",
+        charset: charset ? charset : "UTF-8",
         etag: etag?etag:"*"
     });
 };
