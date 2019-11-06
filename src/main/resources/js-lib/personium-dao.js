@@ -640,6 +640,19 @@ _p.Webdav.prototype.put = function(param, contentType, data, etag) {
         }
     }
 };
+/**
+ * Create (if not exists) or update (if exists) a file.<br>
+ * Usage：<br>
+ *   .createOrUpdateFile("test.txt", "test-data", "text/plain", "*");<br>
+ * @param {string} param 対象のDavのパス
+ * @param {string} contentType 登録するファイルのメディアタイプ
+ * @param {string} data 登録するデータ(文字列形式)
+ * @param {string} etag 対象のEtag
+ * @exception {_p.PersoniumException}
+ */
+_p.Webdav.prototype.updateOrCreate = function(param, contentType, data, etag) {
+    this.put(param, contentType, data, etag);
+};
 // should be renamed to "put" in a near future release.
 _p.Webdav.prototype.__put = function(param, contentType, data, etag) {
     if (typeof param == 'string') {
