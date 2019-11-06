@@ -1,6 +1,6 @@
 /*
  * Personium
- * Copyright 2014 - 2018 FUJITSU LIMITED
+ * Copyright 2014 - 2019 Personium Project authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 /**
  * @fileOverview
  * @name personium-dao.js
- * @version 1.4.2
+ * @version 1.5.26
  */
 
 /**
