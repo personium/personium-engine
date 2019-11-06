@@ -627,9 +627,21 @@ _p.Webdav.prototype.getStream = function(path) {
  * @param {string} contentType 登録するファイルのメディアタイプ
  * @param {string} data 登録するデータ(文字列形式)
  * @param {string} etag 対象のEtag
- * @exception {_p.PersoniumException} 
+ * @exception {_p.PersoniumException}
  */
+// TODO this is for compatibility. Should be replaced with __put in a near future release.
 _p.Webdav.prototype.put = function(param, contentType, data, etag) {
+    if (typeof param == 'string') {
+        this.__put(param, contentType, data, etag ? etag : "*");
+    } else {
+        if ((!param.etag)) {
+        	param.etag = "*";
+            this.__put(param);
+        }
+    }
+};
+// should be renamed to "put" in a near future release.
+_p.Webdav.prototype.__put = function(param, contentType, data, etag) {
     if (typeof param == 'string') {
         try {
             this.core.put(param, contentType, "UTF-8", data, etag);
@@ -656,10 +668,10 @@ _p.Webdav.prototype.put = function(param, contentType, data, etag) {
  * @param {string} param 対象のDavのパス
  * @param {string} contentType 登録するファイルのメディアタイプ
  * @param {string} data 登録するデータ(文字列形式)
- * @exception {_p.PersoniumException} 
+ * @exception {_p.PersoniumException}
  */
 _p.Webdav.prototype.createFile = function(fileName, data, contentType, charset) {
-    this.put({
+    this.__put({
         path: fileName,
         data: data,
         contentType: contentType ? contentType : "text/plain",
@@ -675,10 +687,10 @@ _p.Webdav.prototype.createFile = function(fileName, data, contentType, charset) 
  * @param {string} contentType 登録するファイルのメディアタイプ
  * @param {string} data 登録するデータ(文字列形式)
  * @param {string} etag 対象のEtag
- * @exception {_p.PersoniumException} 
+ * @exception {_p.PersoniumException}
  */
 _p.Webdav.prototype.updateFile = function(fileName, data, contentType, etag, charset) {
-    this.put({
+    this.__put({
         path: fileName,
         data: data,
         contentType: contentType ? contentType : "text/plain",
