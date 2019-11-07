@@ -611,7 +611,7 @@ _p.Webdav.prototype.getStream = function(path) {
 };
 
 /**
- * Davへファイルを登録する.<br>
+ * Issue a put method request.<br>
  * Usage：<br>
  * 1. <br>
  *   .put("test.txt", "text/plain", "test-data", "*");<br>
@@ -632,86 +632,120 @@ _p.Webdav.prototype.getStream = function(path) {
 // TODO this is for compatibility. Should be replaced with __put in a near future release.
 _p.Webdav.prototype.put = function(param, contentType, data, etag) {
     if (typeof param == 'string') {
-        this.__put(param, contentType, data, etag ? etag : "*");
+        this.__put({
+            path: param,
+            contentType: contentType,
+            data: data,
+            ifMatch: etag
+        });
     } else {
-        if ((!param.etag)) {
-        	param.etag = "*";
-            this.__put(param);
-        }
+    	param.ifMatch = param.etag;
+        this.__put(param);
     }
 };
 
 // should be renamed to "put" in a near future release.
-_p.Webdav.prototype.__put = function(param, contentType, data, etag) {
-    if (typeof param == 'string') {
+/*
+ * Issue a put method request.<br>
+ * Usage：<br>
+ *   .__put({
+ *     path: "test.txt",
+ *     data: "test-data",
+ *     contentType: "text/plain",
+ *     ifMatch: "*"
+ *   });<br>
+ * @param {json} param  parameters in JSON with the following attributes.
+ * @param {string} path (required) path to send request
+ * @param {string} data      (required) File content in string or InputStream format.
+ * @param {string} contentType  (optional) Content type of the file. Defaults to "text/plain".
+ * @param {string} charset   (optional) Character set string. Defaults to "UTF-8".
+ * @exception {_p.PersoniumException}
+ */
+_p.Webdav.prototype.__put = function(param) {
+	// TODO currently client-java does not support if-None-Match header, so this script also could not support it.
+    if ((param.path) && (param.contentType) && (param.data)) {
+        param.charset = param.charset?param.charset:"UTF-8";
         try {
-            this.core.put(param, contentType, "UTF-8", data, etag);
+        	// call client java
+            this.core.put(param.path, param.contentType, param.charset, param.data, param.ifMatch);
         } catch (e) {
             throw new _p.PersoniumException(e.message);
         }
     } else {
-        if ((param.path) && (param.contentType) && (param.data)) {
-            param.charset = param.charset?param.charset:"UTF-8";
-            try {
-                this.core.put(param.path, param.contentType, param.charset, param.data, param.etag);
-            } catch (e) {
-                throw new _p.PersoniumException(e.message);
-            }
-        } else {
-            throw new _p.PersoniumException("Parameter Invalid");
-        }
+        throw new _p.PersoniumException("Parameter Invalid");
     }
 };
 /**
  * Create a new file.<br>
  * Usage：<br>
- *   .createFile("test.txt", "test-data", "text/plain", "*");<br>
- * @param {string} param 対象のDavのパス
- * @param {string} contentType 登録するファイルのメディアタイプ
- * @param {string} data 登録するデータ(文字列形式)
+ *   .createFile({fileName: "test.txt", data: "test-data", contentType: "text/plain");<br>
+ * @param {json} param  parameters in JSON with the following attributes.
+ * @param {string} fileName (required) File name to create
+ * @param {string} data      (required) File content in string or InputStream format.
+ * @param {string} contentType  (optional) Content type of the file. Defaults to "text/plain".
+ * @param {string} charset   (optional) Character set string. Defaults to "UTF-8".
  * @exception {_p.PersoniumException}
  */
-_p.Webdav.prototype.createFile = function(fileName, data, contentType, charset) {
-    this.__put({
-        path: fileName,
-        data: data,
-        contentType: contentType ? contentType : "text/plain",
-        charset: charset ? charset : "UTF-8",
-        etag: null
-    });
+_p.Webdav.prototype.createFile = function(param) {
+	// TODO change to send If-None-Match: "*" so that
+	// it throw exception if the file already exists.
+	// for now just a synonym for updateOrCreateFile.
+	this.updateOrCreateFile(param)
 };
 /**
  * Update a file.<br>
  * Usage：<br>
- *   .updateFile("test.txt", "test-data", "text/plain", "*");<br>
- * @param {string} fileName 対象のDavのパス
- * @param {string} contentType 登録するファイルのメディアタイプ
- * @param {string} data 登録するデータ(文字列形式)
- * @param {string} etag 対象のEtag
+ * <pre>
+ *   .updateFile({
+ *     fineName: "test.txt",
+ *     data: "test-data",
+ *     contentType: "text/plain",
+ *     etag, "*"
+ *   });
+ * </pre>
+ * @param {json} param  parameters in JSON with the following attributes.
+ * @param {string} fileName (required) File name to create
+ * @param {string} data      (required) File content in string or InputStream format.
+ * @param {string} contentType  (optional) Content type of the file. Defaults to "text/plain".
+ * @param {string} charset   (optional) Character set string. Defaults to "UTF-8".
+ * @param {string} etag (optional) ETag String for optimistic locking.
  * @exception {_p.PersoniumException}
  */
-_p.Webdav.prototype.updateFile = function(fileName, data, contentType, etag, charset) {
+_p.Webdav.prototype.updateFile = function(param) {
     this.__put({
-        path: fileName,
-        data: data,
-        contentType: contentType ? contentType : "text/plain",
-        charset: charset ? charset : "UTF-8",
-        etag: etag?etag:"*"
+        path: param.fileName,
+        data: param.data,
+        contentType: param.contentType ? param.contentType : "text/plain",
+        charset: param.charset ? param.charset : "UTF-8",
+        etag: param.etag ? param.etag : "*"
     });
 };
 
 /**
  * Update (if exists) or  Create (if not exists) a file.<br>
  * Usage：<br>
- *   .updateOrCreateFile("test.txt", "test-data", "text/plain", "*");<br>
- * @param {string} param 対象のDavのパス
- * @param {string} contentType 登録するファイルのメディアタイプ
- * @param {string} data 登録するデータ(文字列形式)
- * @param {string} etag 対象のEtag
+ * <pre>
+ *   col.updateOrCreateFile({
+ *     fineName: "test.txt",
+ *     data: "test-data",
+ *     contentType: "text/plain"
+ *   });
+ * </pre>
+ * @param {json} param  parameters in JSON with the following attributes.
+ * @param {string} fileName (required) File name to create
+ * @param {string} data      (required) File content in string or InputStream format.
+ * @param {string} contentType  (optional) Content type of the file. Defaults to "text/plain".
+ * @param {string} charset   (optional) Character set string. Defaults to "UTF-8".
  * @exception {_p.PersoniumException}
  */
-_p.Webdav.prototype.updateOrCreateFile = function(param, contentType, data, etag) {
-    this.put(param, contentType, data, etag);
+_p.Webdav.prototype.updateOrCreateFile = function(param) {
+    this.__put({
+        path: param.fileName,
+        data: param.data,
+        contentType: param.contentType ? param.contentType : "text/plain",
+        charset: param.charset ? param.charset : "UTF-8",
+        etag: null
+    });
 };
 
 /**
