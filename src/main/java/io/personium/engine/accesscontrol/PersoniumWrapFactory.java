@@ -31,19 +31,24 @@ import io.personium.engine.wrapper.PersoniumJSONObject;
 import io.personium.engine.extension.wrapper.PersoniumInputStream;
 
 /**
- * JavaScriptからJavaメソッド呼び出し時の返却値ラップ動作制御.
+ * Engine's customized WrapFactory of RHINO.
+ *  This is used when JavaScript receives return values
+ *  from java method. The returned value from java is 
+ *  wrapped in accordance with this class and then received
+ *  by JavaScript layer.
+ *  Configured at PersoniumJsContextFactory#makeContext(): Context
  */
 public class PersoniumWrapFactory extends WrapFactory {
 
-    /*
-     * 以下の変換処理を実施.
-     * ・数値型が渡された場合はラップしないことよってRhinoにJavaScriptのnumber型に変換させる
-     * ・Stringはラップせずにそのまま返すことでrhinoにJavaScriptのstring型に変換させる
-     * ・InputStreamはDcInputStreamというEngineのラッパークラスに置き換える
-     * ・JSONObjectはDcJSONObjectというEngineのラッパークラスに置き換える
-     *   （EngineクライアントライブラリでJSONObject前提の処理があるのでその対応）
-     * ・ArrayListはJavaScriptのNativeArrayに置き換える
-     *   （EngineクライアントライブラリでArrayList前提の処理があるのでその対応）
+    /** 
+     * Perform the following conversions.
+     * When Number is passed, by not wrapping, let Rhino convert it to a JavaScript number.
+     * When String is passed, by not wrapping, let Rhino convert it to a JavaScript string.
+     * When InputStream is passed, wrap it with PersoniumInputStream.
+     * When JSONObject is passed, wrap it with PersoniumJSONObject.
+     *  (client-java sometimes returns JSONObject, so we need this.）
+     * When ArrayList is passed, convert it to JavaScript NativeArray.
+     *   (client-java sometimes returns ArrayList, so we need this.）
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -61,8 +66,8 @@ public class PersoniumWrapFactory extends WrapFactory {
             return ((JSONObject) obj).toJSONString();
 
         } else if (obj instanceof ArrayList) {
-            // クライアントライブラリからJava配列を直接返された時(ACLなど扱う処理で返される)に、
-            // NativeArrayに置き換えてJava配列をJavaScriptに見せないようにする。
+            // If client-java returns ArrayList (e.g. when handling ACL), 
+            // replace it with NativeArray and not disclose Java array to JavaScript layer.
             ArrayList<Object> list = (ArrayList<Object>) obj;
             NativeArray na = new NativeArray(list.size());
             for (int i = 0; i < list.size(); i++) {
@@ -76,7 +81,8 @@ public class PersoniumWrapFactory extends WrapFactory {
 
     @Override
     public Scriptable wrapNewObject(Context cx, Scriptable scope, Object obj) {
-        // JavaScriptから呼び出しを許してるクラスもコンストラクタは呼び出し不可にする
+        // Invalidate the constructor calls
+        // even when the java class is open for access from JavaScript
         if (obj.getClass() == PersoniumInputStream.class
                 || obj.getClass() == PersoniumJSONObject.class
                 || obj.getClass() == PersoniumRequestBodyStream.class) {

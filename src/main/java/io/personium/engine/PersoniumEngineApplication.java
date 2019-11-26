@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import io.personium.common.auth.token.AbstractLocalToken;
 import io.personium.common.auth.token.TransCellAccessToken;
-import io.personium.core.model.file.DataCryptor;
+import io.personium.common.file.DataCryptor;
 import io.personium.engine.rs.DebugResource;
 import io.personium.engine.rs.ServiceResource;
 import io.personium.engine.rs.StatusResource;
@@ -34,11 +34,10 @@ import io.personium.engine.rs.TestResource;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**
- * Personium-Engine.
+ * JAX-RS Application Class for Personium-Engine.
  */
 public class PersoniumEngineApplication extends Application {
     static Logger log = LoggerFactory.getLogger(PersoniumEngineApplication.class);
-    /** デバッグフラグ. */
     // private static final String KEY_DCENGINE_DEBUG = "io.personium.engine.debug";
     static {
         try {
@@ -54,7 +53,7 @@ public class PersoniumEngineApplication extends Application {
 
     /**
      * Set.
-     * @return Classリスト
+     * @return Class list of classes
      */
     @Override
     public final Set<Class<?>> getClasses() {

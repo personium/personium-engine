@@ -32,10 +32,10 @@ public final class EngineUtils {
     }
 
     /**
-     * ローカルファイルを読み込む.
-     * @param path 読み込み先のファイルパス
-     * @return 読み込まれた文字列
-     * @throws IOException IO例外
+     * Read a local text file.
+     * @param path target file path
+     * @return text file content in String object
+     * @throws IOException
      */
     public static String readFile(final String path) throws IOException {
         StringBuffer js = new StringBuffer();

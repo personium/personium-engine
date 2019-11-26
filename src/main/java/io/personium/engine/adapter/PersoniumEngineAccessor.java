@@ -28,7 +28,8 @@ import io.personium.common.auth.token.Role;
 import io.personium.common.auth.token.TransCellAccessToken;
 
 /**
- * Accessor class for PersoniumEngine.
+ * Customized subclass of client Accessor class for PersoniumEngine.
+ * TODO Class name should be changed to EngineClientAccessor
  */
 public class PersoniumEngineAccessor extends Accessor {
 

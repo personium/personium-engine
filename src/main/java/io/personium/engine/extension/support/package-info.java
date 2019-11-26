@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * Extension拡張用パッケージ.
+ * Classes for Engine Extension support.
  */
 package io.personium.engine.extension.support;
 

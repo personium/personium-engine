@@ -52,12 +52,12 @@ function(request){
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
-    	try {
-    		_p.as("client").unit(baseUrl).ctl.cell.del(cellName + "-crud-1");
+        try {
+            _p.as("client").unit(baseUrl).ctl.cell.del(cellName + "-crud-1");
         } catch (e) {
         }
-    	try {
-    		_p.as("client").unit(baseUrl).ctl.cell.del(cellName + "-crud-2");
+        try {
+            _p.as("client").unit(baseUrl).ctl.cell.del(cellName + "-crud-2");
         } catch (e) {
         }
     }

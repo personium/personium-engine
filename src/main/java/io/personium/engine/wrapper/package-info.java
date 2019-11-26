@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 /**
- * ユーザスクリプトにラッパーとして公開するクラス.
- * このパッケージはClassShutterでアクセス可能制御しているので公開すべきではないクラスは配置しないこと.
+ * Wrapper classes disclosed to user engine scripts.
+ * With the RHINO ClassShutter configuratin, this package is accessible from JavaScript layer.
+ * So do not put any classes that should not be accessed from user JavaScript.
  */
 package io.personium.engine.wrapper;
 

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import io.personium.common.auth.token.AbstractLocalToken;
 import io.personium.common.auth.token.TransCellAccessToken;
-import io.personium.core.model.file.DataCryptor;
+import io.personium.common.file.DataCryptor;
 import io.personium.engine.utils.PersoniumEngineConfig;
 
 /**

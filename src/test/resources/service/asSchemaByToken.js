@@ -27,16 +27,16 @@ function(request){
 
     var json = {cellUrl:cellName, userId:"user001", password:"pass001"};
     try {
-    	var cell = _p.as(json).cell(cellName + "1");
-    	
-    	var token = cell.getToken();
+        var cell = _p.as(json).cell(cellName + "1");
+        
+        var token = cell.getToken();
 
         json = {cellUrl:cellName, accessToken:token.access_token,
-        		schemaUrl:cellName + "2", schemaUserId:"user001", schemaPassword:"pass001"};
-    	// トークン認証
-    	_p.as(json).cell();
+                schemaUrl:cellName + "2", schemaUserId:"user001", schemaPassword:"pass001"};
+        // トークン認証
+        _p.as(json).cell();
 
-    	// レスポンスを返却
+        // レスポンスを返却
         return util.response().responseBody("OK").build();
 
     } catch (e) {

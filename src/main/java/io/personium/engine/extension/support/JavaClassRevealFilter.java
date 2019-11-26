@@ -18,31 +18,24 @@ package io.personium.engine.extension.support;
 
 
 /**
- * Extensionとして JavaScriptに公開するクラスを切り分けるためのフィルターI/F.
+ * ExtensionClassFilter class that discloses only classes whose name start with  \"Ext_\".
+ * TODO class name should be changed to DefaultExtensionClassFilter.
  */
 public class JavaClassRevealFilter implements ExtensionClassFilter {
 
     private static final String REVEAL_CLASS_PREFIX = "Ext_";
 
-    /**
-     * Extensionとして JavaScriptに公開するクラスを切り分けるためのフィルター.
-     * @param packageName パッケージ名
-     * @param className クラス名
-     * @return Extensionとして公開するクラスであった場合は、true, そうでない場合は falseを返す。
-     */
+    @Override
     public boolean accept(String packageName, String className) {
         if (null == packageName || null == className) {
             return false;
         }
-        // クラス名が "Ext_"で開始するもののみ JavaScriptに公開する。（認める。)
+        // return true when class name starts with "Ext_" 
         return className.startsWith(REVEAL_CLASS_PREFIX);
     }
 
-    /**
-     * このフィルタの説明を返す.
-     * @return 説明文
-     */
+    @Override
     public String getDescription() {
-        return "クラス名が \"Ext_\"で開始するもののみ JavaScriptに公開する。";
+        return "Disclose only classes whose name start with  \"Ext_\".";
     }
 }

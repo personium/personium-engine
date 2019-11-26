@@ -26,13 +26,13 @@ function(request){
     var cellName = query["cell"];
 
     var json = {cellUrl:cellName, userId:"user001", password:"pass001",
-    		schemaUrl:cellName + "1", schemaUserId:"user001", schemaPassword:"pass001"};
+            schemaUrl:cellName + "1", schemaUserId:"user001", schemaPassword:"pass001"};
 
     try {
-    	// スキーマ付きパスワード認証
-    	_p.as(json).cell();
+        // スキーマ付きパスワード認証
+        _p.as(json).cell();
 
-    	// レスポンスを返却
+        // レスポンスを返却
         return util.response().responseBody("OK").build();
 
     } catch (e) {

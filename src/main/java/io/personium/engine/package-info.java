@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * Personium-Engine.
+ * Core classes of Personium-Engine .
  */
 package io.personium.engine;
 

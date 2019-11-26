@@ -18,22 +18,22 @@
  * リクエストで受け付けたデータから１行取得、全行取得を実行しレスポンスとして返却する。
  */
 function(request){
-	var res = "";
-	try{
-		// １行取得。改行が失われるので改行追加
-		res = request['input'].readLine("utf-8") + "\n";
-		// 次の１行取得。改行が失われるので改行追加
-		res = res + request['input'].readLine() + "\n";
-		// 残り全てを取得
-		res = res + request['input'].readAll("utf-8");
-		// １行取得と残り全行取得を結合して返すとリクエストとして受け取った文字列にもどってるはず
-	} catch (e){
-		res = e.message;
-	} finally {
-	}
-	return {
-	    status: 200,
-	    headers: {"X-Personium-Response":"text/plain"},
-	    body: [res]
-	}
+    var res = "";
+    try{
+        // １行取得。改行が失われるので改行追加
+        res = request['input'].readLine("utf-8") + "\n";
+        // 次の１行取得。改行が失われるので改行追加
+        res = res + request['input'].readLine() + "\n";
+        // 残り全てを取得
+        res = res + request['input'].readAll("utf-8");
+        // １行取得と残り全行取得を結合して返すとリクエストとして受け取った文字列にもどってるはず
+    } catch (e){
+        res = e.message;
+    } finally {
+    }
+    return {
+        status: 200,
+        headers: {"X-Personium-Response":"text/plain"},
+        body: [res]
+    }
 }

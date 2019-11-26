@@ -44,7 +44,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import io.personium.core.model.file.DataCryptor;
+import io.personium.common.file.DataCryptor;
 import io.personium.engine.PersoniumEngineException;
 import io.personium.engine.model.DavMetadataFile;
 import io.personium.engine.model.ScriptCache;
@@ -53,14 +53,14 @@ import io.personium.engine.model.ScriptCache;
  * Service resource source management using file system.
  */
 public class FsServiceResourceSourceManager implements ISourceManager {
-    /** ログオブジェクト. */
+    /** Logger Object . */
     private static Logger log = LoggerFactory.getLogger(FsServiceResourceSourceManager.class);
 
     private String fsPath;
     /** RoutingId(CellID). */
     private String fsRoutingId;
 
-    /** コレクションのPROPPATCH情報. */
+    /** Collection's PROPPATCH Info. */
     private String serviceCollectionInfo;
 
     /** Mapping from path to source file. */
@@ -69,9 +69,9 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     private String serviceSubject;
 
     /**
-     * コンストラクタ.
-     * @param filePath 対象サービスコレクションのFile System Path.
-     * @param fsRoutingId CellID having target service collection.
+     * Constructor.
+     * @param filePath File System Path of the target ESC (Engine Service Collection).
+     * @param fsRoutingId Cell ID of target service collection.
      * @throws PersoniumEngineException DcEngineException
      */
     public FsServiceResourceSourceManager(String filePath, String fsRoutingId) throws PersoniumEngineException {
@@ -83,7 +83,7 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     }
 
     /**
-     * サービスコレクションの情報を取得.
+     * load the ServiceCollection Info.
      * @throws PersoniumEngineException DcEngineException
      */
     private void loadServiceCollectionInfo() throws PersoniumEngineException {
@@ -94,10 +94,10 @@ public class FsServiceResourceSourceManager implements ISourceManager {
                     PersoniumEngineException.STATUSCODE_NOTFOUND);
         }
 
-        // サービスコレクションを取得
+        // Get the Service Collection Metadata
         JSONObject json = getMetaData(this.fsPath);
 
-        // スクリプトの情報を取得する
+        // Get the Engine Service Configuration information
         this.serviceCollectionInfo = (String) ((Map<?, ?>) json.get("d")).get("service@urn:x-personium:xmlns");
         if (null == this.serviceCollectionInfo) {
             log.info("Service property Invalid ");
@@ -109,10 +109,9 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     }
 
     /**
-     * サービス名に対応したスクリプトファイル名の取得.
-     * @param servicePath サービス名
-     * @return スクリプトファイル名
+     * {@inheritDoc}
      */
+    @Override
     public String getScriptNameForServicePath(String servicePath) {
         return this.pathMap.get(servicePath);
     }
@@ -150,13 +149,11 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     }
 
     /**
-     * ソースファイルを取得.
-     * @param sourceName ソースファイル名
-     * @return ソースファイルの中身
-     * @throws PersoniumEngineException DcEngineException
+     * {@inheritDoc}
      */
+    @Override
     public String getSource(String sourceName) throws PersoniumEngineException {
-        // 対象のスクリプトの情報を取得する
+        // Get Target script information 
         String sourceDir = this.fsPath + File.separator + "__src" + File.separator + sourceName;
         String sourcePath = sourceDir + File.separator + "content";
         File sourceFile = new File(sourcePath);
@@ -186,18 +183,19 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     }
 
     /**
-     * サービスコレクションに設定されたサービスサブジェクトの取得.
-     * @return サービスサブジェクト
+     * {@inheritDoc}
      */
+    @Override
     public String getServiceSubject() {
       return this.serviceSubject;
     }
 
-    /**
-     * サービス名からスクリプトファイルのパスを取得する.
-     * @param xml XML文字列
-     * @param svcName サービス名
-     * @return スクリプトファイルパス
+    /*
+     * Parse
+     *    this.serviceCollectionInfo 
+     * and store it to 
+     *    this.pathMap
+     *    this.serviceSubject.
      */
     private void parseServiceTag() {
         DocumentBuilder builder = null;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 /**
- * JSGIに関する処理.
+ * Package for classes related to JSGI.
  */
 package io.personium.engine.jsgi;
 

@@ -25,11 +25,10 @@ import io.personium.client.utils.PersoniumLogger;
  * Personium-Engineログクラス.
  */
 public class PersoniumEngineLogger implements PersoniumLogger {
-    // ログオブジェクト
     private Logger log;
 
     /**
-     * コンストラクタ.
+     * Constructor.
      * @param clazz クラス
      */
     @SuppressWarnings("rawtypes")

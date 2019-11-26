@@ -26,29 +26,29 @@ function(request){
     try {
         new Packages.io.personium.engine.extension.wrapper.PersoniumInputStream(request['input'].stream());
     } catch (e) {
-    	if (e.message !== "not found") {
-        	code = e.code;
-        	message = e.message;
-    	    return util.response().statusCode(code).responseBody(message).build();
-    	}
+        if (e.message !== "not found") {
+            code = e.code;
+            message = e.message;
+            return util.response().statusCode(code).responseBody(message).build();
+        }
     }
     try {
-    	new Packages.io.personium.engine.wrapper.PersoniumJSONObject();
+        new Packages.io.personium.engine.wrapper.PersoniumJSONObject();
     } catch (e) {
-    	if (e.message !== "not found") {
-        	code = e.code;
-        	message = e.message;
-    	    return util.response().statusCode(code).responseBody(message).build();
-    	}
+        if (e.message !== "not found") {
+            code = e.code;
+            message = e.message;
+            return util.response().statusCode(code).responseBody(message).build();
+        }
     }
     try {
-    	new Packages.io.personium.engine.adapter.PersoniumRequestBodyStream(request['input'].stream());
+        new Packages.io.personium.engine.adapter.PersoniumRequestBodyStream(request['input'].stream());
     } catch (e) {
-    	if (e.message !== "not found") {
-        	code = e.code;
-        	message = e.message;
-    	    return util.response().statusCode(code).responseBody(message).build();
-    	}
+        if (e.message !== "not found") {
+            code = e.code;
+            message = e.message;
+            return util.response().statusCode(code).responseBody(message).build();
+        }
     }
     // レスポンスを返却
     return util.response().responseBody("OK").build();

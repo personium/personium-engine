@@ -19,10 +19,10 @@
  * JSGIのレスポンスの形式テストのためのスクリプト
  */
 function(request){
-	var txt = request['input'].readAll();
-	var req = (new Function("return " + txt))();
+    var txt = request['input'].readAll();
+    var req = (new Function("return " + txt))();
 
-	return req;
+    return req;
 }
 
 

@@ -28,7 +28,7 @@ function(request){
     var collectionName1 = "col1";
     var collectionName2 = "col2";
     var role;
-	var roleData = {Name:"role"}
+    var roleData = {Name:"role"}
     var account;
     try {
         // まずはテストの準備
@@ -39,11 +39,11 @@ function(request){
         // ロール作成
         role = _p.as("client").cell(cellName).ctl.role.create(roleData);
 
-    	// engineアカウントにロール結びつけ設定
+        // engineアカウントにロール結びつけ設定
         account = _p.as("client").cell(cellName).ctl.account.retrieve("engine");
-    	role.account.link(account);
+        role.account.link(account);
 
-    	// boxにACL設定
+        // boxにACL設定
         var aclData = {"requireSchemaAuthz":"","ace":[{"role":role,"privilege":["read","write"]}]};
         col.acl.set(aclData);
         // テスト準備完了
@@ -58,18 +58,18 @@ function(request){
         return util.response().statusCode(e.code).responseBody(e.message).build();
     } finally {
         // 後処理
-    	// 作成したコレクションを削除する
+        // 作成したコレクションを削除する
         try{
-        	_p.as("client").cell(cellName).box("boxname").col(collectionName1).del(collectionName2);
+            _p.as("client").cell(cellName).box("boxname").col(collectionName1).del(collectionName2);
         } catch (e) {
         }
         try{
-        	_p.as("client").cell(cellName).box("boxname").del(collectionName1);
+            _p.as("client").cell(cellName).box("boxname").del(collectionName1);
         } catch (e) {
         }
         try{
-        	// ロールとアカウントのリンクの削除
-        	role.account.unLink(account);
+            // ロールとアカウントのリンクの削除
+            role.account.unLink(account);
         } catch (e) {
         }
         try{

@@ -29,7 +29,7 @@ import io.personium.engine.jsgi.PersoniumResponse;
 import io.personium.jersey.engine.test.categories.Integration;
 
 /**
- * PersoniumResponse ユニットテストクラス.
+ * PersoniumResponse Unit Test.
  */
 @Category({Integration.class })
 public class PersoniumResponseTest {

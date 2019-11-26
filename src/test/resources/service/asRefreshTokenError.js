@@ -30,62 +30,62 @@ function(request){
     var code = new Array();
     var message = new Array();;
     try {
-    	var cell = _p.as(json).cell();
-    	
-    	var token = cell.getToken();
+        var cell = _p.as(json).cell();
+        
+        var token = cell.getToken();
 
-    	// refreshTokenに空文字
-    	json = {cellUrl:cellName, refreshToken:""};
-    	// リフレッシュトークン認証
-    	try {
-    		_p.as(json).cell();
-    	} catch (e) {
-    		// サーバから認証エラーエラーコード400が返る
-    		if (e.code != 400) {
-    			expecte_pode.push("400");
-    			code.push(e.code);
-        		message.push(e.message);
-    		}
-    	}
+        // refreshTokenに空文字
+        json = {cellUrl:cellName, refreshToken:""};
+        // リフレッシュトークン認証
+        try {
+            _p.as(json).cell();
+        } catch (e) {
+            // サーバから認証エラーエラーコード400が返る
+            if (e.code != 400) {
+                expecte_pode.push("400");
+                code.push(e.code);
+                message.push(e.message);
+            }
+        }
 
-    	// refreshTokenにnull
-    	json = {cellUrl:cellName, refreshToken:null};
-    	// リフレッシュトークン認証
-    	try {
-    		_p.as(json).cell();
-    	} catch (e) {
-    		// エラーコード0と"Parameter Invalid"が返る。
-    		if (e.code != 0) {
-    			expecte_pode.push("0");
-    			code.push(e.code);
-        		message.push(e.message);
-    		}
-    	}
+        // refreshTokenにnull
+        json = {cellUrl:cellName, refreshToken:null};
+        // リフレッシュトークン認証
+        try {
+            _p.as(json).cell();
+        } catch (e) {
+            // エラーコード0と"Parameter Invalid"が返る。
+            if (e.code != 0) {
+                expecte_pode.push("0");
+                code.push(e.code);
+                message.push(e.message);
+            }
+        }
 
-    	// refreshTokenに数字
-    	json = {cellUrl:cellName, refreshToken:88888};
-    	// リフレッシュトークン認証
-    	try {
-    		_p.as(json).cell();
-    	} catch (e) {
-    		// エラーコード0と"Parameter Invalid"が返る。
-    		if (e.code != 0) {
-    			expecte_pode.push("0");
-    			code.push(e.code);
-        		message.push(e.message);
-    		}
-    	}
+        // refreshTokenに数字
+        json = {cellUrl:cellName, refreshToken:88888};
+        // リフレッシュトークン認証
+        try {
+            _p.as(json).cell();
+        } catch (e) {
+            // エラーコード0と"Parameter Invalid"が返る。
+            if (e.code != 0) {
+                expecte_pode.push("0");
+                code.push(e.code);
+                message.push(e.message);
+            }
+        }
 
-    	// レスポンスを返却
-    	if (code.length > 0){
-    		var response = "";
-    		for (var i = 0;i < code.length;i++) {
-    			response = response + ",expected:code=" + expecte_pode[i] + " but:code=" + code[i] + " message=" + message[i] + ".";
-    		}
-    		return util.response().responseBody(response).build();
-    	} else {
-    		return util.response().responseBody("OK").build();
-    	}
+        // レスポンスを返却
+        if (code.length > 0){
+            var response = "";
+            for (var i = 0;i < code.length;i++) {
+                response = response + ",expected:code=" + expecte_pode[i] + " but:code=" + code[i] + " message=" + message[i] + ".";
+            }
+            return util.response().responseBody(response).build();
+        } else {
+            return util.response().responseBody("OK").build();
+        }
 
     } catch (e) {
         return util.response().statusCode(e.code).responseBody(e.message).build();

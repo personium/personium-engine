@@ -837,8 +837,8 @@ _p.CellCtl = function(obj) {
  */
 _p.Box = function(obj) {
     this.core = obj;
-    this.name = "";
-    this.schema = "";
+    this.name = obj.getName();
+    this.schema = obj.getSchema();
     this.ctl = new _p.BoxCtl(obj);
 };
 _p.Box.prototype = new _p.Webdav();
