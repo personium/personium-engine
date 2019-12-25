@@ -3,7 +3,7 @@ NEW FEATURE:
 * Added attributes to get box name and schema URL  [#111](https://github.com/personium/personium-engine/issues/111)
 
 IMPROVEMENTS:
-* Upgrade personium-lib-common to 1.5.2
+* Upgrade personium-lib-common to 1.5.3
 
 ## 1.5.25
 IMPROVEMENTS:
