@@ -16,6 +16,9 @@
  */
 package io.personium.jersey.engine.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 
@@ -29,14 +32,12 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import com.dumbster.smtp.SimpleSmtpServer;
+
 import io.personium.client.DaoException;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
 import io.personium.engine.extension.support.ExtensionJarLoader;
 import io.personium.jersey.engine.test.categories.Integration;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * ExtensionとEngineの結合テスト. <br />
@@ -71,9 +72,10 @@ public class ExtensionScriptIntegrationTest extends ScriptTestBase {
      * スクリプトからExt_MailSenderクラスを呼び出せること. Extensionの MailSenderテスト用。 <br />
      * 本テストを動作させるためには、Ext_MailSenderの jarファイル、プロパティファイルが必要。<br />
      * <br />
+     * @throws IOException
      */
     @Test
-    public final void スクリプトからExt_MailSenderクラスを呼び出せること() {
+    public final void スクリプトからExt_MailSenderクラスを呼び出せること() throws IOException {
 
         SimpleSmtpServer smtpServer = SimpleSmtpServer.start(1025);
 
@@ -115,7 +117,7 @@ public class ExtensionScriptIntegrationTest extends ScriptTestBase {
 
                 if (!isServiceTest) {
                     // ITの場合はローカル以外のSMTPサーバに送信するためチェック不可
-                    assertEquals(1, smtpServer.getReceivedEmailSize());
+                    assertEquals(1, smtpServer.getReceivedEmails().size());
                 }
 
             } catch (DaoException e) {
