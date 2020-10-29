@@ -67,12 +67,10 @@ public class PersoniumEngineRunner extends BlockJUnit4ClassRunner {
         String[] rootCertificateFileNames = PersoniumEngineConfig.getX509RootCertificate();
         if (rootCertificateFileNames == null) rootCertificateFileNames = new String[] {ClassLoader.getSystemResource("x509/unit-self-sign.crt").getPath()};
 
-          log.debug(privateKeyFileName);
-          TransCellAccessToken.configureX509(
+        TransCellAccessToken.configureX509(
           privateKeyFileName,
           certificateFileName,
           rootCertificateFileNames);
-
         AbstractLocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
         DataCryptor.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
     }
