@@ -25,6 +25,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+## Testing
+
+1. Place `personium-ex-mailsender` jar file and `Ext_MailSender.properties` file in `/personium/personium-engine/`
+1. Launch prequire software with `docker-compose up`
+1. Launch tomcat9 locally
+1. Deploy `personium-core` tomcat locally with option `io.personium.core.pathBasedCellUrl.enabled=true`
+1. Execute tests with maven.
+
 ## Build and setup
 
 1. Use maven to build personium-engine.war file to run on a servlet container.
