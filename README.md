@@ -28,7 +28,7 @@ limitations under the License.
 ## Testing
 
 1. Place `personium-ex-mailsender` jar file and `Ext_MailSender.properties` file in `/personium/personium-engine/`
-1. Launch prequire software with `docker-compose up`
+1. Launch required software with `docker-compose up`
 1. Launch tomcat9 locally
 1. Deploy `personium-core` tomcat locally with option `io.personium.core.pathBasedCellUrl.enabled=true`
 1. Execute tests with maven.
