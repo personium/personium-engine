@@ -236,6 +236,9 @@
                 <version>2.22.2</version>
                 <configuration>
                     <argLine>${jacocoArgs} -Xms512m -Xmx512m</argLine>
+                    <excludes>
+                        <exclude>**/ExtensionSTSScriptIntegrationTest.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

@@ -58,8 +58,19 @@ public class PersoniumEngineRunner extends BlockJUnit4ClassRunner {
             javax.naming.InvalidNameException {
         super(klass);
         // トークン処理ライブラリの初期設定.
-        TransCellAccessToken.configureX509(PersoniumEngineConfig.getX509PrivateKey(),
-                PersoniumEngineConfig.getX509Certificate(), PersoniumEngineConfig.getX509RootCertificate());
+        String privateKeyFileName = PersoniumEngineConfig.getX509PrivateKey();
+        if (privateKeyFileName == null) privateKeyFileName = ClassLoader.getSystemResource("x509/unit.key").getPath();
+
+        String certificateFileName = PersoniumEngineConfig.getX509Certificate();
+        if (certificateFileName == null) certificateFileName = ClassLoader.getSystemResource("x509/unit-self-sign.crt").getPath();
+
+        String[] rootCertificateFileNames = PersoniumEngineConfig.getX509RootCertificate();
+        if (rootCertificateFileNames == null) rootCertificateFileNames = new String[] {ClassLoader.getSystemResource("x509/unit-self-sign.crt").getPath()};
+
+        TransCellAccessToken.configureX509(
+          privateKeyFileName,
+          certificateFileName,
+          rootCertificateFileNames);
         AbstractLocalToken.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
         DataCryptor.setKeyString(PersoniumEngineConfig.getTokenSecretKey());
     }

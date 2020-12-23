@@ -3,3 +3,4 @@
 .settings/
 target/
 src/main/resources/personium-unit-config.properties
+*.log

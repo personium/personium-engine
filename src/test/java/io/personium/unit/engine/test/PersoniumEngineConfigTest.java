@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -55,6 +57,25 @@ public class PersoniumEngineConfigTest {
         public InputStream unitGetConfigFileInputStream(String configFilePath) {
             return this.getConfigFileInputStream(configFilePath);
         }
+    }
+    
+    /**
+     * 各テストの実効前に実行する処理.
+     * @throws Exception テスト実行前の前提条件設定に失敗した場合
+     */
+    @Before
+    public void before() throws Exception {
+
+    }
+
+    /**
+     * 各テストの最後に実行する処理.
+     */
+    @After
+    public void after() {
+        System.setProperty("io.personium.configurationFile",
+          ClassLoader.getSystemResource("personium-unit-config.properties").getPath());
+        PersoniumEngineConfig.reload();
     }
 
     /**
