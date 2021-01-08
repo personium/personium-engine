@@ -29,9 +29,18 @@ limitations under the License.
 
 1. Place `personium-ex-mailsender` jar file and `Ext_MailSender.properties` file in `/personium/personium-engine/`
 1. Launch required software with `docker-compose up`
-1. Launch tomcat9 locally
-1. Deploy `personium-core` tomcat locally with option `io.personium.core.pathBasedCellUrl.enabled=true`
+1. Launch `personium-core` on Tomcat9 locally.  
+For example, with below comand. ( Set `$TOMCAT_DIR` environment value to path of directory which Tomcat9 installed, and place `personium-core.war` on `$TOMCAT_DIR/webapps/personium-core.war`. )
+
+    ```
+    JAVA_OPTS="-Djava.util.logging.config.file=$TOMCAT_DIR/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dcatalina.base=$TOMCAT_DIR -Dcatalina.home=$TOMCAT_DIR -Djava.io.tmpdir=$TOMCAT_DIR/temp -Dio.personium.configurationFile=$PWD/src/test/resources/personium-core-unit-config.properties" catalina.sh run
+    ```
+
 1. Execute tests with maven.
+
+    ```
+    mvn -f pom.xml
+    ```
 
 ## Build and setup
 
