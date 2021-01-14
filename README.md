@@ -39,7 +39,7 @@ For example, with below comand. ( Set `$TOMCAT_DIR` environment value to path of
 1. Execute tests with maven.
 
     ```
-    mvn -f pom.xml
+    mvn -f pom.xml test
     ```
 
 ## Build and setup
