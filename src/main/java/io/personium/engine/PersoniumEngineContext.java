@@ -70,12 +70,12 @@ import io.personium.engine.utils.PersoniumEngineLoggerFactory;
  * Personium-Engineのメインクラス.
  */
 public class PersoniumEngineContext implements Closeable {
-    /** Logger Object. */
-    private static Logger log = LoggerFactory.getLogger(PersoniumEngineContext.class);
+    /**    Logger Object.    */
+            private        static   Logger log = LoggerFactory.getLogger(PersoniumEngineContext.class);
 
-    private static final String PERSONIUM_SCOPE = "_p";
+        private static final String PERSONIUM_SCOPE = "_p";
     private static final String EXTENSION_SCOPE = "extension";
-    private static Map<String, Script> engineLibCache = new ConcurrentHashMap<String, Script>();
+             private static Map<String, Script> engineLibCache = new ConcurrentHashMap<String, Script>();
 
     private static final int CACHE_MAX_NUM = PersoniumEngineConfig.getScriptCacheMaxNum();
     @SuppressWarnings("serial")
