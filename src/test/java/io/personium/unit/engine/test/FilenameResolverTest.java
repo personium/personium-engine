@@ -68,6 +68,7 @@ public class FilenameResolverTest {
         try {
             resolver.registerRoute("aaa", "test1.js");
             resolver.registerRoute("aaa/BBB", "test2_aaa.js");
+            resolver.registerRoute("{id: .\\d+}/BBB", "test2_num.js");
             resolver.registerRoute("{id}/BBB", "test2.js");
             resolver.registerRoute("aaa/{id}/view", "test3.js");
             resolver.registerRoute("{aaa}BBB123", "test4.js");
@@ -75,7 +76,8 @@ public class FilenameResolverTest {
 
             assertEquals("test1.js", resolver.resolve("aaa"));
             assertEquals("test2_aaa.js", resolver.resolve("aaa/BBB"));
-            assertEquals("test2.js", resolver.resolve("1234/BBB"));
+            assertEquals("test2_num.js", resolver.resolve("1234/BBB"));
+            assertEquals("test2.js", resolver.resolve("12aa/BBB"));
             assertEquals("test3.js", resolver.resolve("aaa/1234/view"));
             assertEquals("test4.js", resolver.resolve("{aaaBBB123"));
             assertEquals("test5.js", resolver.resolve("aaaBBB"));
