@@ -21,6 +21,7 @@ import static org.junit.Assert.fail;
 
 import io.personium.engine.source.FilenameResolverByName;
 import io.personium.engine.source.FilenameResolverByRoute;
+import io.personium.engine.source.RouteRegistrationException;
 import io.personium.jersey.engine.test.categories.Integration;
 
 import org.junit.experimental.categories.Category;
@@ -66,13 +67,15 @@ public class FilenameResolverTest {
         FilenameResolverByRoute resolver = new FilenameResolverByRoute();
         try {
             resolver.registerRoute("aaa", "test1.js");
+            resolver.registerRoute("aaa/BBB", "test2_aaa.js");
             resolver.registerRoute("{id}/BBB", "test2.js");
             resolver.registerRoute("aaa/{id}/view", "test3.js");
             resolver.registerRoute("{aaa}BBB123", "test4.js");
             resolver.registerRoute("aaa{id}", "test5.js");
 
             assertEquals("test1.js", resolver.resolve("aaa"));
-            assertEquals("test2.js", resolver.resolve("aaa/BBB"));
+            assertEquals("test2_aaa.js", resolver.resolve("aaa/BBB"));
+            assertEquals("test2.js", resolver.resolve("1234/BBB"));
             assertEquals("test3.js", resolver.resolve("aaa/1234/view"));
             assertEquals("test4.js", resolver.resolve("{aaaBBB123"));
             assertEquals("test5.js", resolver.resolve("aaaBBB"));
@@ -80,8 +83,7 @@ public class FilenameResolverTest {
             assertEquals(null, resolver.resolve(null));
             assertEquals(null, resolver.resolve("aaa/1234/edit"));
         } catch (Exception e) {
-            e.printStackTrace();
-            fail();
+            fail(e.getMessage());
         }
     }
 
@@ -94,9 +96,9 @@ public class FilenameResolverTest {
         try {
             resolver.registerRoute("{id/bbb", "src.js");
             fail();
-        } catch(IllegalArgumentException e) {
+        } catch(RouteRegistrationException e) {
             e.printStackTrace();
-            assertEquals(e.getClass().getName(), IllegalArgumentException.class.getName());
+            assertEquals(e.getInternalException().getClass().getName(), IllegalArgumentException.class.getName());
         }
     
     }

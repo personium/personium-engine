@@ -59,8 +59,12 @@ public class FilenameResolverByRoute implements IFilenameResolver {
      * @throws PatternSyntaxException when name contains illegal pattern syntax
      * @throws IllegalArgumentException when name contains illegal uri template string
      */
-    public void registerRoute(String name, String src) throws PatternSyntaxException, IllegalArgumentException {
-        pathList.add(new RouteEntry(name, src));
+    public void registerRoute(String name, String src) throws RouteRegistrationException {
+        try {
+            pathList.add(new RouteEntry(name, src));
+        } catch (Exception e) {
+            throw new RouteRegistrationException(e);
+        }
     }
 
     /** 

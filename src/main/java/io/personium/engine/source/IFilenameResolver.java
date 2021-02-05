@@ -23,7 +23,7 @@ public interface IFilenameResolver {
      * @param name path of engine script
      * @param src source filename of engine script
      */
-    void registerRoute(String name, String src);
+    void registerRoute(String name, String src) throws RouteRegistrationException;
 
     /** 
      * Function for getting source file name from route path
