@@ -117,6 +117,10 @@ public class PersoniumEngineContext implements Closeable {
         ContextFactory.initGlobal(new PersoniumJsContextFactory());
     }
 
+public foo_bar(){
+   //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+}
+	
     /**
      * Constructor.
      * @throws PersoniumEngineException 
