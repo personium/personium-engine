@@ -14,11 +14,11 @@ jobs:
       uses: tochi-y/checkstyle-action@master
       with:
         # GITHUB_TOKEN.
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PERSONIUM_CHECKSTYLE_GITHUB_TOKEN }}
         # Report level for reviewdog [info,warning,error]
         level: info
         # Reporter of reviewdog command [github-pr-check,github-pr-review]
-        reporter: github-pr-check
+        reporter: github-pr-review
         # Filtering for the reviewdog command [added,diff_context,file,nofilter]. Default is `added`.
         filter_mode: added
         # Exit code for reviewdog when errors are found [true,false] Default is `false`.
