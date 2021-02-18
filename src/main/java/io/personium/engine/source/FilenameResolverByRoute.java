@@ -56,14 +56,13 @@ public class FilenameResolverByRoute implements IFilenameResolver {
      * Function for registering route for engine script
      * @param name path of engine script
      * @param src source filename of engine script
-     * @throws PatternSyntaxException when name contains illegal pattern syntax
-     * @throws IllegalArgumentException when name contains illegal uri template string
+     * @throws RouteRegistrationException when name contains illegal uri template
      */
     public void registerRoute(String name, String src) throws RouteRegistrationException {
         try {
             pathList.add(new RouteEntry(name, src));
         } catch (Exception e) {
-            throw new RouteRegistrationException(e);
+            throw new RouteRegistrationException(e, name, src);
         }
     }
 

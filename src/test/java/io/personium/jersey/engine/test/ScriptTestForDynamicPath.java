@@ -58,15 +58,18 @@ public class ScriptTestForDynamicPath extends ScriptTestBase {
     @Test
     public final void dynamicPathAvailableTest() {
         if (!isServiceTest) return;
+
         putScript("cell.js", "test.js");
+
         try {
             configureService("{id}/test", "test.js");
+            String url = requestUrlForIntegrationTest("hogehoge/test");
+            callServiceTest(url);
         } catch(DaoException e) {
             fail(e.getMessage());
+        } finally {
+            delScript("test.js");
         }
-        String url = requestUrlForIntegrationTest("hogehoge/test");
-        callServiceTest(url);
-        delScript("test.js");
     }
 
     /**
@@ -77,6 +80,7 @@ public class ScriptTestForDynamicPath extends ScriptTestBase {
         if (!isServiceTest) return;
 
         putScript("cell.js", "test.js");
+
         String url = requestUrlForIntegrationTest("hogehoge/test");
         try {
             configureService(new PersoniumServiceRoute[] {

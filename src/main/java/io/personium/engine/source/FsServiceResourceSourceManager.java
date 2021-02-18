@@ -223,15 +223,12 @@ public class FsServiceResourceSourceManager implements ISourceManager {
                 }
                 this.srcResolver = resolver;
             } catch (RouteRegistrationException e) {
-                log.error("RouteRegistrationException is thrown", e.getInternalException());
-                throw new PersoniumEngineException("Route is not configured correctly", 503, e.getInternalException());
+                throw new PersoniumEngineException(e.getMessage(), 503, e);
             }
         } catch (SAXException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (PersoniumEngineException e) {
-            throw e;
         }
     }
 

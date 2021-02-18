@@ -14,15 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.personium.unit.engine.test;
+package io.personium.engine.source;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import io.personium.engine.source.FilenameResolverByName;
-import io.personium.engine.source.FilenameResolverByRoute;
-import io.personium.engine.source.RouteRegistrationException;
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Unit;
 
 import org.junit.experimental.categories.Category;
 import org.junit.Test;
@@ -30,13 +27,13 @@ import org.junit.Test;
 /**
  * FilenameResolver Unit Test.
  */
-@Category({Integration.class})
+@Category({Unit.class})
 public class FilenameResolverTest {
     /**
      * Test for static path resolver
      */
     @Test
-    public void 静的パスを正しく解決できるかのテスト() {
+    public void WhetherPathResolverCanResolveStaticPath() {
         FilenameResolverByName resolver = new FilenameResolverByName();
         try {
             resolver.registerRoute("aaa", "test1.js");
@@ -63,7 +60,7 @@ public class FilenameResolverTest {
      * Test for dynamic path resolver
      */
     @Test
-    public void 動的パスを正しく解決できるかのテスト() {
+    public void WhetherPathResolverCanResolveDynamicPath() {
         FilenameResolverByRoute resolver = new FilenameResolverByRoute();
         try {
             resolver.registerRoute("aaa", "test1.js");
@@ -93,14 +90,14 @@ public class FilenameResolverTest {
      * Test for illegal format of route
      */
     @Test
-    public void 動的パスに不適当なパターンを入れたときに例外を出すテスト() {
+    public void WhetherPathResolverThrowsExceptionCorrectlyForIllegalPatterns() {
         FilenameResolverByRoute resolver = new FilenameResolverByRoute();
         try {
             resolver.registerRoute("{id/bbb", "src.js");
             fail();
         } catch(RouteRegistrationException e) {
-            e.printStackTrace();
-            assertEquals(e.getInternalException().getClass().getName(), IllegalArgumentException.class.getName());
+            assertEquals(e.getMessage(), "Route registration failed. (name={id/bbb, src=src.js)");
+            assertEquals(e.getCause().getClass().getName(), IllegalArgumentException.class.getName());
         }
     
     }
