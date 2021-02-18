@@ -28,13 +28,13 @@ import org.junit.Test;
  * FilenameResolver Unit Test.
  */
 @Category({Unit.class})
-public class FilenameResolverTest {
+public class PathResolverTest {
     /**
      * Test for static path resolver
      */
     @Test
     public void WhetherPathResolverCanResolveStaticPath() {
-        FilenameResolverByName resolver = new FilenameResolverByName();
+        PathResolverByName resolver = new PathResolverByName();
         try {
             resolver.registerRoute("aaa", "test1.js");
             resolver.registerRoute("aaaBBB", "test2.js");
@@ -61,7 +61,7 @@ public class FilenameResolverTest {
      */
     @Test
     public void WhetherPathResolverCanResolveDynamicPath() {
-        FilenameResolverByRoute resolver = new FilenameResolverByRoute();
+        PathResolverByURITemplate resolver = new PathResolverByURITemplate();
         try {
             resolver.registerRoute("aaa", "test1.js");
             resolver.registerRoute("aaa/BBB", "test2_aaa.js");
@@ -91,7 +91,7 @@ public class FilenameResolverTest {
      */
     @Test
     public void WhetherPathResolverThrowsExceptionCorrectlyForIllegalPatterns() {
-        FilenameResolverByRoute resolver = new FilenameResolverByRoute();
+        PathResolverByURITemplate resolver = new PathResolverByURITemplate();
         try {
             resolver.registerRoute("{id/bbb", "src.js");
             fail();

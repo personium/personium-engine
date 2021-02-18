@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
-public class FilenameResolverByRoute implements IFilenameResolver {
+public class PathResolverByURITemplate implements IPathResolver {
 
     /** Mapping from path to source file. */
     private ArrayList<RouteEntry> pathList = new ArrayList<>(); 

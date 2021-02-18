@@ -63,7 +63,7 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     private String serviceCollectionInfo;
 
     /** Filename Resolver from path to source file. */
-    private IFilenameResolver srcResolver = null;
+    private IPathResolver pathResolver = null;
 
     private String serviceSubject;
 
@@ -112,8 +112,8 @@ public class FsServiceResourceSourceManager implements ISourceManager {
      */
     @Override
     public String getScriptNameForServicePath(String servicePath) {
-        if (this.srcResolver != null) {
-            return this.srcResolver.resolve(servicePath);
+        if (this.pathResolver != null) {
+            return this.pathResolver.resolve(servicePath);
         }
         throw new RuntimeException("Route is not registered");
     }
@@ -214,14 +214,14 @@ public class FsServiceResourceSourceManager implements ISourceManager {
             doc = builder.parse(is);
             Element el = doc.getDocumentElement();
             this.serviceSubject = el.getAttribute("subject");
-            IFilenameResolver resolver = new FilenameResolverByRoute();
+            IPathResolver resolver = new PathResolverByURITemplate();
             NodeList nl = doc.getElementsByTagNameNS("*", "path");
             try {
                 for (int i = 0; i < nl.getLength(); i++) {
                     NamedNodeMap nnm = nl.item(i).getAttributes();
                     resolver.registerRoute(nnm.getNamedItem("name").getNodeValue(), nnm.getNamedItem("src").getNodeValue());
                 }
-                this.srcResolver = resolver;
+                this.pathResolver = resolver;
             } catch (RouteRegistrationException e) {
                 throw new PersoniumEngineException(e.getMessage(), 503, e);
             }

@@ -19,7 +19,7 @@ package io.personium.engine.source;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FilenameResolverByName implements IFilenameResolver {
+public class PathResolverByName implements IPathResolver {
 
     /** Mapping from path to source file. */
     private Map<String, String> pathMap = new HashMap<>();

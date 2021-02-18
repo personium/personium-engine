@@ -17,7 +17,7 @@
 
 package io.personium.engine.source;
 
-public interface IFilenameResolver {
+public interface IPathResolver {
     /**
      * Function for registering route for engine script
      * @param name path of engine script
