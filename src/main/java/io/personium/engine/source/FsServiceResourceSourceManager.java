@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -63,8 +62,8 @@ public class FsServiceResourceSourceManager implements ISourceManager {
     /** Collection's PROPPATCH Info. */
     private String serviceCollectionInfo;
 
-    /** Mapping from path to source file. */
-    private Map<String, String> pathMap = new HashMap<>();
+    /** Filename Resolver from path to source file. */
+    private IPathResolver pathResolver = null;
 
     private String serviceSubject;
 
@@ -113,7 +112,10 @@ public class FsServiceResourceSourceManager implements ISourceManager {
      */
     @Override
     public String getScriptNameForServicePath(String servicePath) {
-        return this.pathMap.get(servicePath);
+        if (this.pathResolver != null) {
+            return this.pathResolver.resolve(servicePath);
+        }
+        throw new RuntimeException("Route is not registered");
     }
 
     /**
@@ -197,7 +199,7 @@ public class FsServiceResourceSourceManager implements ISourceManager {
      *    this.pathMap
      *    this.serviceSubject.
      */
-    private void parseServiceTag() {
+    private void parseServiceTag() throws PersoniumEngineException {
         DocumentBuilder builder = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -212,10 +214,16 @@ public class FsServiceResourceSourceManager implements ISourceManager {
             doc = builder.parse(is);
             Element el = doc.getDocumentElement();
             this.serviceSubject = el.getAttribute("subject");
+            IPathResolver resolver = new PathResolverByURITemplate();
             NodeList nl = doc.getElementsByTagNameNS("*", "path");
-            for (int i = 0; i < nl.getLength(); i++) {
-                NamedNodeMap nnm = nl.item(i).getAttributes();
-                pathMap.put(nnm.getNamedItem("name").getNodeValue(), nnm.getNamedItem("src").getNodeValue());
+            try {
+                for (int i = 0; i < nl.getLength(); i++) {
+                    NamedNodeMap nnm = nl.item(i).getAttributes();
+                    resolver.registerRoute(nnm.getNamedItem("name").getNodeValue(), nnm.getNamedItem("src").getNodeValue());
+                }
+                this.pathResolver = resolver;
+            } catch (RouteRegistrationException e) {
+                throw new PersoniumEngineException(e.getMessage(), 503, e);
             }
         } catch (SAXException e) {
             throw new RuntimeException(e);

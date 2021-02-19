@@ -1,0 +1,44 @@
+/**
+ * Personium
+ * Copyright 2014 - 2017 FUJITSU LIMITED
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.personium.engine.source;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class PathResolverByName implements IPathResolver {
+
+    /** Mapping from path to source file. */
+    private Map<String, String> pathMap = new HashMap<>();
+
+    /**
+     * Function for registering route for engine script
+     * @param name path of engine script
+     * @param src source filename of engine script
+     */
+    public void registerRoute(String name, String src) {
+        pathMap.put(name, src);
+    }
+
+    /** 
+     * Function for getting source file name from route path
+     * @param servicePath path executed
+     * @return source filename.
+     */
+    public String resolve(String servicePath) {
+        return this.pathMap.get(servicePath);
+    }
+}

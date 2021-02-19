@@ -14,26 +14,25 @@
         </license>
     </licenses>
     <properties>
-        <io.personium.engine.defaultBaseUrl>http://localhost</io.personium.engine.defaultBaseUrl>
         <io.personium.engine.debug>true</io.personium.engine.debug>
         <logpath>personium-engine.log</logpath>
         <loglevel>debug</loglevel>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <io.personium.engine.jerseyTest.baseUrl>http://localhost:9998/test/</io.personium.engine.jerseyTest.baseUrl>
         <io.personium.engine.jerseyTest.useCouchdb>false</io.personium.engine.jerseyTest.useCouchdb>
-                <java.source.version>1.8</java.source.version>
-                <java.target.version>1.8</java.target.version>
-                <logback.version>1.2.3</logback.version>
-                <slf4j.version>1.7.25</slf4j.version>
-                <esapi.version>2_4</esapi.version>
-                <httpclient.version>4.5.5</httpclient.version>
-                <jacoco.include.package>io.personium.*</jacoco.include.package>
+        <java.source.version>1.8</java.source.version>
+        <java.target.version>1.8</java.target.version>
+        <logback.version>1.2.3</logback.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <esapi.version>2_4</esapi.version>
+        <httpclient.version>4.5.5</httpclient.version>
+        <jacoco.include.package>io.personium.*</jacoco.include.package>
     </properties>
     <dependencies>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-client-java</artifactId>
-            <version>1.4.13</version>
+            <version>1.4.14-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
