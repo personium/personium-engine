@@ -2,28 +2,51 @@
 
 Additional module for personium-core to enable server-side JavaScript execution.
 
-  - Copyright 2014-2019 Personium Project
-    - FUJITSU LIMITED
-    - (Contributors, add your name)
-
-
 ## Documentation
 
     http://personium.io/docs/
 
-## License
+## Requirements
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+The component `personium-engine` works behind of `personium-core` component. So, you have to launch `personium-core` and need backends, then you have to configure `personium-core` to use `personium-engine` you launched.
 
-    http://www.apache.org/licenses/LICENSE-2.0
+Please refer to [personium/ansible](https://github.com/personium/ansible) to prepare them manually.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+## Launch
+
+There are two options to launch `personium-engine`. DO NOT make the Engine endpoints public. Personim Engine is designed to run behind the Personium Core.
+
+### Using war file
+
+You can use maven to build personium-engine.war file to run on a servlet container.
+
+```bash
+git clone https://github.com/personium/personium-engine
+cd personium-engine
+mvn package
+```
+
+After compiling, you can get war file on target folder. ( `target/personium-engine.war` )
+
+### Using docker image
+
+You can build docker container image including `personium-engine` based on Tomcat image with below command.
+
+```bash
+docker build . -t personium-engine
+```
+
+After building, you can launch personium-engine in docker container.
+
+```bash
+docker run -d -p 8080:8080 personium-engine
+```
+
+You can mount volume to use specivied configuration.
+
+```bash
+docker run -d -p 8080:8080 -v /path/to/config.properties:/personium/personium-engine/conf/personium-unit-config.properties personium-engine
+```
 
 ## Testing
 
@@ -42,11 +65,6 @@ For example, with below comand. ( Set `$TOMCAT_DIR` environment value to path of
     mvn -f pom.xml test
     ```
 
-## Build and setup
+## License
 
-1. Use maven to build personium-engine.war file to run on a servlet container.
-1. DO NOT make the Engine endpoints public. Personim Engine is designed to run behind the Personium Core.
-1. Configure the personium-core to point to the Personium engine root.
-1. Use reverse proxy like defined in https://github.com/personium/ansible/ for example.
-1. The HTTP relay flow will be as follows:
-  (Reverse Proxy) - (personium-core) - (personium-engine)
+Personium is licensed under the Apache License, Version 2.0. See [LICENSE.txt](./LICENSE.txt)
