@@ -14,7 +14,7 @@ Please refer to [personium/ansible](https://github.com/personium/ansible) to pre
 
 ## Launch
 
-There are two options to launch `personium-engine`. DO NOT make the Engine endpoints public. Personim Engine is designed to run behind the Personium Core.
+There are two options to launch `personium-engine`. DO NOT make the engine endpoints public. `personium-engine` is designed to run behind the `personium-core`.
 
 ### Using war file
 
@@ -42,7 +42,7 @@ After building, you can launch personium-engine in docker container.
 docker run -d -p 8080:8080 personium-engine
 ```
 
-You can mount volume to use specivied configuration.
+You can mount volume to use specified configuration.
 
 ```bash
 docker run -d -p 8080:8080 -v /path/to/config.properties:/personium/personium-engine/conf/personium-unit-config.properties personium-engine
