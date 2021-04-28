@@ -1,3 +1,13 @@
+## 1.5.28
+IMPROVEMENTS:
+* Implement dynamic path for engine script [#130](https://github.com/personium/personium-engine/pull/130)
+
+BUG FIXES:
+* Tests do not work properly. [#14](https://github.com/personium/personium-engine/issues/14)
+
+MISC:
+* Add Dockerfile and update README.md [#140](https://github.com/personium/personium-engine/pull/140)
+
 ## 1.5.27
 IMPROVEMENTS:
 * Upgrade personium-lib-common to 1.5.3
