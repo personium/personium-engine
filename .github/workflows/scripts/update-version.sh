@@ -21,7 +21,7 @@ git rebase master
 
 # update version in pom.xml
 sed -i \
- "s|^\(    <version>[0-9]\+\.[0-9]\+\.\)[0-9]\+-SNAPSHOT\(</version>\)|\1${MINOR_VERSION}-SNAPSHOT\2|" \
+ "s|^\(    <version>[0-9]\+\.[0-9]\+\.\)[0-9]\+\(</version>\)|\1${MINOR_VERSION}-SNAPSHOT\2|" \
  pom.xml
 
 if [ "${COMPONENT}" = "personium-core" -o "${COMPONENT}" = "personium-engine" ]; then
