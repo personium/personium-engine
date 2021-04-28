@@ -1,6 +1,6 @@
 /**
  * Personium
- * Copyright 2014 - 2017 FUJITSU LIMITED
+ * Copyright 2014-2021 - Personium Project Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -51,7 +52,6 @@ import io.personium.engine.utils.PersoniumEngineConfig;
  * engineスクリプトのテストを実行するための基底クラス.
  */
 public abstract class ScriptTestBase extends JerseyTest {
-
     /** ローカルテスト用EngineリクエストUrl. */
     public static final String LOCAL_TEST_SERVICE_URL = "http://localhost:9998";
     /** デフォルトのリクエスト送信先URL. */
@@ -101,7 +101,7 @@ public abstract class ScriptTestBase extends JerseyTest {
     /** Account password. */
     private static String accountPassword = "pass001";
     /** ServiceCollection名. */
-    private static String serviceCollectionName = "svccol";
+    protected static String serviceCollectionName = "svccol";
     /** サービス名. */
     private static String serviceName = "test";
     /** サービスパス名. */
@@ -347,6 +347,61 @@ public abstract class ScriptTestBase extends JerseyTest {
     }
 
     /**
+     * Configure serivce collection with default configure
+     */
+    protected static void configureService() throws DaoException {
+        configureService(serviceName, serviceScriptPath, engineAccountName);
+    }
+
+    /**
+     * Configure serivce collection with default src and subject
+     */
+    protected static void configureService(final String name) throws DaoException {
+        configureService(name, serviceScriptPath, engineAccountName);
+    }
+
+    /**
+     * Configure service collection with default subject
+     * @param name resource name
+     * @param src source name
+     */
+    protected static void configureService(final String name, final String src) throws DaoException {
+        configureService(name, src, engineAccountName);
+    }
+
+    /**
+     * Configure service collection
+     * @param name resource name
+     * @param src source name
+     * @param subject service subject name
+     */
+    protected static void configureService(final String name, final String src, final String subject) throws DaoException {
+        configureService(new ServiceCollection.IPersoniumServiceRoute[] {
+            new PersoniumServiceRoute(name, src)
+        }, subject);
+    }
+
+    /**
+     * Configure service collection with default subject
+     * @param routes array of IPersoniumServiceRoute
+     * @throws DaoException
+     */
+    protected static void configureService(ServiceCollection.IPersoniumServiceRoute[] routes) throws DaoException {
+        configureService(routes, engineAccountName);
+    }
+
+    /**
+     * Configure service collection
+     * @param routes array of IPersoniumServiceRoute
+     * @param subject service subject name
+     * @throws DaoException
+     */
+    protected static void configureService(ServiceCollection.IPersoniumServiceRoute[] routes, final String subject) throws DaoException {
+        testSvcCol.configure(Arrays.asList(routes), subject);
+    }
+
+
+    /**
      * スクリプトの登録.
      * @param resourceName リソース名
      * @param fileName ファイル名
@@ -363,6 +418,38 @@ public abstract class ScriptTestBase extends JerseyTest {
         } catch (DaoException e) {
             fail(e.getMessage());
         } catch (FileNotFoundException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Put script with default file name in service collection
+     * @param resourceName リソース名
+     * @param fileName ファイル名
+     */
+    protected static void putScript(final String resourceName) {
+        putScript(resourceName, serviceScriptPath);
+    }
+
+    /**
+     * Delete Script for testing
+     * @param fileName remote file name in service collection
+     */
+    protected static void delScript(final String fileName) {
+        try {
+            testSvcCol.del(fileName);
+        } catch (DaoException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Delete Script for testing with default file name in service collection
+     */
+    protected static void delScript() {
+        try {
+            testSvcCol.del(serviceScriptPath);
+        } catch (DaoException e) {
             fail(e.getMessage());
         }
     }
@@ -396,7 +483,7 @@ public abstract class ScriptTestBase extends JerseyTest {
      * テスト実施.
      * @param url 実施スクリプトurl
      */
-    private void callServiceTest(final String url) {
+    protected void callServiceTest(final String url) {
         try {
             HttpUriRequest req = new PersoniumRequestBuilder().url(url).method("GET").token(token).build();
             req.setHeader(KEY_HEADER_BASEURL, baseUrl);

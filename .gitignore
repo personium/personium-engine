@@ -3,3 +3,7 @@
 .settings/
 target/
 src/main/resources/personium-unit-config.properties
+*.log
+
+personium-core.log*
+personium-engine.log*
