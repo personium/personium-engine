@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.personium.unit.engine.test.extension.support;
+package io.personium.engine.extension.support;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -35,9 +35,7 @@ import org.junit.experimental.categories.Category;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import io.personium.engine.extension.support.ExtensionJarLoader;
-import io.personium.engine.extension.support.JavaClassRevealFilter;
-import io.personium.unit.Unit;
+import io.personium.test.categories.Unit;
 
 /**
  * JavaClassRevealFilterのユニットテスト.
