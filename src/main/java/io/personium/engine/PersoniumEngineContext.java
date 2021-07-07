@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Collections;
@@ -45,6 +47,8 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
+import org.mozilla.javascript.commonjs.module.ModuleScope;
+import org.mozilla.javascript.commonjs.module.Require;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +57,7 @@ import io.personium.client.utils.PersoniumLoggerFactory;
 import io.personium.common.utils.CommonUtils;
 import io.personium.engine.adapter.PersoniumEngineDao;
 import io.personium.engine.adapter.PersoniumRequestBodyStream;
-import io.personium.engine.adapter.Require;
+// import io.personium.engine.adapter.Require;
 import io.personium.engine.extension.support.AbstractExtensionScriptableObject;
 import io.personium.engine.extension.support.ExtensionJarLoader;
 import io.personium.engine.extension.support.ExtensionLogger;
@@ -101,6 +105,10 @@ public class PersoniumEngineContext implements Closeable {
     private PersoniumJsContextFactory factory;
     /** Rhino Scope. */
     private Scriptable scope;
+    /** Rhino Require */
+    private Require require;
+    /** */
+    private PersoniumEngineModuleScriptProvider moduleProvider;
 
     /** Base URL. */
     private String baseUrl;
@@ -127,8 +135,12 @@ public class PersoniumEngineContext implements Closeable {
         this.cx = factory.enterContext();
         this.cx.setLanguageVersion(org.mozilla.javascript.Context.VERSION_ES6);
 
-        this.scope = cx.initStandardObjects();
-
+        Scriptable std = cx.initStandardObjects();
+        try {
+            this.scope = new ModuleScope(std, new URI("/"), new URI("/"));
+        } catch(URISyntaxException e) {
+            throw new PersoniumEngineException("Server Error", PersoniumEngineException.STATUSCODE_SERVER_ERROR,e);
+        }
         cx.setOptimizationLevel(-1);
     }
 
@@ -259,8 +271,12 @@ public class PersoniumEngineContext implements Closeable {
         // Set the Java-client Context Object accessible from "pjvm" in JavaScript
         javaToJs(ed, "pjvm");
 
-        // Set the Require Object acessible with global object "_require" in JavaScript
-        javaToJs(createRequireObject(), "_require");
+        // Set the Require Object acessible with global object "require" in JavaScript
+        this.moduleProvider = new PersoniumEngineModuleScriptProvider(this);
+        this.moduleProvider.setSourceManager(this.sourceManager);
+
+        this.require = new Require(this.cx, this.scope, this.moduleProvider, null, null, false);
+        this.require.install(this.scope);
 
         // Load JS files
         //  "personium-dao.js" 
@@ -455,17 +471,6 @@ public class PersoniumEngineContext implements Closeable {
         return pcx;
     }
 
-    /**
-     * Requireオブジェクトを作成.
-     * @param localPath ローカル実行時のソースパス
-     * @return 生成したRequireオブジェクト
-     */
-    private Require createRequireObject() {
-        Require requireComp = new Require(this);
-        requireComp.setSourceManager(this.sourceManager);
-        log.debug("RequireObject created");
-        return requireComp;
-    }
 
     /**
      * JavaScriptファイルを解析し、オブジェクトに登録.
@@ -510,22 +515,21 @@ public class PersoniumEngineContext implements Closeable {
     }
 
     /**
-     * JavaScriptファイルを解析し、オブジェクトに登録.
-     * @param source JavaScriptソースの中身
-     * @param path JavaScriptソース名
-     * @return オブジェクト
+     * Create Script from source or cache.
+     * @param source Source of JavaScript
+     * @param moduleId Source filename of JavaScript
+     * @return Scripot
      * @throws PersoniumEngineException exception
      */
-    public Object requireJs(final String source, final String path) throws PersoniumEngineException {
+    public Script getScript(final String source, final String moduleId) throws PersoniumEngineException {
         long previousPhaseTime = System.currentTimeMillis();
 
         StringBuilder builder = new StringBuilder();
         // Add because there is no extension.
-        String jsName = path + ".js";
-        Object ret = null;
+        String jsName = moduleId;
         Script script = sourceManager.getCachedScript(jsName, userScriptCache);
         if (script == null) {
-            script = cx.compileString(source, path, 1, null);
+            script = cx.compileString(source, moduleId, 1, null);
             sourceManager.createCachedScript(script, jsName, userScriptCache);
             builder.append("========== Require timestamp. ");
             builder.append("Compile,");
@@ -537,17 +541,9 @@ public class PersoniumEngineContext implements Closeable {
         builder.append(",");
         previousPhaseTime = System.currentTimeMillis();
 
-        if (script != null) {
-            ret = script.exec(cx, scope);
-        }
-
-        builder.append("Exec,");
-        builder.append(System.currentTimeMillis() - previousPhaseTime);
-
-        log.debug("Load JavaScript from Require Resource : " + path);
+        log.debug("Load JavaScript from Require Resource : " + jsName);
         log.debug(builder.toString());
-
-        return ret;
+        return script;
     }
 
     @Override

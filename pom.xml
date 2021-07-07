@@ -19,7 +19,7 @@
         <logpath>personium-engine.log</logpath>
         <loglevel>debug</loglevel>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <io.personium.engine.jerseyTest.baseUrl>http://localhost:9998/test/</io.personium.engine.jerseyTest.baseUrl>
+        <io.personium.engine.jerseyTest.baseUrl>http://0.0.0.0:9998</io.personium.engine.jerseyTest.baseUrl>
         <io.personium.engine.jerseyTest.useCouchdb>false</io.personium.engine.jerseyTest.useCouchdb>
         <java.source.version>17</java.source.version>
         <java.target.version>17</java.target.version>
@@ -250,10 +250,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
-                    <argLine>${jacocoArgs} -Xms512m -Xmx512m</argLine>
+                    <argLine>${jacocoArgs} -Xms512m -Xmx1024m</argLine>
                     <excludes>
                         <exclude>**/ExtensionSTSScriptIntegrationTest.java</exclude>
                     </excludes>
+                    <systemProperties>
+                        <property>
+                            <name>io.personium.engine.jerseyTest.baseUrl</name>
+                            <value>${io.personium.engine.jerseyTest.baseUrl}</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
             <plugin>
