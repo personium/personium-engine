@@ -42,10 +42,6 @@ _p.util.escape4xss = function(obj) {
     }
 };
 
-_p.util.require =  function(path) {
-    _require.load(path);
-};
-
 _p.util.queryParse = function(queryString, charset){
 
     charset = (charset == undefined)?"utf-8":charset;
@@ -84,11 +80,3 @@ _p.util.decodeURI = function(str, charset) {
     return pjvm.decodeURI(str, charset).toString() + "";
 };
 
-/**
- * Require機能.
- * @param path パス
- * @returns 読み込まれた拡張オブジェクト
- */
-function require(path) {
-    return _require.doRequire(path);
-}

@@ -19,13 +19,13 @@
  */
 function(request){
     // 共通モジュール読み込み
-    var util = require("testCommon");
+    var util = require("./testCommon");
 
     var code = 500;
     var message = "NG";
     try {
         // require失敗するスクリプトのrequire
-        var ngrequire = require("hoge");
+        var ngrequire = require("./hoge");
     } catch (e) {
         if (e.message !== "io.personium.engine.PersoniumEngineException: 404 Not Found") {
             code = e.code;

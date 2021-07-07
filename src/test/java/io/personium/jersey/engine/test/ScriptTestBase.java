@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import org.apache.http.HttpResponse;
@@ -52,8 +54,10 @@ import io.personium.engine.utils.PersoniumEngineConfig;
  * engineスクリプトのテストを実行するための基底クラス.
  */
 public abstract class ScriptTestBase extends JerseyTest {
+    /** ローカルテスト用EngineリクエストUrlを取得するプロパティのキー */
+    public static final String PROP_JERSEY_BASEURL = "io.personium.engine.jerseyTest.baseUrl";
     /** ローカルテスト用EngineリクエストUrl. */
-    public static final String LOCAL_TEST_SERVICE_URL = "http://localhost:9998";
+    static String jerseyBaseUrl = System.getProperty(PROP_JERSEY_BASEURL, "http://localhost:9998");
     /** デフォルトのリクエスト送信先URL. */
     public static final String DEFAULT_TARGET_URL = "http://localhost";
     /** リクエスト送信先URLを取得するプロパティのキー. */
@@ -513,7 +517,7 @@ public abstract class ScriptTestBase extends JerseyTest {
      * @return 生成したURL文字列
      */
     protected String requestUrl(final String name) {
-        return String.format("%s/%s/%s/test/%s?cell=%s", LOCAL_TEST_SERVICE_URL, cellName, boxName, name, cellName);
+        return String.format("%s/%s/%s/test/%s?cell=%s", jerseyBaseUrl, cellName, boxName, name, cellName);
     }
 
     /**
@@ -544,4 +548,17 @@ public abstract class ScriptTestBase extends JerseyTest {
         return PersoniumEngineTestConfig.getVersion();
     }
 
+    /**
+     * Getting baseUri which Jersey(Grizzly2) listen
+     * @return baseUri
+     */
+    @Override
+    protected URI getBaseURI() {
+        try {
+            System.out.println(jerseyBaseUrl);
+            return new URI(jerseyBaseUrl);
+        } catch(URISyntaxException e) {
+            return null;
+        }
+    }
 }
