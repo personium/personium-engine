@@ -19,7 +19,7 @@
  */
 function(request){
     // 共通モジュール読み込み
-    var util = require("testCommon");
+    var util = require("./testCommon");
 
     // クエリを解析し、Cell名を取得する
     var query = _p.util.queryParse(request.queryString);

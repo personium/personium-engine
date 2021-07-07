@@ -19,13 +19,13 @@
  */
 function(request){
     // 共通モジュール読み込み
-    var util = require("testCommon");
+    var util = require("./testCommon");
 
     var code = 500;
     var message = "NG";
     try {
         // require失敗するスクリプトのrequire
-        var ngrequire = require("requireEvalErrorSub");
+        var ngrequire = require("./requireEvalErrorSub");
     } catch (e) {
         if (e.message !== "syntax error (requireEvalErrorSub#21)") {
             code = e.code;
