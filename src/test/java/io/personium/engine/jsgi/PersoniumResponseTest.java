@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.personium.unit.engine.test;
+package io.personium.engine.jsgi;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -25,13 +25,12 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import io.personium.engine.jsgi.PersoniumResponse;
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Unit;
 
 /**
  * PersoniumResponse Unit Test.
  */
-@Category({Integration.class })
+@Category({Unit.class })
 public class PersoniumResponseTest {
 
     /**
