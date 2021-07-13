@@ -39,7 +39,7 @@ import io.personium.client.DaoException;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
 import io.personium.engine.extension.support.ExtensionJarLoader;
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Integration;
 
 /**
  * ExtensionとEngineの結合テスト. <br />
