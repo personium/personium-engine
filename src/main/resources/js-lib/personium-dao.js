@@ -792,6 +792,30 @@ _p.Cell.prototype.box = function(name) {
 };
 
 /**
+ * Trigger box installation
+ * @param {string} name box name
+ * @param {stream} barStream barfile stream
+ * @returns {_p.Box} instance of control object for box created
+ */
+ _p.Cell.prototype.installBox = function(name, barStream) {
+    var dav;
+    dav = this.core.installBox(name, barStream);
+    return dav;
+}
+
+/**
+ * Trigger box installation
+ * @param {string} name box name
+ * @param {string} barUrl barfile URL which is accessible publicly
+ * @returns {_p.Box} instance of control object for box created
+ */
+_p.Cell.prototype.installBoxFromURL = function(name, barUrl) {
+    var dav;
+    dav = this.core.installBox(name, barUrl);
+    return dav;
+}
+
+/**
  * CellのUrlを取得.
  * @returns {string} CellのURL
  */
@@ -1244,6 +1268,19 @@ _p.BoxManager.prototype.retrieve = function(name) {
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
+};
+
+/**
+ * This method is used for Box Recursive/force delete.
+ * @param boxName boxName name of box to be deleted
+ * @throws DaoException Library Exception
+ */
+ _p.BoxManager.prototype.recursiveDelete = function(boxName) {
+  try {
+      this.core.recursiveDelete(boxName);
+  } catch (e) {
+      throw new _p.PersoniumException(e.message);
+  }
 };
 
 /**

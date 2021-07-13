@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.personium.jersey.engine.test.categories;
+package io.personium.test.categories;
 
 /**
  *  Marker Interface indicating Integration Test.

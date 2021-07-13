@@ -17,5 +17,5 @@
 /**
  * 本アプリケーションのテスト用.
  */
-package io.personium.jersey.engine.test.categories;
+package io.personium.test.categories;
 
