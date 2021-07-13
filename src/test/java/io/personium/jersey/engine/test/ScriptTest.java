@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 import io.personium.client.DaoException;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Integration;
 
 /**
  * User script test.
