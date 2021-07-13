@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 
@@ -40,10 +41,13 @@ import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.spi.container.TestContainerFactory;
 
 import io.personium.client.Accessor;
+import io.personium.client.Ace;
+import io.personium.client.Acl;
 import io.personium.client.Box;
 import io.personium.client.Cell;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
+import io.personium.client.Principal;
 import io.personium.client.ServiceCollection;
 import io.personium.client.http.HttpClientFactory;
 import io.personium.client.http.PersoniumRequestBuilder;
@@ -55,6 +59,8 @@ import io.personium.engine.utils.PersoniumEngineConfig;
  * engineスクリプトのテストを実行するための基底クラス.
  */
 public abstract class ScriptTestBase extends JerseyTest {
+    /** ローカルテスト用EngineリクエストUrlを取得するプロパティのキー */
+    public static final String PROP_JERSEY_BASEURL = "io.personium.engine.jerseyTest.baseUrl";
     /** ローカルテスト用EngineリクエストUrl. */
     public static final String LOCAL_TEST_SERVICE_URL = "http://localhost:9998";
     /** Default Jersey base URL */
@@ -198,6 +204,32 @@ public abstract class ScriptTestBase extends JerseyTest {
     @AfterClass
     public static final void afterClass() {
         destroyResources();
+    }
+
+    /**
+     * Function putting resource onto testBox
+     * @param filename filename of file put
+     * @param contentType contentType of file
+     * @param is content
+     */
+    static void putResource(String filename, String contentType, InputStream is) throws DaoException {
+        testBoxs[0].put(filename, contentType, is, "*");
+
+        // set acl public to all
+        Ace ace = new Ace();
+        ace.setPrincipal(Principal.ALL);
+        ace.addPrivilege("read");
+        Acl acl = new Acl();
+        acl.addAce(ace);
+        testBoxs[0].acl.set(acl);
+    }
+
+    /**
+     * Function deleting resource from testBox
+     * @param filename filename
+     */
+    static void delResource(String filename) throws DaoException {
+        testBoxs[0].del(filename);
     }
 
     /**
@@ -522,7 +554,7 @@ public abstract class ScriptTestBase extends JerseyTest {
      * @return 生成したURL文字列
      */
     protected String requestUrl(final String name) {
-        return String.format("%s/%s/%s/test/%s?cell=%s", LOCAL_TEST_SERVICE_URL, cellName, boxName, name, cellName);
+        return String.format("%s/%s/%s/test/%s?cell=%s", jerseyBaseUrl, cellName, boxName, name, cellName);
     }
 
     /**

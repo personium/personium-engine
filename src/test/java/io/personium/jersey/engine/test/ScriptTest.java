@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.ws.rs.core.HttpHeaders;
 
@@ -471,6 +472,32 @@ public class ScriptTest extends ScriptTestBase {
     @Test
     public final void requireNoFileTest() {
         callService("requireNoFile.js");
+    }
+
+    /**
+     * box install test
+     */
+    @Test
+    public final void barInstallTest() {
+        if (!isServiceTest) return;
+
+        try {
+            InputStream is = ClassLoader.getSystemResourceAsStream("testBar.bar");
+
+            putResource("testBar.bar", "application/zip", is);
+            
+            try {
+                callService("boxInstall.js");
+            } finally {
+                try {
+                    delResource("testBar.bar");
+                } catch(DaoException e){
+                    fail(e.getMessage());
+                }
+            }
+        } catch(DaoException e) {
+            fail(e.getMessage());
+        }
     }
 
     /**
