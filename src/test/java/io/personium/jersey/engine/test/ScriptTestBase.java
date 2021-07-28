@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import org.apache.http.HttpResponse;
@@ -54,6 +56,12 @@ import io.personium.engine.utils.PersoniumEngineConfig;
 public abstract class ScriptTestBase extends JerseyTest {
     /** ローカルテスト用EngineリクエストUrl. */
     public static final String LOCAL_TEST_SERVICE_URL = "http://localhost:9998";
+    /** Default Jersey base URL */
+    public static final String DEFAULT_JERSERY_BASE_URL = "http://localhost:9998";
+    /** Key for getting Jersey base URL */
+    public static final String PROP_JERSEY_BASE_URL = "io.personium.engine.jerseyTest.baseUrl";
+    /** Jersey base URL */
+    static String jerseyBaseUrl = System.getProperty(PROP_JERSEY_BASE_URL, DEFAULT_JERSERY_BASE_URL);
     /** デフォルトのリクエスト送信先URL. */
     public static final String DEFAULT_TARGET_URL = "http://localhost";
     /** リクエスト送信先URLを取得するプロパティのキー. */
@@ -544,4 +552,17 @@ public abstract class ScriptTestBase extends JerseyTest {
         return PersoniumEngineTestConfig.getVersion();
     }
 
+    /**
+     * Function for getting base Url
+     * @return URL which Grizzly starts listening
+     */
+    @Override
+    protected URI getBaseURI() {
+        try {
+            return new URI(this.jerseyBaseUrl);
+        } catch(URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
