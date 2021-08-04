@@ -23,8 +23,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -558,11 +559,6 @@ public abstract class ScriptTestBase extends JerseyTest {
      */
     @Override
     protected URI getBaseURI() {
-        try {
-            return new URI(this.jerseyBaseUrl);
-        } catch(URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return UriBuilder.fromPath(jerseyBaseUrl).build();
     }
 }
