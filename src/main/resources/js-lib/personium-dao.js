@@ -798,9 +798,11 @@ _p.Cell.prototype.box = function(name) {
  * @returns {_p.Box} instance of control object for box created
  */
  _p.Cell.prototype.installBox = function(name, barStream) {
-    var dav;
-    dav = this.core.installBox(name, barStream);
-    return dav;
+    try {
+        return this.core.installBox(name, barStream);
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
 }
 
 /**
@@ -810,9 +812,11 @@ _p.Cell.prototype.box = function(name) {
  * @returns {_p.Box} instance of control object for box created
  */
 _p.Cell.prototype.installBoxFromURL = function(name, barUrl) {
-    var dav;
-    dav = this.core.installBox(name, barUrl);
-    return dav;
+    try {
+        return this.core.installBox(name, barUrl);
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
 }
 
 /**
