@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 /**
- * Test for box install
+ * Test for box installation
  */
-function boxInstallTest(request){
+function boxInstallationTest(request){
     var util = require("testCommon");
 
     // getting cellName from query
@@ -36,11 +36,11 @@ function boxInstallTest(request){
         sleep(1);
 
         // wait for ready
-        var underInstall = true;
-        while(underInstall) {
-            status = box.getString();
+        var underInstallation = true;
+        while(underInstallation) {
+            status = box.getMetaData();
             parsed = JSON.parse(status);
-            if (parsed.box.status === "ready") underInstall = false;
+            if (parsed.box.status === "ready") underInstallation = false;
         }
 
         // delete box created
@@ -54,13 +54,13 @@ function boxInstallTest(request){
         sleep(1);
 
         // retrieve box created
-        underInstall = true;
+        underInstallation = true;
 
         // wait for ready
-        while(underInstall) {
-            status = box.getString();
+        while(underInstallation) {
+            status = box.getMetaData();
             parsed = JSON.parse(status);
-            if (parsed.box.status === "ready") underInstall = false;
+            if (parsed.box.status === "ready") underInstallation = false;
         }
         
         // delete box created

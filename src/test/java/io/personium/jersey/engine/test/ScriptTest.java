@@ -475,10 +475,10 @@ public class ScriptTest extends ScriptTestBase {
     }
 
     /**
-     * box install test
+     * box installation test
      */
     @Test
-    public final void barInstallTest() {
+    public final void boxInstallationTest() {
         if (!isServiceTest) return;
 
         try {
@@ -487,7 +487,7 @@ public class ScriptTest extends ScriptTestBase {
             putResource("testBar.bar", "application/zip", is);
             
             try {
-                callService("boxInstall.js");
+                callService("boxInstallation.js");
             } finally {
                 try {
                     delResource("testBar.bar");
