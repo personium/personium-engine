@@ -485,7 +485,7 @@ public class ScriptTest extends ScriptTestBase {
             InputStream is = ClassLoader.getSystemResourceAsStream("testBar.bar");
 
             putResource("testBar.bar", "application/zip", is);
-            
+
             try {
                 callService("boxInstallation.js");
             } finally {
