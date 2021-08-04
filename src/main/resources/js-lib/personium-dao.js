@@ -872,6 +872,18 @@ _p.Box = function(obj) {
 _p.Box.prototype = new _p.Webdav();
 
 /**
+ * Retrieve box meta data
+ * @returns {string} Retrieved box meta data 
+ */
+ _p.Box.prototype.getMetaData = function() {
+    try {
+        return this.core.getMetaData();
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+}
+
+/**
  * Box.ctl でアクセスされ、関連APIの呼び出しを行う.
  * @class BoxCtl操作クラス
  * @property {_p.RoleManager} role Role操作のためのプロパティ
