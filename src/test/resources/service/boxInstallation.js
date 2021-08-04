@@ -32,12 +32,11 @@ function boxInstallationTest(request){
         var inputStream = cell.box().getStream("testBar.bar");
         var box = _p.as("client").cell(cellName).installBox("boxtest", inputStream);
 
-        // wait
-        sleep(1);
-
         // wait for ready
         var underInstallation = true;
         while(underInstallation) {
+            // wait
+            sleep(1);
             status = box.getMetaData();
             parsed = JSON.parse(status);
             if (parsed.box.status === "ready") underInstallation = false;
@@ -50,14 +49,13 @@ function boxInstallationTest(request){
         var barURL = cell.getUrl() + cell.box().name + "/testBar.bar";
         box = cell.installBox("boxtest2", barURL);
 
-        // wait
-        sleep(1);
-
         // retrieve box created
         underInstallation = true;
 
         // wait for ready
         while(underInstallation) {
+            // wait
+            sleep(1);
             status = box.getMetaData();
             parsed = JSON.parse(status);
             if (parsed.box.status === "ready") underInstallation = false;
