@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.ws.rs.core.HttpHeaders;
 
@@ -36,7 +37,7 @@ import org.junit.runner.RunWith;
 import io.personium.client.DaoException;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Integration;
 
 /**
  * User script test.
@@ -471,6 +472,32 @@ public class ScriptTest extends ScriptTestBase {
     @Test
     public final void requireNoFileTest() {
         callService("requireNoFile.js");
+    }
+
+    /**
+     * box installation test
+     */
+    @Test
+    public final void boxInstallationTest() {
+        if (!isServiceTest) return;
+
+        try {
+            InputStream is = ClassLoader.getSystemResourceAsStream("testBar.bar");
+
+            putResource("testBar.bar", "application/zip", is);
+
+            try {
+                callService("boxInstallation.js");
+            } finally {
+                try {
+                    delResource("testBar.bar");
+                } catch(DaoException e){
+                    fail(e.getMessage());
+                }
+            }
+        } catch(DaoException e) {
+            fail(e.getMessage());
+        }
     }
 
     /**
