@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.personium</groupId>
     <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
     <version>1.5.29-SNAPSHOT</version>
-    <name>personium-engine Maven Webapp</name>
-    <url>http://maven.apache.org</url>
+    <name>personium-engine</name>
+    <description>Additional module for personium-core to enable server-side JavaScript execution.</description>
+    <url>https://github.com/personium/personium-engine</url>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -13,6 +14,47 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>Akio Shimono</name>
+            <email>shimono.akio@fujitsu.com</email>
+            <organization>Fujitsu Limited</organization>
+            <organizationUrl>https://www.fujitsu.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Dixon Siu</name>
+            <email>siu.dixon@fujitsu.com</email>
+            <organization>Fujitsu Limited</organization>
+            <organizationUrl>https://www.fujitsu.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Yasufumi Tochiori</name>
+            <email>tochiori.y@fujitsu.com</email>
+            <organization>Fujitsu Limited</organization>
+            <organizationUrl>https://www.fujitsu.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Yo Ishiguro</name>
+            <email>ishiguro.yo@fujitsu.com</email>
+            <organization>Fujitsu Limited</organization>
+            <organizationUrl>https://www.fujitsu.com/</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/personium/personium-engine.git</connection>
+        <developerConnection>scm:git:ssh://github.com:personium/personium-engine.git</developerConnection>
+        <url>http://github.com/personium/personium-engine/tree/master</url>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <properties>
         <io.personium.engine.debug>true</io.personium.engine.debug>
         <logpath>personium-engine.log</logpath>
@@ -37,12 +79,12 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
-            <version>1.5.3</version>
+            <version>1.5.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-ex-base</artifactId>
-            <version>1.4.5</version>
+            <version>1.4.6-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -157,19 +199,10 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>personium-engine</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>..</directory>
-                <includes>
-                    <include>LICENSE.txt</include>
-                    <include>NOTICE.txt</include>
-                    <include>CHANGES.txt</include>
-                </includes>
             </resource>
         </resources>
         <testResources>
@@ -317,6 +350,17 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <reporting>
@@ -387,9 +431,71 @@
     </reporting>
     <repositories>
         <repository>
-          <id>personium.io</id>
-          <name>Personium Repository</name>
-          <url>https://personium.io/mvnrepo</url>
+            <id>snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <layout>default</layout>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
