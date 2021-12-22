@@ -233,8 +233,8 @@ public abstract class AbstractService {
      * @param cell Cell Name 
      * @param schema Data Schema URI
      * @param svcName Service Name
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
+     * @param req HttpServletRequest
+     * @param res HttpServletResponse
      * @param is Request body InputStream
      * @return JAX-RS Response Object
      */
