@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.personium</groupId>
     <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
     <version>1.5.29-SNAPSHOT</version>
-    <name>personium-engine Maven Webapp</name>
-    <url>http://maven.apache.org</url>
+    <name>personium-engine</name>
+    <description>Additional module for personium-core to enable server-side JavaScript execution</description>
+    <url>https://github.com/personium/personium-engine</url>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -37,12 +38,12 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
-            <version>1.5.3</version>
+            <version>1.5.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-ex-base</artifactId>
-            <version>1.4.5</version>
+            <version>1.4.6-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -162,14 +163,6 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>..</directory>
-                <includes>
-                    <include>LICENSE.txt</include>
-                    <include>NOTICE.txt</include>
-                    <include>CHANGES.txt</include>
-                </includes>
             </resource>
         </resources>
         <testResources>
@@ -387,9 +380,16 @@
     </reporting>
     <repositories>
         <repository>
-          <id>personium.io</id>
-          <name>Personium Repository</name>
-          <url>https://personium.io/mvnrepo</url>
+            <id>snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <layout>default</layout>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 </project>
