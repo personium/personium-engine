@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
-            <version>1.7.11</version>
+            <version>1.7.14</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -292,10 +292,10 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                  <nonFilteredFileExtensions>
-                    <nonFilteredFileExtension>bar</nonFilteredFileExtension>
-                    <nonFilteredFileExtension>jar</nonFilteredFileExtension>
-                  </nonFilteredFileExtensions>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>bar</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>jar</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
                 </configuration>
             </plugin>
             <plugin>
