@@ -37,7 +37,11 @@ public final class PersoniumClassShutterImpl implements ClassShutter {
             "io.personium.engine.extension.wrapper.",
 
             // Cannot delete because we use this in tests (Class)
-            "ch.qos.logback.classic.Logger" };
+            "ch.qos.logback.classic.Logger",
+
+            // Exceptions
+            "io.personium.engine.PersoniumEngineException",
+    };
 
     @Override
     // Visibility Decision method
