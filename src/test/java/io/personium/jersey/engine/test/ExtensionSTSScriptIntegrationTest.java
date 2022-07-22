@@ -31,6 +31,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.simple.JSONObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -49,6 +50,7 @@ import io.personium.test.categories.Integration;
  */
 @RunWith(PersoniumEngineRunner.class)
 @Category({ Integration.class })
+@Ignore
 public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
     /**
      * コンストラクタ.
