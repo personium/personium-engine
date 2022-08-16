@@ -21,7 +21,7 @@
     <display-name>personium-engine</display-name>
     <servlet>
         <servlet-name>PersoniumEngineApp</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>io.personium.engine.PersoniumEngineApplication</param-value>

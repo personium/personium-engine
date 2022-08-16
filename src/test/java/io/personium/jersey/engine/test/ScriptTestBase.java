@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.http.HttpResponse;
@@ -35,10 +36,14 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.json.simple.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-import com.sun.jersey.test.framework.AppDescriptor;
-import com.sun.jersey.test.framework.JerseyTest;
-import com.sun.jersey.test.framework.spi.container.TestContainerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.jersey.test.DeploymentContext;
+import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.ServletDeploymentContext;
+import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
+import org.glassfish.jersey.test.spi.TestContainerException;
+import org.glassfish.jersey.test.spi.TestContainerFactory;
 
 import io.personium.client.Accessor;
 import io.personium.client.Ace;
@@ -146,20 +151,26 @@ public abstract class ScriptTestBase extends JerseyTest {
         super(testContainerFactory);
     }
 
+    private TestContainerFactory testContainerFactory;
+
     /**
-     * コンストラクタ.
-     * @param ad .
+     * {@inheritDoc}
      */
-    public ScriptTestBase(AppDescriptor ad) {
-        super(ad);
+    @Override
+    protected TestContainerFactory getTestContainerFactory() throws TestContainerException {
+        if(testContainerFactory == null) {
+            testContainerFactory = new GrizzlyWebTestContainerFactory();
+        }
+        return testContainerFactory;
     }
 
     /**
-     * コンストラクタ.
-     * @param packages .
+     * {@inheritDoc}
      */
-    public ScriptTestBase(String... packages) {
-        super(packages);
+    @Override
+    protected DeploymentContext configureDeployment() {
+        ResourceConfig resourceConfig = new ResourceConfig().packages("io.personium.engine");
+        return ServletDeploymentContext.forServlet(new ServletContainer(resourceConfig)).build();
     }
 
     /**
@@ -590,7 +601,7 @@ public abstract class ScriptTestBase extends JerseyTest {
      * @return URL which Grizzly starts listening
      */
     @Override
-    protected URI getBaseURI() {
+    protected URI getBaseUri() {
         return UriBuilder.fromPath(jerseyBaseUrl).build();
     }
 }

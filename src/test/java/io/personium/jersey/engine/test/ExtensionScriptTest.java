@@ -48,7 +48,7 @@ public class ExtensionScriptTest extends ScriptTestBase {
      * コンストラクタ.
      */
     public ExtensionScriptTest() {
-        super("io.personium.engine");
+        super();
     }
 
     /**

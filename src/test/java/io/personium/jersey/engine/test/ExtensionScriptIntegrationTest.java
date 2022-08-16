@@ -52,7 +52,7 @@ public class ExtensionScriptIntegrationTest extends ScriptTestBase {
      * コンストラクタ.
      */
     public ExtensionScriptIntegrationTest() {
-        super("io.personium.engine");
+        super();
     }
 
     /**
