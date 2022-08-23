@@ -41,7 +41,7 @@ public class ScriptTestForDynamicPath extends ScriptTestBase {
      * constructor.
      */
     public ScriptTestForDynamicPath() {
-        super("io.personium.engine");
+        super();
     }
 
     /**

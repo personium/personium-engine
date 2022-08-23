@@ -21,12 +21,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <io.personium.engine.jerseyTest.baseUrl>http://localhost:9998/test/</io.personium.engine.jerseyTest.baseUrl>
         <io.personium.engine.jerseyTest.useCouchdb>false</io.personium.engine.jerseyTest.useCouchdb>
-        <java.source.version>11</java.source.version>
-        <java.target.version>11</java.target.version>
+        <java.source.version>17</java.source.version>
+        <java.target.version>17</java.target.version>
+        <jersey.version>2.36</jersey.version>
         <logback.version>1.2.11</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <esapi.version>2_4</esapi.version>
         <httpclient.version>4.5.13</httpclient.version>
+        <surefire.version>2.22.2</surefire.version>
+        <jacoco.version>0.8.7</jacoco.version>
         <jacoco.include.package>io.personium.*</jacoco.include.package>
         <powermock.version>2.0.9</powermock.version>
     </properties>
@@ -52,15 +55,14 @@
             <version>2.7</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.jersey.jersey-test-framework</groupId>
-            <artifactId>jersey-test-framework-grizzly2</artifactId>
-            <version>1.10</version>
-            <scope>test</scope>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-bundle</artifactId>
-            <version>1.10</version>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -136,6 +138,18 @@
             <version>3.28.0-GA</version>
         </dependency>
         <!-- For tests -->
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework</groupId>
+            <artifactId>jersey-test-framework-core</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -234,7 +248,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${surefire.version}</version>
                 <configuration>
                     <argLine>${jacocoArgs} -Xms512m -Xmx512m</argLine>
                     <excludes>
@@ -307,7 +321,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.3</version>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -341,7 +355,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${surefire.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

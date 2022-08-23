@@ -49,7 +49,7 @@ public class ScriptTest extends ScriptTestBase {
      * constructor.
      */
     public ScriptTest() {
-        super("io.personium.engine");
+        super();
     }
 
     /**
