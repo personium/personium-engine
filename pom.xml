@@ -3,7 +3,7 @@
     <groupId>io.personium</groupId>
     <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
-    <version>1.6.0</version>
+    <version>1.6.1-SNAPSHOT</version>
     <name>personium-engine</name>
     <description>Additional module for personium-core to enable server-side JavaScript execution</description>
     <url>https://github.com/personium/personium-engine</url>
