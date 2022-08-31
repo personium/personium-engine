@@ -36,7 +36,7 @@ import io.personium.client.DaoException;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
 import io.personium.engine.extension.support.ExtensionJarLoader;
-import io.personium.unit.Unit;
+import io.personium.test.categories.Unit;
 
 /**
  * ユーザースクリプトの自動テスト.
@@ -48,7 +48,7 @@ public class ExtensionScriptTest extends ScriptTestBase {
      * コンストラクタ.
      */
     public ExtensionScriptTest() {
-        super("io.personium.engine");
+        super();
     }
 
     /**

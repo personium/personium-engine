@@ -31,6 +31,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.simple.JSONObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -39,7 +40,7 @@ import io.personium.client.DaoException;
 import io.personium.client.http.PersoniumRequestBuilder;
 import io.personium.client.http.PersoniumResponse;
 import io.personium.engine.extension.support.ExtensionJarLoader;
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Integration;
 
 /**
  * ExtensionとEngineの結合テスト. <br />
@@ -49,12 +50,13 @@ import io.personium.jersey.engine.test.categories.Integration;
  */
 @RunWith(PersoniumEngineRunner.class)
 @Category({ Integration.class })
+@Ignore
 public class ExtensionSTSScriptIntegrationTest extends ScriptTestBase {
     /**
      * コンストラクタ.
      */
     public ExtensionSTSScriptIntegrationTest() {
-        super("io.personium.engine");
+        super();
     }
 
     /**

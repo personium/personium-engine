@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.personium.unit.engine.test;
+package io.personium.engine.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -29,13 +29,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import io.personium.engine.utils.PersoniumEngineConfig;
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Unit;
 
 /**
  * PersoniumEngineConfig ユニットテストクラス.
  */
-@Category({Integration.class })
+@Category({Unit.class })
 public class PersoniumEngineConfigTest {
 
     /**

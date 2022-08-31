@@ -16,7 +16,7 @@
  */
 package io.personium.engine.source;
 
-import com.sun.jersey.api.uri.UriTemplate;
+import org.glassfish.jersey.uri.UriTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;

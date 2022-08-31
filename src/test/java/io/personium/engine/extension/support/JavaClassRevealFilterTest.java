@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.personium.unit.engine.test.extension.support;
+package io.personium.engine.extension.support;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,8 +23,7 @@ import org.junit.experimental.categories.Category;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-import io.personium.engine.extension.support.JavaClassRevealFilter;
-import io.personium.unit.Unit;
+import io.personium.test.categories.Unit;
 
 /**
  * JavaClassRevealFilterのユニットテスト.

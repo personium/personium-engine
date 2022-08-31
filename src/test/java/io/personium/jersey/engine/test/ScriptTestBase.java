@@ -22,7 +22,12 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.Arrays;
+
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -31,16 +36,23 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.json.simple.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-import com.sun.jersey.test.framework.AppDescriptor;
-import com.sun.jersey.test.framework.JerseyTest;
-import com.sun.jersey.test.framework.spi.container.TestContainerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.jersey.test.DeploymentContext;
+import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.ServletDeploymentContext;
+import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
+import org.glassfish.jersey.test.spi.TestContainerException;
+import org.glassfish.jersey.test.spi.TestContainerFactory;
 
 import io.personium.client.Accessor;
+import io.personium.client.Ace;
+import io.personium.client.Acl;
 import io.personium.client.Box;
 import io.personium.client.Cell;
 import io.personium.client.DaoException;
 import io.personium.client.PersoniumContext;
+import io.personium.client.Principal;
 import io.personium.client.ServiceCollection;
 import io.personium.client.http.HttpClientFactory;
 import io.personium.client.http.PersoniumRequestBuilder;
@@ -52,8 +64,16 @@ import io.personium.engine.utils.PersoniumEngineConfig;
  * engineスクリプトのテストを実行するための基底クラス.
  */
 public abstract class ScriptTestBase extends JerseyTest {
+    /** ローカルテスト用EngineリクエストUrlを取得するプロパティのキー */
+    public static final String PROP_JERSEY_BASEURL = "io.personium.engine.jerseyTest.baseUrl";
     /** ローカルテスト用EngineリクエストUrl. */
     public static final String LOCAL_TEST_SERVICE_URL = "http://localhost:9998";
+    /** Default Jersey base URL */
+    public static final String DEFAULT_JERSERY_BASE_URL = "http://localhost:9998";
+    /** Key for getting Jersey base URL */
+    public static final String PROP_JERSEY_BASE_URL = "io.personium.engine.jerseyTest.baseUrl";
+    /** Jersey base URL */
+    static String jerseyBaseUrl = System.getProperty(PROP_JERSEY_BASE_URL, DEFAULT_JERSERY_BASE_URL);
     /** デフォルトのリクエスト送信先URL. */
     public static final String DEFAULT_TARGET_URL = "http://localhost";
     /** リクエスト送信先URLを取得するプロパティのキー. */
@@ -131,20 +151,26 @@ public abstract class ScriptTestBase extends JerseyTest {
         super(testContainerFactory);
     }
 
+    private TestContainerFactory testContainerFactory;
+
     /**
-     * コンストラクタ.
-     * @param ad .
+     * {@inheritDoc}
      */
-    public ScriptTestBase(AppDescriptor ad) {
-        super(ad);
+    @Override
+    protected TestContainerFactory getTestContainerFactory() throws TestContainerException {
+        if(testContainerFactory == null) {
+            testContainerFactory = new GrizzlyWebTestContainerFactory();
+        }
+        return testContainerFactory;
     }
 
     /**
-     * コンストラクタ.
-     * @param packages .
+     * {@inheritDoc}
      */
-    public ScriptTestBase(String... packages) {
-        super(packages);
+    @Override
+    protected DeploymentContext configureDeployment() {
+        ResourceConfig resourceConfig = new ResourceConfig().packages("io.personium.engine");
+        return ServletDeploymentContext.forServlet(new ServletContainer(resourceConfig)).build();
     }
 
     /**
@@ -189,6 +215,32 @@ public abstract class ScriptTestBase extends JerseyTest {
     @AfterClass
     public static final void afterClass() {
         destroyResources();
+    }
+
+    /**
+     * Function putting resource onto testBox
+     * @param filename filename of file put
+     * @param contentType contentType of file
+     * @param is content
+     */
+    static void putResource(String filename, String contentType, InputStream is) throws DaoException {
+        testBoxs[0].put(filename, contentType, is, "*");
+
+        // set acl public to all
+        Ace ace = new Ace();
+        ace.setPrincipal(Principal.ALL);
+        ace.addPrivilege("read");
+        Acl acl = new Acl();
+        acl.addAce(ace);
+        testBoxs[0].acl.set(acl);
+    }
+
+    /**
+     * Function deleting resource from testBox
+     * @param filename filename
+     */
+    static void delResource(String filename) throws DaoException {
+        testBoxs[0].del(filename);
     }
 
     /**
@@ -513,7 +565,7 @@ public abstract class ScriptTestBase extends JerseyTest {
      * @return 生成したURL文字列
      */
     protected String requestUrl(final String name) {
-        return String.format("%s/%s/%s/test/%s?cell=%s", LOCAL_TEST_SERVICE_URL, cellName, boxName, name, cellName);
+        return String.format("%s/%s/%s/test/%s?cell=%s", jerseyBaseUrl, cellName, boxName, name, cellName);
     }
 
     /**
@@ -544,4 +596,12 @@ public abstract class ScriptTestBase extends JerseyTest {
         return PersoniumEngineTestConfig.getVersion();
     }
 
+    /**
+     * Function for getting base Url
+     * @return URL which Grizzly starts listening
+     */
+    @Override
+    protected URI getBaseUri() {
+        return UriBuilder.fromPath(jerseyBaseUrl).build();
+    }
 }

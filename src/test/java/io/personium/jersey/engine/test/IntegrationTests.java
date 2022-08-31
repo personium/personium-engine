@@ -23,7 +23,7 @@ import org.junit.experimental.categories.Categories.IncludeCategory;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
-import io.personium.jersey.engine.test.categories.Integration;
+import io.personium.test.categories.Integration;
 
 /**
  * 結合テスト用テストスイート.
@@ -32,7 +32,7 @@ import io.personium.jersey.engine.test.categories.Integration;
 @SuiteClasses({ io.personium.jersey.engine.test.ScriptTest.class,
         io.personium.jersey.engine.test.ExtensionScriptTest.class,
         io.personium.jersey.engine.test.ExtensionScriptIntegrationTest.class,
-        io.personium.unit.engine.test.PersoniumEngineConfigTest.class })
+        io.personium.engine.utils.PersoniumEngineConfigTest.class })
 @IncludeCategory(Integration.class)
 public class IntegrationTests extends TestSuite {
 }

@@ -792,6 +792,34 @@ _p.Cell.prototype.box = function(name) {
 };
 
 /**
+ * Trigger box installation
+ * @param {string} name box name
+ * @param {stream} barStream barfile stream
+ * @returns {_p.Box} instance of control object for box created
+ */
+ _p.Cell.prototype.installBox = function(name, barStream) {
+    try {
+        return this.core.installBox(name, barStream);
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+}
+
+/**
+ * Trigger box installation
+ * @param {string} name box name
+ * @param {string} barUrl barfile URL which is accessible publicly
+ * @returns {_p.Box} instance of control object for box created
+ */
+_p.Cell.prototype.installBoxFromURL = function(name, barUrl) {
+    try {
+        return this.core.installBox(name, barUrl);
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+}
+
+/**
  * CellのUrlを取得.
  * @returns {string} CellのURL
  */
@@ -842,6 +870,18 @@ _p.Box = function(obj) {
     this.ctl = new _p.BoxCtl(obj);
 };
 _p.Box.prototype = new _p.Webdav();
+
+/**
+ * Retrieve box meta data
+ * @returns {string} Retrieved box meta data 
+ */
+ _p.Box.prototype.getMetaData = function() {
+    try {
+        return this.core.getMetaData();
+    } catch (e) {
+        throw new _p.PersoniumException(e.message);
+    }
+}
 
 /**
  * Box.ctl でアクセスされ、関連APIの呼び出しを行う.
@@ -1244,6 +1284,19 @@ _p.BoxManager.prototype.retrieve = function(name) {
     } catch (e) {
         throw new _p.PersoniumException(e.message);
     }
+};
+
+/**
+ * This method is used for Box Recursive/force delete.
+ * @param boxName boxName name of box to be deleted
+ * @throws DaoException Library Exception
+ */
+ _p.BoxManager.prototype.recursiveDelete = function(boxName) {
+  try {
+      this.core.recursiveDelete(boxName);
+  } catch (e) {
+      throw new _p.PersoniumException(e.message);
+  }
 };
 
 /**

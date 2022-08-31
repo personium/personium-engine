@@ -50,7 +50,11 @@ docker run -d -p 8080:8080 -v /path/to/config.properties:/personium/personium-en
 
 ## Testing
 
-1. Place `personium-ex-mailsender` jar file and `Ext_MailSender.properties` file in `/personium/personium-engine/`
+1. Place `personium-ex-mailsender` jar file and `Ext_MailSender.properties` file in `/personium/personium-engine/extensions`. Content of `Ext_MailSender.properties` is below.  
+    ```properties
+    io.personium.engine.extension.MailSender.smtp.host=localhost
+    io.personium.engine.extension.MailSender.smtp.port=1025
+    ```
 1. Launch required software with `docker-compose up`
 1. Launch `personium-core` on Tomcat9 locally.  
 For example, with below comand. ( Set `$TOMCAT_DIR` environment value to path of directory which Tomcat9 installed, and place `personium-core.war` on `$TOMCAT_DIR/webapps/personium-core.war`. )
