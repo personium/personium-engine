@@ -19,7 +19,7 @@
  */
 function(request){
     // 共通モジュール読み込み
-    var util = require("testCommon");
+    var util = require("./testCommon");
 
     var code = 500;
     var message = "NG";

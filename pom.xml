@@ -19,7 +19,7 @@
         <logpath>personium-engine.log</logpath>
         <loglevel>debug</loglevel>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <io.personium.engine.jerseyTest.baseUrl>http://localhost:9998/test/</io.personium.engine.jerseyTest.baseUrl>
+        <io.personium.engine.jerseyTest.baseUrl>http://0.0.0.0:9998</io.personium.engine.jerseyTest.baseUrl>
         <io.personium.engine.jerseyTest.useCouchdb>false</io.personium.engine.jerseyTest.useCouchdb>
         <java.source.version>17</java.source.version>
         <java.target.version>17</java.target.version>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
-            <version>1.7.11</version>
+            <version>1.7.14</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -250,10 +250,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
-                    <argLine>${jacocoArgs} -Xms512m -Xmx512m</argLine>
+                    <argLine>${jacocoArgs} -Xms512m -Xmx1024m</argLine>
                     <excludes>
                         <exclude>**/ExtensionSTSScriptIntegrationTest.java</exclude>
                     </excludes>
+                    <systemProperties>
+                        <property>
+                            <name>io.personium.engine.jerseyTest.baseUrl</name>
+                            <value>${io.personium.engine.jerseyTest.baseUrl}</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
             <plugin>
@@ -292,10 +298,10 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                  <nonFilteredFileExtensions>
-                    <nonFilteredFileExtension>bar</nonFilteredFileExtension>
-                    <nonFilteredFileExtension>jar</nonFilteredFileExtension>
-                  </nonFilteredFileExtensions>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>bar</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>jar</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
                 </configuration>
             </plugin>
             <plugin>
