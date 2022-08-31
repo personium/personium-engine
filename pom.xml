@@ -3,7 +3,7 @@
     <groupId>io.personium</groupId>
     <artifactId>personium-engine</artifactId>
     <packaging>war</packaging>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.0</version>
     <name>personium-engine</name>
     <description>Additional module for personium-core to enable server-side JavaScript execution</description>
     <url>https://github.com/personium/personium-engine</url>
@@ -37,17 +37,17 @@
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-client-java</artifactId>
-            <version>1.5.0-SNAPSHOT</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-lib-common</artifactId>
-            <version>1.6.0-SNAPSHOT</version>
+            <version>1.6.0</version>
         </dependency>
         <dependency>
             <groupId>io.personium</groupId>
             <artifactId>personium-ex-base</artifactId>
-            <version>1.5.0-SNAPSHOT</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
