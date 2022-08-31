@@ -1,3 +1,13 @@
+## 1.6.0
+IMPROVEMENTS:
+* Supporting java 17. [#156](https://github.com/personium/personium-engine/pull/156), [#159](https://github.com/personium/personium-engine/pull/159)
+
+NEW FEATURE:
+* Implement `_p.installBox` for installing bar in engine script. [#149](https://github.com/personium/personium-engine/pull/149)
+
+MISC:
+* Modify test codes. [#151](https://github.com/personium/personium-engine/pull/151)
+
 ## 1.5.28
 IMPROVEMENTS:
 * Implement dynamic path for engine script [#130](https://github.com/personium/personium-engine/pull/130)
