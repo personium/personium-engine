@@ -24,7 +24,7 @@
         <java.source.version>17</java.source.version>
         <java.target.version>17</java.target.version>
         <jersey.version>2.36</jersey.version>
-        <logback.version>1.2.11</logback.version>
+        <logback.version>1.3.12</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <esapi.version>2_4</esapi.version>
         <httpclient.version>4.5.13</httpclient.version>
